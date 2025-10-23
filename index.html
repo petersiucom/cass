@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kending E-Book Library</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  
+  <!-- Tailwind Configuration -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#6366f1', // Indigo
+            secondary: '#ec4899', // Pink
+            accent: '#8b5cf6', // Violet
+            neutral: '#1f2937', // Dark gray
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            serif: ['Georgia', 'serif'],
+          },
+        },
+      }
+    }
+  </script>
+  
+  <style type="text/tailwindcss">
+    @layer utilities {
+      .content-auto {
+        content-visibility: auto;
+      }
+      .book-cover {
+        @apply relative overflow-hidden rounded-lg shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl;
+      }
+      .gradient-1 {
+        @apply bg-gradient-to-br from-blue-500 to-purple-600;
+      }
+      .gradient-2 {
+        @apply bg-gradient-to-br from-pink-500 to-orange-500;
+      }
+      .gradient-3 {
+        @apply bg-gradient-to-br from-green-500 to-teal-500;
+      }
+      .gradient-4 {
+        @apply bg-gradient-to-br from-amber-500 to-red-500;
+      }
+      .gradient-5 {
+        @apply bg-gradient-to-br from-cyan-500 to-blue-500;
+      }
+      .gradient-6 {
+        @apply bg-gradient-to-br from-purple-500 to-pink-500;
+      }
+      .reader-container {
+        @apply fixed inset-0 bg-neutral z-50 flex flex-col md:flex-row hidden;
+      }
+      .progress-bar {
+        @apply h-2 rounded-full bg-gray-200 overflow-hidden;
+      }
+      .progress-fill {
+        @apply h-full transition-all duration-500 ease-out;
+      }
+    }
+  </style>
+</head>
+<body class="bg-gray-50 text-neutral">
+  <!-- Header -->
+  <header class="sticky top-0 z-40 bg-white shadow-md">
+    <div class="container mx-auto px-4 py-4">
+      <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+        <div class="flex items-center">
+          <i class="fa fa-book text-primary text-3xl mr-3"></i>
+          <h1 class="text-2xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">Kending E-Book Library</h1>
+        </div>
+        
+        <!-- Search Bar -->
+        <div class="relative w-full md:w-96">
+          <input 
+            type="text" 
+            id="search-input"
+            placeholder="Search by title or author..." 
+            class="w-full pl-10 pr-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary/50"
+          >
+          <i class="fa fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+        </div>
+      </div>
+      
+      <!-- Categories Filter -->
+      <div class="mt-4 overflow-x-auto pb-2">
+        <div class="flex gap-2 min-w-max">
+          <button class="category-btn active px-4 py-2 rounded-full bg-primary text-white text-sm font-medium transition-all" data-category="all">
+            All Books
+          </button>
+          <button class="category-btn px-4 py-2 rounded-full bg-gray-200 hover:bg-gray-300 text-sm font-medium transition-all" data-category="technology">
+            Technology
+          </button>
+          <button class="category-btn px-4 py-2 rounded-full bg-gray-200 hover:bg-gray-300 text-sm font-medium transition-all" data-category="science">
+            Science
+          </button>
+          <button class="category-btn px-4 py-2 rounded-full bg-gray-200 hover:bg-gray-300 text-sm font-medium transition-all" data-category="psychology">
+            Psychology
+          </button>
+          <button class="category-btn px-4 py-2 rounded-full bg-gray-200 hover:bg-gray-300 text-sm font-medium transition-all" data-category="fiction">
+            Fiction
+          </button>
+          <button class="category-btn px-4 py-2 rounded-full bg-gray-200 hover:bg-gray-300 text-sm font-medium transition-all" data-category="philosophy">
+            Philosophy
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="container mx-auto px-4 py-8">
+    <!-- Books Grid -->
+    <div id="books-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      <!-- Books will be inserted here by JavaScript -->
+    </div>
+  </main>
+
+  <!-- Reading Interface -->
+  <div id="reader" class="reader-container">
+    <!-- Reader Sidebar (Chapters) -->
+    <div class="w-full md:w-64 bg-gray-800 text-white p-4 overflow-y-auto">
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="font-bold text-lg" id="reader-book-title">Book Title</h3>
+        <button id="close-reader" class="text-gray-300 hover:text-white">
+          <i class="fa fa-times"></i>
+        </button>
+      </div>
+      <p class="text-gray-400 text-sm mb-4" id="reader-book-author">by Author</p>
+      
+      <div class="mb-6">
+        <h4 class="font-medium text-gray-300 mb-2">Progress</h4>
+        <div class="progress-bar">
+          <div id="reader-progress-bar" class="progress-fill bg-primary" style="width: 0%"></div>
+        </div>
+        <p class="text-right text-sm text-gray-400 mt-1" id="reader-progress-text">0%</p>
+      </div>
+      
+      <h4 class="font-medium text-gray-300 mb-2">Chapters</h4>
+      <ul id="chapters-list" class="space-y-1">
+        <!-- Chapters will be inserted here -->
+      </ul>
+    </div>
+    
+    <!-- Reader Content Area -->
+    <div class="flex-1 flex flex-col bg-gray-100">
+      <!-- Reader Controls -->
+      <div class="bg-white p-4 shadow-md flex flex-wrap justify-between items-center gap-2">
+        <div class="flex items-center gap-4">
+          <button id="prev-page" class="p-2 rounded-full hover:bg-gray-100 transition-colors">
+            <i class="fa fa-arrow-left"></i>
+          </button>
+          <button id="next-page" class="p-2 rounded-full hover:bg-gray-100 transition-colors">
+            <i class="fa fa-arrow-right"></i>
+          </button>
+          <span id="page-indicator" class="text-sm text-gray-500">Page 1 of 0</span>
+        </div>
+        
+        <div class="flex items-center gap-4">
+          <div class="flex items-center gap-2">
+            <button id="decrease-font" class="p-2 rounded-full hover:bg-gray-100 transition-colors">
+              <i class="fa fa-text-height fa-flip-vertical"></i>
+            </button>
+            <span id="font-size-display" class="text-sm">16px</span>
+            <button id="increase-font" class="p-2 rounded-full hover:bg-gray-100 transition-colors">
+              <i class="fa fa-text-height"></i>
+            </button>
+          </div>
+          
+          <button id="bookmark-btn" class="p-2 rounded-full hover:bg-gray-100 transition-colors">
+            <i class="fa fa-bookmark-o" id="bookmark-icon"></i>
+          </button>
+          
+          <button id="download-btn" class="p-2 rounded-full hover:bg-gray-100 transition-colors">
+            <i class="fa fa-download"></i>
+          </button>
+        </div>
+      </div>
+      
+      <!-- Book Content -->
+      <div class="flex-1 overflow-y-auto p-6 md:p-10">
+        <div id="book-content" class="max-w-3xl mx-auto bg-white p-8 rounded-lg shadow-md text-neutral font-serif" style="font-size: 16px; line-height: 1.8;">
+          <!-- Book content will be inserted here -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Book Details Modal -->
+  <div id="book-modal" class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center hidden">
+    <div class="bg-white rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto m-4">
+      <div class="p-6">
+        <div class="flex justify-between items-start mb-4">
+          <h2 id="modal-title" class="text-2xl font-bold"></h2>
+          <button id="close-modal" class="text-gray-400 hover:text-gray-600">
+            <i class="fa fa-times text-xl"></i>
+          </button>
+        </div>
+        
+        <div class="flex flex-col md:flex-row gap-6">
+          <div id="modal-cover" class="book-cover w-full md:w-48 h-64 flex-shrink-0"></div>
+          
+          <div class="flex-1">
+            <p id="modal-author" class="text-gray-600 mb-2"></p>
+            <div id="modal-rating" class="mb-4"></div>
+            
+            <div class="mb-4">
+              <h3 class="font-medium mb-1">Progress</h3>
+              <div class="progress-bar">
+                <div id="modal-progress" class="progress-fill bg-primary" style="width: 0%"></div>
+              </div>
+              <p id="modal-progress-text" class="text-right text-sm text-gray-500 mt-1"></p>
+            </div>
+            
+            <div class="mb-6">
+              <h3 class="font-medium mb-2">Category</h3>
+              <span id="modal-category" class="inline-block px-3 py-1 bg-gray-100 rounded-full text-sm"></span>
+            </div>
+            
+            <div class="flex gap-3">
+              <button id="read-btn" class="flex-1 bg-primary hover:bg-primary/90 text-white py-2 rounded-lg transition-colors">
+                Continue Reading
+              </button>
+              <button id="modal-download" class="p-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
+                <i class="fa fa-download"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <div class="mt-6">
+          <h3 class="text-lg font-medium mb-3">Description</h3>
+          <p id="modal-description" class="text-gray-700 leading-relaxed"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Sample Book Data
+    const books = [
+      {
+        id: 1,
+        title: "The Future of AI",
+        author: "Dr. Emily Chen",
+        category: "technology",
+        coverGradient: "gradient-1",
+        rating: 4.8,
+        progress: 65,
+        description: "An in-depth exploration of artificial intelligence's evolution and its potential impact on society. Dr. Chen examines ethical considerations and practical applications that will shape our future.",
+        chapters: [
+          "Introduction to Modern AI",
+          "Machine Learning Fundamentals",
+          "Neural Networks Explained",
+          "AI Ethics and Governance",
+          "Future Applications in Healthcare",
+          "Conclusion: Preparing for Tomorrow"
+        ],
+        content: [
+          "Artificial intelligence has rapidly evolved from a theoretical concept to a practical tool that permeates every aspect of modern life...",
+          "Machine learning, a subset of AI, enables systems to learn and improve from experience without explicit programming...",
+          "Neural networks are computational systems inspired by the human brain's structure and function...",
+          "As AI becomes more powerful, questions of ethics and governance become increasingly important...",
+          "The healthcare industry stands to benefit significantly from AI advancements...",
+          "Preparing for an AI-driven future requires education, adaptability, and thoughtful policy development..."
+        ]
+      },
+      {
+        id: 2,
+        title: "Cosmic Wonders",
+        author: "Prof. Marcus Reid",
+        category: "science",
+        coverGradient: "gradient-2",
+        rating: 4.6,
+        progress: 32,
+        description: "Journey through the universe's most fascinating phenomena. From black holes to distant galaxies, Prof. Reid makes complex astrophysics accessible to all readers.",
+        chapters: [
+          "Our Solar System",
+          "Stars: Birth and Death",
+          "Black Holes Explained",
+          "Galaxies and Superclusters",
+          "The Expanding Universe",
+          "Search for Extraterrestrial Life"
+        ],
+        content: [
+          "Our solar system is a vast collection of celestial bodies bound together by gravity, with the Sun at its center...",
+          "Stars are born from cosmic dust and gas clouds, undergoing incredible transformations throughout their lifetimes...",
+          "Black holes are regions in space where gravity is so intense that nothing—not even light—can escape...",
+          "Galaxies are massive systems containing stars, planets, gas, and dark matter, all held together by gravity...",
+          "Observations show our universe is expanding at an accelerating rate, a discovery that revolutionized cosmology...",
+          "The question of whether we are alone in the universe has fascinated humanity for centuries..."
+        ]
+      },
+      {
+        id: 3,
+        title: "Mindful Living",
+        author: "Dr. Sarah Johnson",
+        category: "psychology",
+        coverGradient: "gradient-3",
+        rating: 4.9,
+        progress: 89,
+        description: "A practical guide to incorporating mindfulness into daily life. Dr. Johnson combines scientific research with actionable techniques to reduce stress and improve wellbeing.",
+        chapters: [
+          "The Science of Mindfulness",
+          "Breathing Techniques",
+          "Mindful Meditation Basics",
+          "Stress Reduction Practices",
+          "Mindfulness in Relationships",
+          "Creating a Mindful Lifestyle"
+        ],
+        content: [
+          "Mindfulness—the practice of present-moment awareness—has been shown to have numerous benefits for mental and physical health...",
+          "Conscious breathing is one of the simplest yet most powerful mindfulness techniques...",
+          "Meditation forms the foundation of mindfulness practice, helping to train attention and awareness...",
+          "Stress has become an epidemic in modern life, but mindfulness offers effective tools for management...",
+          "Mindfulness can transform our relationships by improving communication and fostering empathy...",
+          "Creating a sustainable mindful lifestyle involves integrating practices into daily routines..."
+        ]
+      },
+      {
+        id: 4,
+        title: "Echoes of Tomorrow",
+        author: "Alexandra Lee",
+        category: "fiction",
+        coverGradient: "gradient-4",
+        rating: 4.7,
+        progress: 12,
+        description: "A gripping science fiction novel set in a dystopian future where memory manipulation technology changes society forever. Follow protagonist Kira as she uncovers a conspiracy.",
+        chapters: [
+          "The Memory District",
+          "Kira's Discovery",
+          "The Resistance",
+          "Undercover",
+          "The Truth Unveiled",
+          "Rebellion"
+        ],
+        content: [
+          "New Ember City gleamed under the afternoon sun, its glass towers reflecting the sky like mirrors...",
+          "Kira paused outside the MemoryLink clinic, her hand hovering over the door handle...",
+          "The resistance meeting took place in an abandoned subway station, its walls covered in faded graffiti...",
+          "Disguised in a MemoryLink technician uniform, Kira walked through the facility's main entrance...",
+          "The files revealed more than Kira could have imagined—MemoryLink wasn't just modifying memories...",
+          "The rebellion began at dawn, as citizens across New Ember City rose up against the regime..."
+        ]
+      },
+      {
+        id: 5,
+        title: "The Nature of Reality",
+        author: "Dr. Robert Zhang",
+        category: "philosophy",
+        coverGradient: "gradient-5",
+        rating: 4.5,
+        progress: 0,
+        description: "Explores fundamental questions about existence, consciousness, and reality. Dr. Zhang bridges Eastern and Western philosophical traditions to offer a unique perspective.",
+        chapters: [
+          "What is Reality?",
+          "Consciousness and Perception",
+          "Time and Space",
+          "Eastern Philosophical Views",
+          "Western Metaphysics",
+          "Bridging the Divide"
+        ],
+        content: [
+          "The question of what constitutes reality has perplexed philosophers and scientists for millennia...",
+          "Our perception of reality is filtered through consciousness, raising questions about its nature...",
+          "Time and space form the framework of our experience, yet their fundamental nature remains elusive...",
+          "Eastern philosophies offer distinctive perspectives on reality, emphasizing interconnectedness...",
+          "Western metaphysics has developed complex systems for understanding the nature of being...",
+          "Bridging Eastern and Western approaches reveals surprising convergences and complementary insights..."
+        ]
+      },
+      {
+        id: 6,
+        title: "Quantum Computing",
+        author: "Dr. Lisa Wong",
+        category: "technology",
+        coverGradient: "gradient-6",
+        rating: 4.4,
+        progress: 45,
+        description: "Demystifies quantum computing for general readers. Dr. Wong explains how quantum computers work and their potential to revolutionize fields from cryptography to medicine.",
+        chapters: [
+          "Quantum Basics",
+          "Bits vs. Qubits",
+          "Quantum Algorithms",
+          "Current Technology",
+          "Future Applications",
+          "Challenges Ahead"
+        ],
+        content: [
+          "Quantum computing leverages the principles of quantum mechanics to process information in ways traditional computers cannot...",
+          "While classical computers use bits (0s and 1s), quantum computers use qubits that can exist in multiple states...",
+          "Quantum algorithms are designed to exploit quantum properties to solve problems more efficiently...",
+          "Current quantum computers, while limited, represent significant technological achievements...",
+          "The potential applications of fully realized quantum computing are vast and transformative...",
+          "Despite rapid progress, significant challenges remain in developing practical quantum computers..."
+        ]
+      }
+    ];
+
+    // DOM Elements
+    const booksGrid = document.getElementById('books-grid');
+    const searchInput = document.getElementById('search-input');
+    const categoryBtns = document.querySelectorAll('.category-btn');
+    const bookModal = document.getElementById('book-modal');
+    const closeModal = document.getElementById('close-modal');
+    const reader = document.getElementById('reader');
+    const closeReader = document.getElementById('close-reader');
+    const readBtn = document.getElementById('read-btn');
+    const prevPageBtn = document.getElementById('prev-page');
+    const nextPageBtn = document.getElementById('next-page');
+    const pageIndicator = document.getElementById('page-indicator');
+    const bookContent = document.getElementById('book-content');
+    const increaseFontBtn = document.getElementById('increase-font');
+    const decreaseFontBtn = document.getElementById('decrease-font');
+    const fontSizeDisplay = document.getElementById('font-size-display');
+    const bookmarkBtn = document.getElementById('bookmark-btn');
+    const bookmarkIcon = document.getElementById('bookmark-icon');
+    const readerProgressBar = document.getElementById('reader-progress-bar');
+    const readerProgressText = document.getElementById('reader-progress-text');
+    const chaptersList = document.getElementById('chapters-list');
+    const modalDownload = document.getElementById('modal-download');
+    const downloadBtn = document.getElementById('download-btn');
+
+    // State
+    let currentBook = null;
+    let currentPage = 0;
+    let currentFontSize = 16;
+    let filteredBooks = [...books];
+
+    // Initialize library
+    function initLibrary() {
+      renderBooks(books);
+      setupEventListeners();
+    }
+
+    // Render books grid
+    function renderBooks(booksToRender) {
+      booksGrid.innerHTML = '';
+      
+      if (booksToRender.length === 0) {
+        booksGrid.innerHTML = `
+          <div class="col-span-full text-center py-12">
+            <i class="fa fa-search text-gray-300 text-5xl mb-4"></i>
+            <p class="text-gray-500">No books found matching your criteria</p>
+          </div>
+        `;
+        return;
+      }
+      
+      booksToRender.forEach(book => {
+        const bookCard = document.createElement('div');
+        bookCard.className = 'group';
+        bookCard.innerHTML = `
+          <div class="book-cover ${book.coverGradient} h-64 mb-3 cursor-pointer book-card" data-id="${book.id}">
+            <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+              <button class="bg-white text-neutral px-4 py-2 rounded-lg font-medium transform translate-y-4 group-hover:translate-y-0 transition-transform">
+                View Details
+              </button>
+            </div>
+            <div class="absolute bottom-0 left-0 right-0 p-3 text-white">
+              <h3 class="font-bold text-lg line-clamp-1">${book.title}</h3>
+              <p class="text-sm opacity-90 line-clamp-1">by ${book.author}</p>
+            </div>
+          </div>
+          <div class="px-1">
+            <div class="flex items-center mb-1">
+              <div class="flex text-yellow-400">
+                ${generateRatingStars(book.rating)}
+              </div>
+              <span class="text-sm text-gray-500 ml-2">${book.rating.toFixed(1)}</span>
+            </div>
+            ${book.progress > 0 ? `
+              <div>
+                <div class="flex justify-between text-xs text-gray-500 mb-1">
+                  <span>In Progress</span>
+                  <span>${book.progress}%</span>
+                </div>
+                <div class="progress-bar">
+                  <div class="progress-fill bg-primary" style="width: ${book.progress}%"></div>
+                </div>
+              </div>
+            ` : ''}
+          </div>
+        `;
+        booksGrid.appendChild(bookCard);
+        
+        // Add click event to book cover
+        bookCard.querySelector('.book-card').addEventListener('click', () => {
+          openBookDetails(book);
+        });
+      });
+    }
+
+    // Generate rating stars HTML
+    function generateRatingStars(rating) {
+      let stars = '';
+      const fullStars = Math.floor(rating);
+      const hasHalfStar = rating % 1 >= 0.5;
+      
+      for (let i = 0; i < fullStars; i++) {
+        stars += '<i class="fa fa-star"></i>';
+      }
+      
+      if (hasHalfStar) {
+        stars += '<i class="fa fa-star-half-o"></i>';
+      }
+      
+      const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+      for (let i = 0; i < emptyStars; i++) {
+        stars += '<i class="fa fa-star-o"></i>';
+      }
+      
+      return stars;
+    }
+
+    // Open book details modal
+    function openBookDetails(book) {
+      currentBook = book;
+      
+      document.getElementById('modal-title').textContent = book.title;
+      document.getElementById('modal-author').textContent = `by ${book.author}`;
+      document.getElementById('modal-rating').innerHTML = `
+        <div class="flex text-yellow-400">
+          ${generateRatingStars(book.rating)}
+        </div>
+      `;
+      document.getElementById('modal-cover').className = `book-cover ${book.coverGradient} w-full md:w-48 h-64 flex-shrink-0`;
+      document.getElementById('modal-category').textContent = book.category.charAt(0).toUpperCase() + book.category.slice(1);
+      document.getElementById('modal-description').textContent = book.description;
+      
+      // Update progress
+      const modalProgress = document.getElementById('modal-progress');
+      const modalProgressText = document.getElementById('modal-progress-text');
+      modalProgress.style.width = `${book.progress}%`;
+      modalProgressText.textContent = book.progress > 0 ? `${book.progress}% complete` : 'Not started';
+      
+      bookModal.classList.remove('hidden');
+    }
+
+    // Open reader with current book
+    function openReader() {
+      if (!currentBook) return;
+      
+      // Reset reader state
+      currentPage = Math.floor((currentBook.progress / 100) * currentBook.content.length) || 0;
+      currentFontSize = 16;
+      
+      // Update reader UI
+      document.getElementById('reader-book-title').textContent = currentBook.title;
+      document.getElementById('reader-book-author').textContent = `by ${currentBook.author}`;
+      updateReaderContent();
+      updateChaptersList();
+      updateFontSizeDisplay();
+      updateBookmarkIcon();
+      
+      reader.classList.remove('hidden');
+      bookModal.classList.add('hidden');
+    }
+
+    // Update reader content
+    function updateReaderContent() {
+      if (!currentBook) return;
+      
+      // Update content
+      bookContent.textContent = currentBook.content[currentPage];
+      
+      // Update page indicator
+      pageIndicator.textContent = `Page ${currentPage + 1} of ${currentBook.content.length}`;
+      
+      // Update progress
+      const progress = Math.round(((currentPage + 1) / currentBook.content.length) * 100);
+      readerProgressBar.style.width = `${progress}%`;
+      readerProgressText.textContent = `${progress}%`;
+      
+      // Update book progress in data
+      currentBook.progress = progress;
+      
+      // Update progress in grid
+      const bookCards = document.querySelectorAll('.book-card');
+      bookCards.forEach(card => {
+        if (parseInt(card.dataset.id) === currentBook.id) {
+          const progressBar = card.closest('.group').querySelector('.progress-fill');
+          const progressText = card.closest('.group').querySelector('.progress-bar + div .text-right');
+          if (progressBar) {
+            progressBar.style.width = `${progress}%`;
+            progressText.textContent = `${progress}%`;
+          }
+        }
+      });
+    }
+
+    // Update chapters list
+    function updateChaptersList() {
+      if (!currentBook) return;
+      
+      chaptersList.innerHTML = '';
+      currentBook.chapters.forEach((chapter, index) => {
+        const li = document.createElement('li');
+        li.className = `p-2 rounded ${index === currentPage ? 'bg-primary/20 text-primary' : 'hover:bg-gray-700'}`;
+        li.textContent = `${index + 1}. ${chapter}`;
+        li.addEventListener('click', () => {
+          currentPage = index;
+          updateReaderContent();
+          updateChaptersList();
+        });
+        chaptersList.appendChild(li);
+      });
+    }
+
+    // Update font size
+    function updateFontSize(delta) {
+      const newSize = currentFontSize + delta;
+      if (newSize >= 12 && newSize <= 24) {
+        currentFontSize = newSize;
+        bookContent.style.fontSize = `${currentFontSize}px`;
+        updateFontSizeDisplay();
+      }
+    }
+
+    // Update font size display
+    function updateFontSizeDisplay() {
+      fontSizeDisplay.textContent = `${currentFontSize}px`;
+    }
+
+    // Toggle bookmark
+    function toggleBookmark() {
+      if (!currentBook) return;
+      
+      currentBook.bookmarked = !currentBook.bookmarked;
+      updateBookmarkIcon();
+    }
+
+    // Update bookmark icon
+    function updateBookmarkIcon() {
+      if (currentBook?.bookmarked) {
+        bookmarkIcon.className = 'fa fa-bookmark';
+      } else {
+        bookmarkIcon.className = 'fa fa-bookmark-o';
+      }
+    }
+
+    // Filter books by search and category
+    function filterBooks() {
+      const searchTerm = searchInput.value.toLowerCase().trim();
+      const activeCategory = document.querySelector('.category-btn.active').dataset.category;
+      
+      filteredBooks = books.filter(book => {
+        const matchesSearch = 
+          book.title.toLowerCase().includes(searchTerm) || 
+          book.author.toLowerCase().includes(searchTerm);
+          
+        const matchesCategory = activeCategory === 'all' || book.category === activeCategory;
+        
+        return matchesSearch && matchesCategory;
+      });
+      
+      renderBooks(filteredBooks);
+    }
+
+    // Setup event listeners
+    function setupEventListeners() {
+      // Search input
+      searchInput.addEventListener('input', filterBooks);
+      
+      // Category buttons
+      categoryBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          // Update active state
+          categoryBtns.forEach(b => {
+            b.classList.remove('active', 'bg-primary', 'text-white');
+            b.classList.add('bg-gray-200', 'hover:bg-gray-300');
+          });
+          btn.classList.add('active', 'bg-primary', 'text-white');
+          btn.classList.remove('bg-gray-200', 'hover:bg-gray-300');
+          
+          filterBooks();
+        });
+      });
+      
+      // Modal close button
+      closeModal.addEventListener('click', () => {
+        bookModal.classList.add('hidden');
+      });
+      
+      // Read button in modal
+      readBtn.addEventListener('click', openReader);
+      
+      // Reader close button
+      closeReader.addEventListener('click', () => {
+        reader.classList.add('hidden');
+      });
+      
+      // Page navigation
+      prevPageBtn.addEventListener('click', () => {
+        if (currentPage > 0) {
+          currentPage--;
+          updateReaderContent();
+          updateChaptersList();
+        }
+      });
+      
+      nextPageBtn.addEventListener('click', () => {
+        if (currentPage < currentBook.content.length - 1) {
+          currentPage++;
+          updateReaderContent();
+          updateChaptersList();
+        }
+      });
+      
+      // Font size adjustment
+      increaseFontBtn.addEventListener('click', () => updateFontSize(2));
+      decreaseFontBtn.addEventListener('click', () => updateFontSize(-2));
+      
+      // Bookmark button
+      bookmarkBtn.addEventListener('click', toggleBookmark);
+      
+      // Download buttons (demo only)
+      modalDownload.addEventListener('click', () => {
+        alert(`Downloading "${currentBook.title}" as PDF...`);
+      });
+      
+      downloadBtn.addEventListener('click', () => {
+        alert(`Downloading "${currentBook.title}" as PDF...`);
+      });
+      
+      // Close modal when clicking outside
+      bookModal.addEventListener('click', (e) => {
+        if (e.target === bookModal) {
+          bookModal.classList.add('hidden');
+        }
+      });
+    }
+
+    // Initialize the library when DOM is loaded
+    document.addEventListener('DOMContentLoaded', initLibrary);
+  </script>
+</body>
+</html>
