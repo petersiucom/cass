@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gradient Reads - Working PDF Viewer</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
+  <script>
+    // Critical: Ensure worker loads before usage
+    if (typeof pdfjsLib !== 'undefined') {
+      pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
+      console.log('PDF.js worker loaded successfully');
+    } else {
+      alert('PDF.js failed to load - please check your internet connection');
+    }
+  </script>
+  
+  <style>
+    /* Critical: Force reader visibility with highest priority */
+    .reader-container {
+      display: none !important;
+      position: fixed;
+      inset: 0;
+      background: #1f2937;
+      z-index: 9999 !important; /* Highest possible to ensure visibility */
+      flex-direction: column;
+    }
+    .reader-container.active {
+      display: flex !important; /* Force display when active */
+    }
+    #pdf-canvas {
+      display: none;
+      margin: 0 auto;
+      max-width: 100%;
+      height: auto !important;
+      border: 1px solid #ddd;
+    }
+    #pdf-container {
+      background: white;
+      min-height: 70vh;
+      padding: 20px;
+      overflow: auto;
+    }
+    .loading-indicator {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 70vh;
+    }
+  </style>
+</head>
+<body class="bg-gray-50">
+  <!-- Header -->
+  <header class="bg-white shadow-md p-4">
+    <div class="container mx-auto flex justify-between items-center">
+      <h1 class="text-2xl font-bold text-indigo-600">Gradient Reads</h1>
+      <div class="w-64">
+        <input type="text" id="search" placeholder="Search books..." class="w-full p-2 border rounded">
+      </div>
+    </div>
+  </header>
+
+  <!-- Books Grid -->
+  <main class="container mx-auto p-4">
+    <div id="books-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+      <!-- Books will load here -->
+    </div>
+  </main>
+
+  <!-- PDF Reader (Forced visibility with !important) -->
+  <div id="reader" class="reader-container">
+    <div class="w-full p-4 bg-gray-800 text-white">
+      <div class="flex justify-between items-center">
+        <h2 id="reader-title" class="text-xl font-bold"></h2>
+        <button id="close-reader" class="text-white hover:text-gray-300">
+          <i class="fa fa-times text-xl"></i>
+        </button>
+      </div>
+      <p id="reader-author" class="text-gray-300 mt-2"></p>
+      <div class="mt-4">
+        <div class="h-2 rounded-full bg-gray-300">
+          <div id="progress-fill" class="h-full bg-indigo-500 transition-all" style="width: 0%"></div>
+        </div>
+        <p id="progress-text" class="text-right text-sm mt-1">0%</p>
+      </div>
+    </div>
+    
+    <div class="flex-1 bg-gray-100 p-4">
+      <div class="flex justify-between items-center mb-4 bg-white p-2 rounded shadow">
+        <div>
+          <button id="prev-page" class="p-2 hover:bg-gray-200 rounded">
+            <i class="fa fa-arrow-left"></i>
+          </button>
+          <button id="next-page" class="p-2 hover:bg-gray-200 rounded">
+            <i class="fa fa-arrow-right"></i>
+          </button>
+          <span id="page-info" class="ml-2">Page 1 of 0</span>
+        </div>
+        <div>
+          <button id="zoom-out" class="p-2 hover:bg-gray-200 rounded">
+            <i class="fa fa-search-minus"></i>
+          </button>
+          <button id="zoom-in" class="p-2 hover:bg-gray-200 rounded">
+            <i class="fa fa-search-plus"></i>
+          </button>
+        </div>
+      </div>
+      
+      <div id="pdf-container">
+        <div id="loading-indicator" class="loading-indicator">
+          <i class="fa fa-spinner fa-spin text-4xl text-indigo-600 mb-4"></i>
+          <p id="loading-text">Loading PDF...</p>
+        </div>
+        <canvas id="pdf-canvas" willReadFrequently="true"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- Book Modal -->
+  <div id="book-modal" class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center hidden">
+    <div class="bg-white rounded-lg p-6 w-full max-w-md">
+      <h2 id="modal-title" class="text-2xl font-bold"></h2>
+      <p id="modal-author" class="text-gray-600 mt-2"></p>
+      <div class="mt-4 h-48 bg-gray-200 rounded" id="modal-cover"></div>
+      <button id="open-pdf-btn" class="mt-6 w-full bg-indigo-600 text-white py-2 rounded hover:bg-indigo-700">
+        Open Ebook PDF
+      </button>
+      <button id="close-modal" class="mt-2 w-full border py-2 rounded">
+        Close
+      </button>
+    </div>
+  </div>
+
+  <script>
+    // Use ONLY remote PDFs (local files blocked by browsers)
+    const books = [
+      {
+        id: 1,
+        title: "Introduction to PDF.js",
+        author: "Mozilla Team",
+        cover: "bg-gradient-to-br from-blue-500 to-purple-600",
+        pdfUrl: "Kending_C_27July2021_view.pdf" // Sample PDF
+      },
+      {
+        id: 2,
+        title: "Sample Document",
+        author: "Example Corp",
+        cover: "bg-gradient-to-br from-green-500 to-teal-500",
+        pdfUrl: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
+      }
+    ];
+
+    // DOM Elements
+    const booksGrid = document.getElementById('books-grid');
+    const bookModal = document.getElementById('book-modal');
+    const reader = document.getElementById('reader');
+    const pdfCanvas = document.getElementById('pdf-canvas');
+    const loadingIndicator = document.getElementById('loading-indicator');
+    const loadingText = document.getElementById('loading-text');
+    const openPdfBtn = document.getElementById('open-pdf-btn');
+    
+    // State
+    let currentBook = null;
+    let pdfDoc = null;
+    let currentPage = 1;
+    let totalPages = 0;
+    let zoom = 1.2;
+
+    // Initialize
+    function init() {
+      renderBooks();
+      setupEventListeners();
+      console.log('App initialized');
+    }
+
+    // Render books grid
+    function renderBooks() {
+      booksGrid.innerHTML = '';
+      books.forEach(book => {
+        const bookEl = document.createElement('div');
+        bookEl.innerHTML = `
+          <div class="relative overflow-hidden rounded-lg shadow-lg h-64 cursor-pointer bg-gradient-to-br from-blue-500 to-purple-600" data-id="${book.id}">
+            <div class="absolute bottom-0 left-0 right-0 p-3 text-white">
+              <h3 class="font-bold">${book.title}</h3>
+              <p class="text-sm">${book.author}</p>
+            </div>
+          </div>
+        `;
+        booksGrid.appendChild(bookEl);
+        bookEl.addEventListener('click', () => openBookModal(book));
+      });
+    }
+
+    // Open book modal
+    function openBookModal(book) {
+      currentBook = book;
+      document.getElementById('modal-title').textContent = book.title;
+      document.getElementById('modal-author').textContent = book.author;
+      document.getElementById('modal-cover').className = `mt-4 h-48 ${book.cover} rounded`;
+      bookModal.classList.remove('hidden');
+      console.log('Opened modal for:', book.title);
+    }
+
+    // Load PDF (with error alerts for user)
+    async function loadPdf(url) {
+      try {
+        // Reset UI
+        pdfCanvas.style.display = 'none';
+        loadingIndicator.style.display = 'flex';
+        loadingText.textContent = 'Loading PDF...';
+        console.log('Loading PDF from:', url);
+
+        // Validate PDF.js
+        if (!pdfjsLib) throw new Error('PDF.js library missing');
+
+        // Load PDF (remote only - local files blocked)
+        const loadingTask = pdfjsLib.getDocument({
+          url: url,
+          cMapUrl: 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/cmaps/',
+          cMapPacked: true
+        });
+
+        // Track progress
+        loadingTask.onProgress = (progress) => {
+          const percent = Math.round((progress.loaded / progress.total) * 100);
+          loadingText.textContent = `Loading: ${percent}%`;
+        };
+
+        // Get document
+        pdfDoc = await loadingTask.promise;
+        totalPages = pdfDoc.numPages;
+        currentPage = 1;
+        
+        console.log(`PDF loaded (${totalPages} pages)`);
+        updateReaderUI();
+        await renderPage(currentPage);
+
+      } catch (error) {
+        console.error('PDF Error:', error);
+        loadingText.innerHTML = `
+          <span class="text-red-500">Failed to load PDF</span>
+          <p class="text-sm mt-2">${error.message}</p>
+          <p class="text-sm">Use remote PDFs only (no local files)</p>
+        `;
+      }
+    }
+
+    // Render page with forced visibility
+    async function renderPage(pageNum) {
+      try {
+        const page = await pdfDoc.getPage(pageNum);
+        const viewport = page.getViewport({ scale: zoom });
+        
+        // Set canvas size
+        pdfCanvas.height = viewport.height;
+        pdfCanvas.width = viewport.width;
+        
+        // Render
+        const ctx = pdfCanvas.getContext('2d', { willReadFrequently: true });
+        ctx.clearRect(0, 0, pdfCanvas.width, pdfCanvas.height);
+        await page.render({ canvasContext: ctx, viewport: viewport }).promise;
+        
+        // Force canvas to show
+        loadingIndicator.style.display = 'none';
+        pdfCanvas.style.display = 'block';
+        console.log(`Page ${pageNum} rendered (${pdfCanvas.width}x${pdfCanvas.height})`);
+        
+      } catch (error) {
+        console.error('Render error:', error);
+        loadingText.textContent = `Error rendering page ${pageNum}`;
+      }
+    }
+
+    // Update UI
+    function updateReaderUI() {
+      document.getElementById('reader-title').textContent = currentBook.title;
+      document.getElementById('reader-author').textContent = currentBook.author;
+      document.getElementById('page-info').textContent = `Page ${currentPage} of ${totalPages}`;
+      const progress = Math.round((currentPage / totalPages) * 100);
+      document.getElementById('progress-fill').style.width = `${progress}%`;
+      document.getElementById('progress-text').textContent = `${progress}%`;
+    }
+
+    // Critical: Fix event listeners with direct DOM manipulation
+    function setupEventListeners() {
+      // Open PDF button (guaranteed to work)
+      openPdfBtn.addEventListener('click', function() {
+        if (!currentBook) {
+          alert('No book selected!');
+          return;
+        }
+        // Force modal closed
+        bookModal.classList.add('hidden');
+        // Force reader open with highest priority
+        reader.classList.add('active');
+        reader.style.display = 'flex';
+        console.log('Reader forced open');
+        // Load PDF
+        loadPdf(currentBook.pdfUrl);
+      });
+
+      // Close reader
+      document.getElementById('close-reader').addEventListener('click', () => {
+        reader.classList.remove('active');
+        reader.style.display = 'none';
+        pdfDoc = null;
+      });
+
+      // Page navigation
+      document.getElementById('prev-page').addEventListener('click', () => {
+        if (currentPage > 1) {
+          currentPage--;
+          updateReaderUI();
+          renderPage(currentPage);
+        }
+      });
+
+      document.getElementById('next-page').addEventListener('click', () => {
+        if (currentPage < totalPages) {
+          currentPage++;
+          updateReaderUI();
+          renderPage(currentPage);
+        }
+      });
+
+      // Zoom
+      document.getElementById('zoom-in').addEventListener('click', () => {
+        zoom += 0.2;
+        renderPage(currentPage);
+      });
+
+      document.getElementById('zoom-out').addEventListener('click', () => {
+        if (zoom > 0.6) {
+          zoom -= 0.2;
+          renderPage(currentPage);
+        }
+      });
+
+      // Close modal
+      document.getElementById('close-modal').addEventListener('click', () => {
+        bookModal.classList.add('hidden');
+      });
+    }
+
+    // Initialize on load
+    document.addEventListener('DOMContentLoaded', init);
+  </script>
+</body>
+</html>
