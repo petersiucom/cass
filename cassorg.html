@@ -1,0 +1,1143 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CASS Care - Dedicated To Serve The Community</title>
+    <!-- Font Awesome -->
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
+  <!-- Tailwind Configuration -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#667eea',
+            secondary: '#764ba2',
+            accent: '#ff6b35',
+            neutral: '#333333',
+            light: '#f8f9ff',
+            white: '#ffffff'
+          },
+          fontFamily: {
+            sans: ['Segoe UI', 'Tahoma', 'Geneva', 'Verdana', 'sans-serif'],
+          },
+          keyframes: {
+            gradientShift: {
+              '0%': { 'background-position': '0% 50%' },
+              '50%': { 'background-position': '100% 50%' },
+              '100%': { 'background-position': '0% 50%' }
+            },
+            fadeInUp: {
+              'from': { opacity: '0', transform: 'translateY(40px)' },
+              'to': { opacity: '1', transform: 'translateY(0)' }
+            },
+            float: {
+              '0%, 100%': { transform: 'translateY(0px)' },
+              '50%': { transform: 'translateY(-10px)' }
+            },
+            subtleShift: {
+              '0%, 100%': { transform: 'translateX(0) translateY(0)' },
+              '33%': { transform: 'translateX(-2%) translateY(-1%)' },
+              '66%': { transform: 'translateX(1%) translateY(2%)' }
+            }
+          },
+          animation: {
+            gradientShift: 'gradientShift 88s ease infinite',
+            fadeInUp: 'fadeInUp 1s ease',
+            fadeInUp02: 'fadeInUp 1s ease 0.2s both',
+            fadeInUp04: 'fadeInUp 1s ease 0.4s both',
+            fadeInUp06: 'fadeInUp 1s ease 0.6s both',
+            float: 'float 6s ease-in-out infinite',
+            subtleShift: 'subtleShift 20s ease-in-out infinite'
+          }
+        }
+      }
+    }
+  </script>
+  <!-- Custom Tailwind Utilities -->
+  <style type="text/tailwindcss">
+    @layer utilities {
+      .content-auto {
+        content-visibility: auto;
+      }
+      .text-gradient {
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      .bg-blur {
+        backdrop-filter: blur(10px);
+      }
+      .bg-blur-md {
+        backdrop-filter: blur(15px);
+      }
+
+  .desktop-menu {
+
+  }
+  #header{
+    background:rgba(255, 255, 255, 0.95);
+        padding-bottom: 0;
+    padding-top: 0;
+  }
+  .home { padding-left: 0 }
+.dropdown-arrow::after {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background: url(btn_arrow.svg) no-repeat;
+    background-position: center;
+    background-size: 10px;
+    border: 0;
+    top: 50%;
+    /* Base state: only vertical centering */
+    transform: translateY(-50%);
+    content: '';
+    display: inline-block;
+    margin-left: .255em;
+    vertical-align: .255em;
+    /* Add transition for smooth animation */
+    transition: transform 0.3s ease;
+}
+
+    /* Hover state: rotate 180deg + keep vertical centering */
+    .dropdown-arrow:hover::after {
+        transform: translateY(-50%) rotate(180deg);
+    }
+
+    /* Active state: same as hover for consistency */
+    .dropdown-arrow.active::after {
+        transform: translateY(-50%) rotate(180deg);
+    }
+
+}
+    .hero-section {
+      position: relative;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: white;
+      overflow: hidden;
+      width: 100vw;
+
+            animation: gradientShift 88s ease infinite;
+      padding: 0 5%;
+      background-size: 200% 100%;
+      background-image: url(purple_bk.jpg);
+      background-repeat: no-repeat;
+      padding-top: 70px;
+    }
+
+
+        @keyframes gradientShift {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+        /* navigation menu padding*/
+    .top-bar {
+      padding-bottom: 0;
+  }
+  .hero-cta { margin-left: 10px; margin-right: 10px }
+  .text-white {
+    --tw-text-opacity: 1;
+    color: rgb(255 255 255 / var(--tw-text-opacity, 1));
+}
+  .animate-bounce {
+    animation: bounce 1s infinite;
+}
+/* community story*/
+.text-secondary {
+    --tw-text-opacity: 1;
+    color: rgb(255 125 0 / var(--tw-text-opacity, 1));
+}
+/* donation */
+.bg-primary {
+    --tw-bg-opacity: 1;
+    background-color: rgb(22 93 255 / var(--tw-bg-opacity, 1));
+}
+.bg-secondary {
+    --tw-bg-opacity: 1;
+    background-color: rgb(255 125 0 / var(--tw-bg-opacity, 1));
+}
+/* footer */
+.bg-dark {
+    --tw-bg-opacity: 1;
+    background-color: rgb(29 41 57 / var(--tw-bg-opacity, 1));
+}
+  </style>
+ </head>
+ <body class="min-h-screen overflow-x-hidden bg-gradient-to-br from-primary to-secondary font-sans">
+  <!-- Header with both mobile and desktop menus -->
+  <header id="header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-white/95 bg-blur shadow-md border-b-2 border-primary/30">
+   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 top-bar">
+    <!-- First Line: Logo + Language Dropdown + Search Box + Phone + Mobile Menu Button -->
+    <div class="flex justify-between items-center mb-2 md:mb-3">
+      <!-- Logo -->
+      <a href="https://casscare.org.au/" class="logo-link flex items-center transition-transform duration-300 hover:scale-125" target="_blank" rel="noopener noreferrer"> 
+        <img src="https://casscare.org.au/wp-content/uploads/2020/03/logo.png" alt="CASS Care Logo" class="logo-img h-14 w-auto transition-height duration-300" id="logoImg" onerror="this.style.display='none';"> 
+      </a> 
+
+
+      <!-- Right Section: Language Dropdown + Search Box + Phone + Mobile Menu -->
+      <div class="flex items-center gap-4">
+        <!-- Desktop Phone Number -->
+        <a href="tel:(02) 9789 4587" class="hidden md:flex items-center gap-2 text-accent font-medium transition-all duration-300 hover:text-accent/80">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" fill="#ff6b35" />
+          </svg>
+          <span>(02) 9789 4587</span>
+        </a>
+
+        <!-- Mobile Menu Button (Visible only on mobile) -->
+        <div class="flex items-center md:hidden">
+          <a href="tel:(02) 9789 4587" class="phone-mobile flex items-center justify-center p-2 mr-2 text-accent">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" fill="#ff6b35" />
+            </svg>
+          </a>
+          
+          <button class="hamburger flex flex-col gap-2 focus:outline-none" id="hamburger">
+            <span class="w-8 h-1 bg-neutral rounded transition-all duration-300"></span>
+            <span class="w-8 h-1 bg-neutral rounded transition-all duration-300"></span>
+            <span class="w-8 h-1 bg-neutral rounded transition-all duration-300"></span>
+          </button>
+        </div>
+        <!-- Search Box (Desktop Only) -->
+        <div class="hidden md:flex items-center relative w-64">
+          <form action="https://casscare.org.au/?s=" method="get" class="w-full">
+            <input 
+              type="search" 
+              name="s" 
+              placeholder="Search site..." 
+              class="search-input w-full pl-10 pr-4 py-2 border border-gray-200 rounded-full text-sm transition-all duration-300 focus:border-primary"
+              aria-label="Search CASS Care site"
+            >
+            <!-- Search Icon -->
+            <svg class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+            </svg>
+          </form>
+        </div>
+
+
+
+
+      </div>
+
+    </div>
+
+    <!-- Second Line: Main Menu -->
+    <nav class="desktop-menu flex justify-between items-center mb-2 md:mb-3">
+      <!-- Desktop Navigation Menu (Hidden on mobile) -->
+      <ul class="hidden md:flex list-none items-center justify-center space-x-1">
+        <!-- Home Link -->
+        <li class="relative group">
+          <a href="https://cass.org.au/home/" class="home block py-2 px-4 text-neutral font-medium transition-colors duration-300 hover:text-primary" target="_blank" rel="noopener noreferrer" aria-current="page">
+            Home
+            <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-secondary transition-all duration-300 group-hover:w-full"></span>
+          </a>
+        </li>
+        
+        <!-- About Us Dropdown -->
+        <li class="relative group">
+          <a href="/about-us/our-organisation/" class="block py-2 px-4 text-neutral font-medium transition-colors duration-300 hover:text-primary dropdown-arrow" target="_blank" rel="noopener noreferrer">
+            About Us
+          </a>
+          <div class="absolute left-0 mt-2 w-64 bg-white rounded-lg shadow-lg overflow-hidden max-h-0 opacity-0 transition-all duration-300 group-hover:max-h-96 group-hover:opacity-100 z-50">
+            <div class="py-2">
+              <a href="https://cass.org.au/about-us/our-organisation/" class="block px-4 py-2 text-gray-600 hover:bg-primary/10 hover:text-primary transition-colors duration-200" target="_blank" rel="noopener noreferrer">Our Organisation</a>
+              <a href="https://cass.org.au/about-us/vision-mission/" class="block px-4 py-2 text-gray-600 hover:bg-primary/10 hover:text-primary transition-colors duration-200" target="_blank" rel="noopener noreferrer">Vision & Mission</a>
+              <a href="https://cass.org.au/about-us/leadership/" class="block px-4 py-2 text-gray-600 hover:bg-primary/10 hover:text-primary transition-colors duration-200" target="_blank" rel="noopener noreferrer">Leadership</a>
+              <a href="https://cass.org.au/about-us/agm/" class="block px-4 py-2 text-gray-600 hover:bg-primary/10 hover:text-primary transition-colors duration-200" target="_blank" rel="noopener noreferrer">AGM</a>
+              <a href="https://cass.org.au/about-us/history/" class="block px-4 py-2 text-gray-600 hover:bg-primary/10 hover:text-primary transition-colors duration-200" target="_blank" rel="noopener noreferrer">History</a>
+            </div>
+          </div>
+        </li>
+        
+        <!-- Charity Trust Fund -->
+        <li class="relative group">
+          <a href="https://cass.org.au/cass-charity-trust/" class="block py-2 px-4 text-neutral font-medium transition-colors duration-300 hover:text-primary" target="_blank" rel="noopener noreferrer">
+            Charity Trust Fund
+            <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-secondary transition-all duration-300 group-hover:w-full"></span>
+          </a>
+        </li>
+        
+        <!-- Services Dropdown -->
+        <li class="relative group">
+          <a href="https://cass.org.au/services/" class="block py-2 px-4 text-neutral font-medium transition-colors duration-300 hover:text-primary dropdown-arrow" target="_blank" rel="noopener noreferrer">
+            Services
+          </a>
+          <div class="absolute left-0 mt-2 w-64 bg-white rounded-lg shadow-lg overflow-hidden max-h-0 opacity-0 transition-all duration-300 group-hover:max-h-96 group-hover:opacity-100 z-50">
+            <div class="py-2">
+              <a href="https://casscare.org.au/services/residential-aged-care/" class="block px-4 py-2 text-gray-600 hover:bg-primary/10 hover:text-primary transition-colors duration-200" target="_blank" rel="noopener noreferrer">Residential Aged Care</a>
+              <a href="https://casscare.org.au/services/yagoona-elderly-hostel/" class="block px-4 py-2 text-gray-600 hover:bg-primary/10 hover:text-primary transition-colors duration-200" target="_blank" rel="noopener noreferrer">Yagoona Elderly Hostel</a>
+              <a href="https://casscare.org.au/services/home-ageing/" class="block px-4 py-2 text-gray-600 hover:bg-primary/10 hover:text-primary transition-colors duration-200" target="_blank" rel="noopener noreferrer">Home Ageing</a>
+              <a href="https://casscare.org.au/services/disability-services/" class="block px-4 py-2 text-gray-600 hover:bg-primary/10 hover:text-primary transition-colors duration-200" target="_blank" rel="noopener noreferrer">Disability</a>
+              <a href="https://casscare.org.au/services/vocation-training/" class="block px-4 py-2 text-gray-600 hover:bg-primary/10 hover:text-primary transition-colors duration-200" target="_blank" rel="noopener noreferrer">Vocation and Training</a>
+              <a href="https://casscare.org.au/services/settlement-health/" class="block px-4 py-2 text-gray-600 hover:bg-primary/10 hover:text-primary transition-colors duration-200" target="_blank" rel="noopener noreferrer">Settlement and Health</a>
+              <a href="https://casscare.org.au/services/child-care/" class="block px-4 py-2 text-gray-600 hover:bg-primary/10 hover:text-primary transition-colors duration-200" target="_blank" rel="noopener noreferrer">Child Care</a>
+              <a href="https://casscare.org.au/wp-content/uploads/2023/11/CACCA-Agedcare-Connect-A5_ENG.pdf" class="block px-4 py-2 text-gray-600 hover:bg-primary/10 hover:text-primary transition-colors duration-200" target="_blank" rel="noopener noreferrer">CACCA</a>
+              <a href="https://casscare.org.au/services/other-services/" class="block px-4 py-2 text-gray-600 hover:bg-primary/10 hover:text-primary transition-colors duration-200" target="_blank" rel="noopener noreferrer">Other Services</a>
+            </div>
+          </div>
+        </li>
+        
+        <!-- Cultural Services Dropdown -->
+        <li class="relative group">
+          <a href="/cultural-services/cass-chinese-schools/" class="block py-2 px-4 text-neutral font-medium transition-colors duration-300 hover:text-primary dropdown-arrow">
+            Cultural Services
+          </a>
+          <div class="absolute left-0 mt-2 w-64 bg-white rounded-lg shadow-lg overflow-hidden max-h-0 opacity-0 transition-all duration-300 group-hover:max-h-96 group-hover:opacity-100 z-50">
+            <div class="py-2">
+              <a href="https://cass.org.au/cultural-services/cass-chinese-schools/" class="block px-4 py-2 text-gray-600 hover:bg-primary/10 hover:text-primary transition-colors duration-200" target="_blank" rel="noopener noreferrer">CASS Chinese School</a>
+              <a href="https://cass.org.au/cultural-services/cass-academy-of-arts/" class="block px-4 py-2 text-gray-600 hover:bg-primary/10 hover:text-primary transition-colors duration-200" target="_blank" rel="noopener noreferrer">CASS Academy of Arts</a>
+            </div>
+          </div>
+        </li>
+        
+        <!-- Upcoming Events -->
+        <li class="relative group">
+          <a href="https://cass.org.au/upcoming-events/" class="block py-2 px-4 text-neutral font-medium transition-colors duration-300 hover:text-primary" target="_blank" rel="noopener noreferrer">
+            Upcoming Events
+            <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-secondary transition-all duration-300 group-hover:w-full"></span>
+          </a>
+        </li>
+        
+        <!-- Publications Dropdown -->
+        <li class="relative group">
+          <a href="/publications/at-home-on-new-land/" class="block py-2 px-4 text-neutral font-medium transition-colors duration-300 hover:text-primary dropdown-arrow">
+            Publications
+          </a>
+          <div class="absolute left-0 mt-2 w-64 bg-white rounded-lg shadow-lg overflow-hidden max-h-0 opacity-0 transition-all duration-300 group-hover:max-h-96 group-hover:opacity-100 z-50">
+            <div class="py-2">
+              <a href="https://cass.org.au/publications/at-home-on-new-land/" class="block px-4 py-2 text-gray-600 hover:bg-primary/10 hover:text-primary transition-colors duration-200" target="_blank" rel="noopener noreferrer">At Home on New Land</a>
+              <a href="https://cass.org.au/publications/submissions/" class="block px-4 py-2 text-gray-600 hover:bg-primary/10 hover:text-primary transition-colors duration-200" target="_blank" rel="noopener noreferrer">Submissions</a>
+              <a href="https://cass.org.au/publications/annual-reports/" class="block px-4 py-2 text-gray-600 hover:bg-primary/10 hover:text-primary transition-colors duration-200" target="_blank" rel="noopener noreferrer">Annual Reports</a>
+              <a href="https://cass.org.au/publications/corporate-plan/" class="block px-4 py-2 text-gray-600 hover:bg-primary/10 hover:text-primary transition-colors duration-200" target="_blank" rel="noopener noreferrer">Corporate Plan</a>
+              <a href="https://cass.org.au/publications/media-release/" class="block px-4 py-2 text-gray-600 hover:bg-primary/10 hover:text-primary transition-colors duration-200" target="_blank" rel="noopener noreferrer">Media Releases</a>
+              <a href="https://cass.org.au/publications/our-story/" class="block px-4 py-2 text-gray-600 hover:bg-primary/10 hover:text-primary transition-colors duration-200" target="_blank" rel="noopener noreferrer">Our Story</a>
+              <a href="https://cass.org.au/publications/maria/" class="block px-4 py-2 text-gray-600 hover:bg-primary/10 hover:text-primary transition-colors duration-200" target="_blank" rel="noopener noreferrer">Maria Cheng</a>
+              <a href="https://cass.org.au/publications/kending/" class="block px-4 py-2 text-gray-600 hover:bg-primary/10 hover:text-primary transition-colors duration-200" target="_blank" rel="noopener noreferrer">Kending</a>
+            </div>
+          </div>
+        </li>
+        
+        <!-- Get Involved Dropdown -->
+        <li class="relative group">
+          <a href="https://cass.org.au/get-involved/" class="block py-2 px-4 text-neutral font-medium transition-colors duration-300 hover:text-primary dropdown-arrow" target="_blank" rel="noopener noreferrer">
+            Get Involved
+          </a>
+          <div class="absolute left-0 mt-2 w-64 bg-white rounded-lg shadow-lg overflow-hidden max-h-0 opacity-0 transition-all duration-300 group-hover:max-h-96 group-hover:opacity-100 z-50">
+            <div class="py-2">
+              <a href="https://casscare.org.au/get-involved/volunteer/" class="block px-4 py-2 text-gray-600 hover:bg-primary/10 hover:text-primary transition-colors duration-200" target="_blank" rel="noopener noreferrer">Volunteering</a>
+              <a href="https://casscare.org.au/get-involved/partnership/" class="block px-4 py-2 text-gray-600 hover:bg-primary/10 hover:text-primary transition-colors duration-200" target="_blank" rel="noopener noreferrer">Partnership</a>
+              <a href="https://casscare.org.au/get-involved/careers/" class="block px-4 py-2 text-gray-600 hover:bg-primary/10 hover:text-primary transition-colors duration-200" target="_blank" rel="noopener noreferrer">Careers</a>
+              <a href="https://casscare.org.au/get-involved/donate/" class="block px-4 py-2 text-gray-600 hover:bg-primary/10 hover:text-primary transition-colors duration-200" target="_blank" rel="noopener noreferrer">Donations</a>
+            </div>
+          </div>
+        </li>
+      <li class="relative group">
+          <a href="https://cass.org.au/get-involved/" class="block py-2 px-4 text-neutral font-medium transition-colors duration-300 hover:text-primary dropdown-arrow" target="_blank" rel="noopener noreferrer">Languages</a>
+
+          <div class="absolute left-0 mt-2 w-64 bg-white rounded-lg shadow-lg overflow-hidden max-h-0 opacity-0 transition-all duration-300 group-hover:max-h-96 group-hover:opacity-100 z-50">
+            <div class="py-2">
+              <a href="https://casscare.org.au/get-involved/volunteer/" class="block px-4 py-2 text-gray-600 hover:bg-primary/10 hover:text-primary transition-colors duration-200" target="_blank" rel="noopener noreferrer">中文</a>
+              <a href="https://casscare.org.au/get-involved/partnership/" class="block px-4 py-2 text-gray-600 hover:bg-primary/10 hover:text-primary transition-colors duration-200" target="_blank" rel="noopener noreferrer">Tiếng Việt</a>
+              <a href="https://casscare.org.au/get-involved/careers/" class="block px-4 py-2 text-gray-600 hover:bg-primary/10 hover:text-primary transition-colors duration-200" target="_blank" rel="noopener noreferrer">한국어</a>
+              <a href="https://casscare.org.au/get-involved/donate/" class="block px-4 py-2 text-gray-600 hover:bg-primary/10 hover:text-primary transition-colors duration-200" target="_blank" rel="noopener noreferrer">Bahasa Indonesia</a>
+            </div>
+          </div>
+
+      </li>
+
+      </ul>
+    </nav>
+   </div>
+
+   <!-- Mobile Menu Overlay -->
+   <div class="mobile-menu-overlay fixed inset-0 bg-black/50 z-40 opacity-0 invisible transition-all duration-300" id="mobileMenuOverlay"></div>
+   
+   <!-- Mobile Navigation Menu (Hidden by default, visible on menu button click) -->
+   <ul id="mobileNavLinks" class="fixed top-0 right-0 h-full w-64 bg-white shadow-2xl transform translate-x-full transition-transform duration-300 z-50 overflow-y-auto">
+     <li class="p-4 border-b border-gray-100">
+       <div class="flex justify-end">
+         <button class="close-mobile-menu text-gray-500 hover:text-neutral" id="closeMobileMenu">
+           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+             <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z" fill="currentColor" />
+           </svg>
+         </button>
+       </div>
+     </li>
+     
+     <!-- Mobile Home Link -->
+     <li class="border-b border-gray-100">
+       <a href="https://cass.org.au/home/" class="block py-4 px-6 text-neutral font-medium hover:text-primary transition-colors duration-300" target="_blank" rel="noopener noreferrer" aria-current="page">
+         HOME
+       </a>
+     </li>
+     
+     <!-- Mobile About Us Dropdown -->
+     <li class="border-b border-gray-100">
+       <div class="mobile-dropdown">
+         <a href="/about-us/our-organisation/" class="mobile-dropdown-toggle block py-4 px-6 text-neutral font-medium hover:text-primary transition-colors duration-300 flex justify-between items-center dropdown-arrow" target="_blank" rel="noopener noreferrer">
+           ABOUT US
+         </a>
+         <div class="mobile-dropdown-content pl-4 max-h-0 overflow-hidden transition-all duration-300">
+           <a href="https://cass.org.au/about-us/our-organisation/" class="block py-3 px-6 text-gray-600 hover:text-primary transition-colors duration-300" target="_blank" rel="noopener noreferrer">Our Organisation</a>
+           <a href="https://cass.org.au/about-us/vision-mission/" class="block py-3 px-6 text-gray-600 hover:text-primary transition-colors duration-300" target="_blank" rel="noopener noreferrer">Vision & Mission</a>
+           <a href="https://cass.org.au/about-us/leadership/" class="block py-3 px-6 text-gray-600 hover:text-primary transition-colors duration-300" target="_blank" rel="noopener noreferrer">Leadership</a>
+           <a href="https://cass.org.au/about-us/agm/" class="block py-3 px-6 text-gray-600 hover:text-primary transition-colors duration-300" target="_blank" rel="noopener noreferrer">AGM</a>
+           <a href="https://cass.org.au/about-us/history/" class="block py-3 px-6 text-gray-600 hover:text-primary transition-colors duration-300" target="_blank" rel="noopener noreferrer">History</a>
+         </div>
+       </div>
+     </li>
+     
+     <!-- Mobile Charity Trust Fund -->
+     <li class="border-b border-gray-100">
+       <a href="https://cass.org.au/cass-charity-trust/" class="block py-4 px-6 text-neutral font-medium hover:text-primary transition-colors duration-300" target="_blank" rel="noopener noreferrer">
+         CHARITY TRUST FUND
+       </a>
+     </li>
+     
+     <!-- Mobile Services Dropdown -->
+     <li class="border-b border-gray-100">
+       <div class="mobile-dropdown">
+         <a href="https://cass.org.au/services/" class="mobile-dropdown-toggle block py-4 px-6 text-neutral font-medium hover:text-primary transition-colors duration-300 flex justify-between items-center dropdown-arrow" target="_blank" rel="noopener noreferrer">
+           SERVICES
+         </a>
+         <div class="mobile-dropdown-content pl-4 max-h-0 overflow-hidden transition-all duration-300">
+           <a href="https://casscare.org.au/services/residential-aged-care/" class="block py-3 px-6 text-gray-600 hover:text-primary transition-colors duration-300" target="_blank" rel="noopener noreferrer">Residential Aged Care</a>
+           <a href="https://casscare.org.au/services/yagoona-elderly-hostel/" class="block py-3 px-6 text-gray-600 hover:text-primary transition-colors duration-300" target="_blank" rel="noopener noreferrer">Yagoona Elderly Hostel</a>
+           <a href="https://casscare.org.au/services/home-ageing/" class="block py-3 px-6 text-gray-600 hover:text-primary transition-colors duration-300" target="_blank" rel="noopener noreferrer">Home Ageing</a>
+           <a href="https://casscare.org.au/services/disability-services/" class="block py-3 px-6 text-gray-600 hover:text-primary transition-colors duration-300" target="_blank" rel="noopener noreferrer">Disability</a>
+           <a href="https://casscare.org.au/services/vocation-training/" class="block py-3 px-6 text-gray-600 hover:text-primary transition-colors duration-300" target="_blank" rel="noopener noreferrer">Vocation and Training</a>
+           <a href="https://casscare.org.au/services/settlement-health/" class="block py-3 px-6 text-gray-600 hover:text-primary transition-colors duration-300" target="_blank" rel="noopener noreferrer">Settlement and Health</a>
+           <a href="https://casscare.org.au/services/child-care/" class="block py-3 px-6 text-gray-600 hover:text-primary transition-colors duration-300" target="_blank" rel="noopener noreferrer">Child Care</a>
+           <a href="https://casscare.org.au/wp-content/uploads/2023/11/CACCA-Agedcare-Connect-A5_ENG.pdf" class="block py-3 px-6 text-gray-600 hover:text-primary transition-colors duration-300" target="_blank" rel="noopener noreferrer">CACCA</a>
+           <a href="https://casscare.org.au/services/other-services/" class="block py-3 px-6 text-gray-600 hover:text-primary transition-colors duration-300" target="_blank" rel="noopener noreferrer">Other Services</a>
+         </div>
+       </div>
+     </li>
+     
+     <!-- Mobile Cultural Services Dropdown -->
+     <li class="border-b border-gray-100">
+       <div class="mobile-dropdown">
+         <a href="/cultural-services/cass-chinese-schools/" class="mobile-dropdown-toggle block py-4 px-6 text-neutral font-medium hover:text-primary transition-colors duration-300 flex justify-between items-center dropdown-arrow">
+           CULTURAL SERVICES
+         </a>
+         <div class="mobile-dropdown-content pl-4 max-h-0 overflow-hidden transition-all duration-300">
+           <a href="https://cass.org.au/cultural-services/cass-chinese-schools/" class="block py-3 px-6 text-gray-600 hover:text-primary transition-colors duration-300" target="_blank" rel="noopener noreferrer">CASS Chinese School</a>
+           <a href="https://cass.org.au/cultural-services/cass-academy-of-arts/" class="block py-3 px-6 text-gray-600 hover:text-primary transition-colors duration-300" target="_blank" rel="noopener noreferrer">CASS Academy of Arts</a>
+         </div>
+       </div>
+     </li>
+     
+     <!-- Mobile Upcoming Events -->
+     <li class="border-b border-gray-100">
+       <a href="https://cass.org.au/upcoming-events/" class="block py-4 px-6 text-neutral font-medium hover:text-primary transition-colors duration-300" target="_blank" rel="noopener noreferrer">
+         UPCOMING EVENTS
+       </a>
+     </li>
+     
+     <!-- Mobile Publications Dropdown -->
+     <li class="border-b border-gray-100">
+       <div class="mobile-dropdown">
+         <a href="/publications/at-home-on-new-land/" class="mobile-dropdown-toggle block py-4 px-6 text-neutral font-medium hover:text-primary transition-colors duration-300 flex justify-between items-center dropdown-arrow">
+           PUBLICATIONS
+         </a>
+         <div class="mobile-dropdown-content pl-4 max-h-0 overflow-hidden transition-all duration-300">
+           <a href="https://cass.org.au/publications/at-home-on-new-land/" class="block py-3 px-6 text-gray-600 hover:text-primary transition-colors duration-300" target="_blank" rel="noopener noreferrer">At Home on New Land</a>
+           <a href="https://cass.org.au/publications/submissions/" class="block py-3 px-6 text-gray-600 hover:text-primary transition-colors duration-300" target="_blank" rel="noopener noreferrer">Submissions</a>
+           <a href="https://cass.org.au/publications/annual-reports/" class="block py-3 px-6 text-gray-600 hover:text-primary transition-colors duration-300" target="_blank" rel="noopener noreferrer">Annual Reports</a>
+           <a href="https://cass.org.au/publications/corporate-plan/" class="block py-3 px-6 text-gray-600 hover:text-primary transition-colors duration-300" target="_blank" rel="noopener noreferrer">Corporate Plan</a>
+           <a href="https://cass.org.au/publications/media-release/" class="block py-3 px-6 text-gray-600 hover:text-primary transition-colors duration-300" target="_blank" rel="noopener noreferrer">Media Releases</a>
+           <a href="https://cass.org.au/publications/our-story/" class="block py-3 px-6 text-gray-600 hover:text-primary transition-colors duration-300" target="_blank" rel="noopener noreferrer">Our Story</a>
+           <a href="https://cass.org.au/publications/maria/" class="block py-3 px-6 text-gray-600 hover:text-primary transition-colors duration-300" target="_blank" rel="noopener noreferrer">Maria Cheng</a>
+           <a href="https://cass.org.au/publications/kending/" class="block py-3 px-6 text-gray-600 hover:text-primary transition-colors duration-300" target="_blank" rel="noopener noreferrer">Kending</a>
+         </div>
+       </div>
+     </li>
+     
+     <!-- Mobile Get Involved Dropdown -->
+     <li class="border-b border-gray-100">
+       <div class="mobile-dropdown">
+         <a href="https://cass.org.au/get-involved/" class="mobile-dropdown-toggle block py-4 px-6 text-neutral font-medium hover:text-primary transition-colors duration-300 flex justify-between items-center dropdown-arrow" target="_blank" rel="noopener noreferrer">
+           GET INVOLVED
+         </a>
+         <div class="mobile-dropdown-content pl-4 max-h-0 overflow-hidden transition-all duration-300">
+           <a href="https://casscare.org.au/get-involved/volunteer/" class="block py-3 px-6 text-gray-600 hover:text-primary transition-colors duration-300" target="_blank" rel="noopener noreferrer">Volunteering</a>
+           <a href="https://casscare.org.au/get-involved/partnership/" class="block py-3 px-6 text-gray-600 hover:text-primary transition-colors duration-300" target="_blank" rel="noopener noreferrer">Partnership</a>
+           <a href="https://casscare.org.au/get-involved/careers/" class="block py-3 px-6 text-gray-600 hover:text-primary transition-colors duration-300" target="_blank" rel="noopener noreferrer">Careers</a>
+           <a href="https://casscare.org.au/get-involved/donate/" class="block py-3 px-6 text-gray-600 hover:text-primary transition-colors duration-300" target="_blank" rel="noopener noreferrer">Donations</a>
+         </div>
+       </div>
+     </li>
+     
+     <!-- Mobile Contact Button -->
+     <li class="p-6">
+       <a href="tel:(02) 9789 4587" class="block w-full bg-accent text-white px-5 py-3 rounded-full font-medium text-center transition-all duration-300 hover:bg-accent/90">
+         <span class="flex items-center justify-center gap-2">
+           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+             <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" fill="white" />
+           </svg>
+           <span>(02) 9789 4587</span>
+         </span>
+       </a>
+     </li>
+   </ul>
+  </header>
+
+  <main>
+   <!-- Hero Section -->
+   <section class="hero-section">
+    <div class="hero-pattern"></div>
+    <div class="hero-content max-w-4xl mx-auto px-4 z-10">
+      <h1 class="hero-title text-[clamp(2.5rem,5vw,4rem)] font-bold mb-6 mt-16 text-shadow-lg animate-fadeInUp02 leading-tight">Welcome to CASS </h1>
+      <p class="hero-description text-[clamp(1rem,2vw,1.25rem)] leading-relaxed mb-8 opacity-95 text-shadow animate-fadeInUp04 max-w-2xl mx-auto">
+      We provide a comprehensive range of social and welfare services for every stage of life, including home ageing, residential aged care, disability, vocation & training, settlement & health, child care, and many more. Our services cover a wide geographical area including Metropolitan Sydney, Wollongong, and now even getting a standing in Victoria!</p>
+
+
+        
+                    <a href="#services" class="hero-cta inline-block bg-gradient-to-r from-accent to-orange-500 text-white px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-1 animate-fadeInUp06 relative overflow-hidden">
+                        <span class="relative z-10">Explore Our Services</span>
+                    </a>
+
+      <a href="#" class="hero-cta inline-block from-accent bg-primary text-white px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-1 animate-fadeInUp06 relative overflow-hidden">
+        <span class="relative z-10">How Can We Help?</span>
+
+      </a>
+
+           <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-white animate-bounce">
+            <a href="#about" aria-label="Scroll down">
+                <i class="fa fa-angle-down text-3xl"></i>
+            </a>
+        </div>
+
+    </div>
+   </section>
+
+
+   <!-- Services Section -->
+   <section id="services" class="services-section py-16 px-4 bg-white/95 bg-blur">
+    <div class="max-w-7xl mx-auto">
+      <h2 class="section-title text-[clamp(1.8rem,4vw,2.5rem)] text-center mb-4 bg-gradient-to-r from-primary to-secondary text-gradient">Comprehensive Community Services</h2>
+      <p class="text-center text-gray-600 text-lg max-w-3xl mx-auto mb-12">CASS Care provides a wide range of community services and activities for people residing in Metropolitan Sydney and Wollongong.</p>
+      
+      <div class="services-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="service-card bg-white rounded-xl p-6 text-center shadow-md transition-all duration-300 hover:shadow-xl hover:-translate-y-2 relative overflow-hidden border-t-4 border-transparent hover:border-primary">
+          <span class="service-icon text-4xl mb-4">🏥</span>
+          <h3 class="text-xl font-semibold mb-3 text-neutral">Residential Aged Care</h3>
+          <p class="text-gray-600 leading-relaxed">Compassionate 24-hour care in modern facilities designed to support independence and dignity for seniors.</p>
+        </div>
+        
+        <div class="service-card bg-white rounded-xl p-6 text-center shadow-md transition-all duration-300 hover:shadow-xl hover:-translate-y-2 relative overflow-hidden border-t-4 border-transparent hover:border-primary">
+          <span class="service-icon text-4xl mb-4">🏡</span>
+          <h3 class="text-xl font-semibold mb-3 text-neutral">Home Ageing</h3>
+          <p class="text-gray-600 leading-relaxed">Personalized in-home support services helping seniors maintain their independence and quality of life.</p>
+        </div>
+        
+        <div class="service-card bg-white rounded-xl p-6 text-center shadow-md transition-all duration-300 hover:shadow-xl hover:-translate-y-2 relative overflow-hidden border-t-4 border-transparent hover:border-primary">
+          <span class="service-icon text-4xl mb-4">♿</span>
+          <h3 class="text-xl font-semibold mb-3 text-neutral">Disability Services</h3>
+          <p class="text-gray-600 leading-relaxed">Specialized support and care programs for individuals with disabilities and their families.</p>
+        </div>
+        
+        <div class="service-card bg-white rounded-xl p-6 text-center shadow-md transition-all duration-300 hover:shadow-xl hover:-translate-y-2 relative overflow-hidden border-t-4 border-transparent hover:border-primary">
+          <span class="service-icon text-4xl mb-4">🎓</span>
+          <h3 class="text-xl font-semibold mb-3 text-neutral">Vocation and Training</h3>
+          <p class="text-gray-600 leading-relaxed">Professional development and training programs to empower individuals and build community capacity.</p>
+        </div>
+        
+        <div class="service-card bg-white rounded-xl p-6 text-center shadow-md transition-all duration-300 hover:shadow-xl hover:-translate-y-2 relative overflow-hidden border-t-4 border-transparent hover:border-primary">
+          <span class="service-icon text-4xl mb-4">🌱</span>
+          <h3 class="text-xl font-semibold mb-3 text-neutral">Settlement and Health</h3>
+          <p class="text-gray-600 leading-relaxed">Culturally sensitive health services and settlement support for new migrants and refugees.</p>
+        </div>
+        
+        <div class="service-card bg-white rounded-xl p-6 text-center shadow-md transition-all duration-300 hover:shadow-xl hover:-translate-y-2 relative overflow-hidden border-t-4 border-transparent hover:border-primary">
+          <span class="service-icon text-4xl mb-4">👨‍👩‍👧‍👦</span>
+          <h3 class="text-xl font-semibold mb-3 text-neutral">Child Care</h3>
+          <p class="text-gray-600 leading-relaxed">Quality early childhood education and care services in multicultural community environments.</p>
+        </div>
+        
+        <div class="service-card bg-white rounded-xl p-6 text-center shadow-md transition-all duration-300 hover:shadow-xl hover:-translate-y-2 relative overflow-hidden border-t-4 border-transparent hover:border-primary">
+          <span class="service-icon text-4xl mb-4">🏘️</span>
+          <h3 class="text-xl font-semibold mb-3 text-neutral">Elderly Hostel</h3>
+          <p class="text-gray-600 leading-relaxed">Community-focused residential care with a warm, family-like atmosphere for seniors.</p>
+        </div>
+        
+        <div class="service-card bg-white rounded-xl p-6 text-center shadow-md transition-all duration-300 hover:shadow-xl hover:-translate-y-2 relative overflow-hidden border-t-4 border-transparent hover:border-primary">
+          <span class="service-icon text-4xl mb-4">🔗</span>
+          <h3 class="text-xl font-semibold mb-3 text-neutral">Other Services</h3>
+          <p class="text-gray-600 leading-relaxed">Specialized programs including Care Finder Services and Aged Care Connect Assistance.</p>
+        </div>
+      </div>
+    </div>
+   </section>
+
+   
+  <!-- Testimonials Section -->
+    <section id="testimonials" class="py-20 bg-white">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 reveal">
+                <h2 class="text-[clamp(1.8rem,4vw,2.5rem)] font-bold text-dark mb-4">Community Stories</h2>
+                <div class="w-20 h-1 bg-primary mx-auto mb-6"></div>
+                <p class="text-gray-600 max-w-3xl mx-auto"> Hear from individuals and families whose lives have been transformed through our services.</p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Testimonial 1 -->
+                <div class="bg-light p-8 rounded-xl shadow-sm transition-custom hover:shadow-md reveal">
+                    <div class="text-secondary mb-4">
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                    </div>
+                    <p class="text-gray-600 mb-6 italic">"CASS helped my parents settle in Australia. Their aged care team speaks Cantonese, which made all the difference—my parents finally feel comfortable asking for help."</p>
+                    <div class="flex items-center">
+                        <img src="https://picsum.photos/id/64/100/100" alt="Jennifer L." class="w-12 h-12 rounded-full object-cover mr-4">
+                        <div>
+                            <h4 class="font-semibold">Jennifer L.</h4>
+                            <p class="text-sm text-gray-500">Daughter of Aged Care Clients</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Testimonial 2 -->
+                <div class="bg-light p-8 rounded-xl shadow-sm transition-custom hover:shadow-md reveal" style="transition-delay: 0.2s">
+                    <div class="text-secondary mb-4">
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                    </div>
+                    <p class="text-gray-600 mb-6 italic">"As a new migrant, I was overwhelmed. CASS provided free visa advice and connected me with a mentor who helped me find work. Now I'm paying it forward as a volunteer!"</p>
+                    <div class="flex items-center">
+                        <img src="https://picsum.photos/id/91/100/100" alt="Michael Z." class="w-12 h-12 rounded-full object-cover mr-4">
+                        <div>
+                            <h4 class="font-semibold">Michael Z.</h4>
+                            <p class="text-sm text-gray-500">Migration Support Recipient</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Testimonial 3 -->
+                <div class="bg-light p-8 rounded-xl shadow-sm transition-custom hover:shadow-md reveal" style="transition-delay: 0.4s">
+                    <div class="text-secondary mb-4">
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                    </div>
+                    <p class="text-gray-600 mb-6 italic">"My teenage son struggled with school. The youth program at CASS helped him connect with other Chinese-Australian kids and improved his confidence. Now he's on the honor roll!"</p>
+                    <div class="flex items-center">
+                        <img src="https://picsum.photos/id/26/100/100" alt="Sophia W." class="w-12 h-12 rounded-full object-cover mr-4">
+                        <div>
+                            <h4 class="font-semibold">Sophia W.</h4>
+                            <p class="text-sm text-gray-500">Parent of Youth Program Participant</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- News & Events Section -->
+    <section id="news" class="py-20 bg-light">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 reveal">
+                <h2 class="text-[clamp(1.8rem,4vw,2.5rem)] font-bold text-dark mb-4">News & Events</h2>
+                <div class="w-20 h-1 bg-primary mx-auto mb-6"></div>
+                <p class="text-gray-600 max-w-3xl mx-auto">Stay updated with the latest from CASS and our community.</p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- News Item 1 -->
+                <div class="bg-white rounded-xl shadow-md overflow-hidden transition-custom hover:shadow-lg hover:-translate-y-1 reveal">
+                    <div class="h-48 overflow-hidden">
+                        <img src="https://picsum.photos/id/250/600/400" alt="Mid-Autumn Festival" class="w-full h-full object-cover transition-custom hover:scale-105">
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center text-sm text-gray-500 mb-3">
+                            <i class="fa fa-calendar-o mr-2"></i>
+                            <span>September 15, 2024</span>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-3">Mid-Autumn Festival Celebration</h3>
+                        <p class="text-gray-600 mb-4">Join us for mooncakes, lanterns, and cultural performances at our annual festival event.</p>
+                        <a href="#" class="text-primary font-medium flex items-center hover:underline">
+                            Event Details <i class="fa fa-angle-right ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- News Item 2 -->
+                <div class="bg-white rounded-xl shadow-md overflow-hidden transition-custom hover:shadow-lg hover:-translate-y-1 reveal" style="transition-delay: 0.2s">
+                    <div class="h-48 overflow-hidden">
+                        <img src="box-hill.jpg" alt="New Office Opening" class="w-full h-full object-cover transition-custom hover:scale-105">
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center text-sm text-gray-500 mb-3">
+                            <i class="fa fa-calendar-o mr-2"></i>
+                            <span>September 9, 2024</span>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-3">New CASS Office in Box Hill</h3>
+                        <p class="text-gray-600 mb-4">We're expanding! Our new location will offer extended hours and additional counseling services.</p>
+                        <a href="#" class="text-primary font-medium flex items-center hover:underline">
+                            Read More <i class="fa fa-angle-right ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- News Item 3 -->
+                <div class="bg-white rounded-xl shadow-md overflow-hidden transition-custom hover:shadow-lg hover:-translate-y-1 reveal" style="transition-delay: 0.4s">
+                    <div class="h-48 overflow-hidden">
+                        <img src="https://picsum.photos/id/452/600/400" alt="Volunteer Training" class="w-full h-full object-cover transition-custom hover:scale-105">
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center text-sm text-gray-500 mb-3">
+                            <i class="fa fa-calendar-o mr-2"></i>
+                            <span>September 5, 2024</span>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-3">Volunteer Training Workshop</h3>
+                        <p class="text-gray-600 mb-4">Learn how to support our community programs. No prior experience needed—just a passion to help.</p>
+                        <a href="#" class="text-primary font-medium flex items-center hover:underline">
+                            Register Now <i class="fa fa-angle-right ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-12 reveal">
+            <a href="#" class="hero-cta inline-block from-accent bg-primary text-white px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-1 animate-fadeInUp06 relative overflow-hidden">
+            <span class="relative z-10">View All News & Events</span>
+          </a>
+            </div>
+
+
+        </div>
+    </section>
+
+    <!-- Support Our Community Section -->
+    <section id="donate" class="py-20 bg-primary relative overflow-hidden">
+        <div class="absolute inset-0 opacity-10">
+            <div class="absolute inset-0 bg-[url('https://picsum.photos/id/1042/1920/1080')] bg-cover bg-center"></div>
+        </div>
+        
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="max-w-3xl mx-auto text-center text-white reveal">
+                <h2 class="text-[clamp(1.8rem,4vw,2.5rem)] font-bold mb-6">Support Our Community</h2>
+                <p class="text-lg mb-10 opacity-90">Your donation helps us provide vital services to Chinese Australian families in need—from aged care to youth support.</p>
+                
+                <div class="flex flex-wrap justify-center gap-4 mb-8">
+                    <button class="bg-white text-primary hover:bg-gray-100 px-6 py-3 rounded-full font-semibold transition-custom">
+                        $50
+                    </button>
+                    <button class="bg-white text-primary hover:bg-gray-100 px-6 py-3 rounded-full font-semibold transition-custom">
+                        $100
+                    </button>
+                    <button class="bg-white text-primary hover:bg-gray-100 px-6 py-3 rounded-full font-semibold transition-custom">
+                        $250
+                    </button>
+                    <button class="bg-white text-primary hover:bg-gray-100 px-6 py-3 rounded-full font-semibold transition-custom">
+                        $500
+                    </button>
+                    <button class="bg-white text-primary hover:bg-gray-100 px-6 py-3 rounded-full font-semibold transition-custom">
+                        Other
+                    </button>
+                </div>
+                
+                <div class="flex flex-col sm:flex-row justify-center gap-4">
+                    <a href="#" class="bg-secondary hover:bg-secondary/96 text-white px-8 py-3 rounded-full font-semibold transition-custom text-lg">
+                        Donate Now
+                    </a>
+                    <a href="#" class="bg-white/10 backdrop-blur-sm hover:bg-white/20 border border-white/30 text-white px-8 py-3 rounded-full font-semibold transition-custom text-lg">
+                        Become a Volunteer
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 bg-white">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-2 gap-12 items-start">
+                <div class="reveal">
+                    <h2 class="text-[clamp(1.8rem,4vw,2.5rem)] font-bold text-dark mb-4">Get In Touch</h2>
+                    <div class="w-20 h-1 bg-primary mb-6"></div>
+                    <p class="text-gray-600 mb-8">Need assistance or want to learn more about our services? Our multilingual team is here to help.</p>
+                    
+                    <div class="space-y-6">
+                        <div class="flex items-start">
+                            <div class="bg-primary/10 p-3 rounded-full mr-4">
+                                <i class="fa fa-map-marker text-primary text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold mb-1">Head Office</h4>
+                                <p class="text-gray-600">44-50 Sixth Avenue, Campsie, NSW 2194</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <div class="bg-primary/10 p-3 rounded-full mr-4">
+                                <i class="fa fa-phone text-primary text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold mb-1">Phone</h4>
+                                <p class="text-gray-600">English: (02) 9789 4587</p>
+                                <p class="text-gray-600">中文: (02) 1234 5679</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <div class="bg-primary/10 p-3 rounded-full mr-4">
+                                <i class="fa fa-envelope text-primary text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold mb-1">Email</h4>
+                                <p class="text-gray-600">info@cass.org.au</p>
+                                <p class="text-gray-600">info_chinese@cass.org.au</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <div class="bg-primary/10 p-3 rounded-full mr-4">
+                                <i class="fa fa-clock-o text-primary text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold mb-1">Opening Hours</h4>
+                                <p class="text-gray-600">Monday - Friday: 9:00 AM - 5:00 PM</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-8">
+                        <h4 class="font-semibold mb-3">Follow Us</h4>
+                        <div class="flex space-x-4">
+                            <a href="#" class="bg-primary text-white w-10 h-10 rounded-full flex items-center justify-center hover:bg-primary/80 transition-custom">
+                                <i class="fa fa-facebook"></i>
+                            </a>
+                            <a href="#" class="bg-primary text-white w-10 h-10 rounded-full flex items-center justify-center hover:bg-primary/80 transition-custom">
+                                <i class="fa fa-weixin"></i>
+                            </a>
+                            <a href="#" class="bg-primary text-white w-10 h-10 rounded-full flex items-center justify-center hover:bg-primary/80 transition-custom">
+                                <i class="fa fa-instagram"></i>
+                            </a>
+                            <a href="#" class="bg-primary text-white w-10 h-10 rounded-full flex items-center justify-center hover:bg-primary/80 transition-custom">
+                                <i class="fa fa-youtube-play"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="reveal" style="transition-delay: 0.2s">
+                    <form class="bg-light p-8 rounded-xl shadow-md">
+                        <h3 class="text-2xl font-semibold mb-6">Send Us a Message</h3>
+                        
+                        <div class="grid md:grid-cols-2 gap-6 mb-6">
+                            <div>
+                                <label for="name" class="block text-gray-700 mb-2">Your Name</label>
+                                <input type="text" id="name" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-custom" placeholder="Your name">
+                            </div>
+                            
+                            <div>
+                                <label for="email" class="block text-gray-700 mb-2">Email Address</label>
+                                <input type="email" id="email" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-custom" placeholder="Your email">
+                            </div>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label for="language" class="block text-gray-700 mb-2">Preferred Language</label>
+                            <select id="language" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-custom">
+                                <option value="english">English</option>
+                                <option value="mandarin">中文</option>
+                                <option value="cantonese">한국어</option>
+                                 <option value="mandarin">Bahasa Indonesia</option>
+                                <option value="cantonese">Tiếng Việt</option>                               
+                            </select>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label for="subject" class="block text-gray-700 mb-2">Subject</label>
+                            <input type="text" id="subject" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-custom" placeholder="How can we help?">
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label for="message" class="block text-gray-700 mb-2">Message</label>
+                            <textarea id="message" rows="5" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-custom" placeholder="Your message here..."></textarea>
+                        </div>
+                        
+                        <button type="submit" class="w-full bg-primary hover:bg-primary/90 text-white px-6 py-3 rounded-lg font-semibold transition-custom">
+                            Send Message
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white pt-16 pb-8">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+                <div>
+                    <div class="flex items-center space-x-3 mb-6">
+                        <!--div class="w-12 h-12 rounded-lg bg-white flex items-center justify-center">
+                            <span class="text-primary font-bold text-xl">CASS</span>
+                        </div-->
+                        <a href="https://casscare.org.au/" class="logo-link flex items-center transition-transform duration-300 hover:scale-125" target="_blank" rel="noopener noreferrer"> 
+        <img src="https://casscare.org.au/wp-content/uploads/2020/03/logo.png" alt="CASS Care Logo" class="logo-img w-auto transition-height duration-300 h-12" id="logoImg" onerror="this.style.display='none';"> 
+      </a>
+
+                            <p class="text-xs text-gray-400 -mt-1">Est. 1981</p>
+                   
+                    </div>
+                    <p class="text-gray-400 mb-6">Supporting Chinese Australians through culturally appropriate services for over 40 years.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition-custom">
+                            <i class="fa fa-facebook"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-custom">
+                            <i class="fa fa-weixin"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-custom">
+                            <i class="fa fa-instagram"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-custom">
+                            <i class="fa fa-youtube-play"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-6">Quick Links</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#about" class="text-gray-400 hover:text-white transition-custom">About Us</a></li>
+                        <li><a href="#services" class="text-gray-400 hover:text-white transition-custom">Our Services</a></li>
+                        <li><a href="#testimonials" class="text-gray-400 hover:text-white transition-custom">Community Stories</a></li>
+                        <li><a href="#news" class="text-gray-400 hover:text-white transition-custom">News & Events</a></li>
+                        <li><a href="#donate" class="text-gray-400 hover:text-white transition-custom">Donations</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-custom">Careers</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-6">Services</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-custom">Aged Care</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-custom">Elderly Hostel</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-custom">Child Care</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-custom">Counseling</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-custom">Disability Services</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-custom">Cultural Events</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-6">Contact</h4>
+                    <ul class="space-y-3">
+                        <li class="flex items-start">
+                            <i class="fa fa-map-marker text-gray-400 mt-1 mr-3"></i>
+                            <span class="text-gray-400">44-50 Sixth Avenue, Campsie, NSW 2194</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fa fa-phone text-gray-400 mt-1 mr-3"></i>
+                            <span class="text-gray-400">(02) 9789 44587</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fa fa-envelope text-gray-400 mt-1 mr-3"></i>
+                            <span class="text-gray-400">info@cass.org.au</span>
+                        </li>
+                    </ul>
+                    
+                    <div class="mt-6">
+                        <h4 class="text-lg font-semibold mb-3">Newsletter</h4>
+                        <form class="flex">
+                            <input type="email" placeholder="Your email" class="w-full px-4 py-2 rounded-l-lg focus:outline-none text-dark">
+                            <button type="submit" class="bg-primary hover:bg-primary/90 px-4 py-2 rounded-r-lg transition-custom">
+                                <i class="fa fa-paper-plane"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 pt-8">
+                <div class="flex flex-col md:flex-row justify-between items-center">
+                    <p class="text-gray-500 text-sm mb-4 md:mb-0">© 2025 CASS. All rights reserved. </p>
+                    <div class="flex flex-wrap justify-center gap-x-6 gap-y-2">
+                        <a href="#" class="text-gray-500 hover:text-white text-sm transition-custom">Privacy Policy</a>
+                        <a href="#" class="text-gray-500 hover:text-white text-sm transition-custom">Terms of Service</a>
+                        <a href="#" class="text-gray-500 hover:text-white text-sm transition-custom">Sitemap</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+  </main>
+
+  <script>
+    // DOM Elements
+    const header = document.getElementById('header');
+    const hamburger = document.getElementById('hamburger');
+    const mobileNavLinks = document.getElementById('mobileNavLinks');
+    const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
+    const closeMobileMenu = document.getElementById('closeMobileMenu');
+    const mobileDropdownToggles = document.querySelectorAll('.mobile-dropdown-toggle');
+    const logoImg = document.getElementById('logoImg');
+
+    // Header scroll effect
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 50) {
+        header.classList.add('py-2', 'bg-white/98', 'bg-blur-md', 'shadow-lg', 'border-primary/50');
+        header.classList.remove('py-4', 'bg-white/95', 'shadow-md', 'border-primary/30');
+        logoImg.classList.add('h-12');
+        logoImg.classList.remove('h-14');
+      } else {
+        header.classList.remove('py-2', 'bg-white/98', 'bg-blur-md', 'shadow-lg', 'border-primary/50');
+        header.classList.add('py-4', 'bg-white/95', 'shadow-md', 'border-primary/30');
+        logoImg.classList.remove('h-12');
+        logoImg.classList.add('h-14');
+      }
+    });
+
+    // Mobile menu toggle
+    function openMobileMenu() {
+      mobileNavLinks.classList.remove('translate-x-full');
+      mobileNavLinks.classList.add('translate-x-0');
+      mobileMenuOverlay.classList.remove('opacity-0', 'invisible');
+      mobileMenuOverlay.classList.add('opacity-100', 'visible');
+      document.body.style.overflow = 'hidden';
+      
+      // Animate hamburger icon
+      hamburger.querySelector('span:nth-child(1)').classList.add('rotate-45', 'translate-y-3');
+      hamburger.querySelector('span:nth-child(2)').classList.add('opacity-0');
+      hamburger.querySelector('span:nth-child(3)').classList.add('-rotate-45', '-translate-y-3');
+    }
+
+    function closeMobileMenuFunc() {
+      mobileNavLinks.classList.add('translate-x-full');
+      mobileNavLinks.classList.remove('translate-x-0');
+      mobileMenuOverlay.classList.add('opacity-0', 'invisible');
+      mobileMenuOverlay.classList.remove('opacity-100', 'visible');
+      document.body.style.overflow = '';
+      
+      // Reset hamburger icon
+      hamburger.querySelector('span:nth-child(1)').classList.remove('rotate-45', 'translate-y-3');
+      hamburger.querySelector('span:nth-child(2)').classList.remove('opacity-0');
+      hamburger.querySelector('span:nth-child(3)').classList.remove('-rotate-45', '-translate-y-3');
+      
+      // Close all mobile dropdowns
+      mobileDropdownToggles.forEach(toggle => {
+        const content = toggle.nextElementSibling;
+        toggle.classList.remove('active');
+        content.style.maxHeight = '0';
+      });
+    }
+
+    hamburger.addEventListener('click', openMobileMenu);
+    closeMobileMenu.addEventListener('click', closeMobileMenuFunc);
+    mobileMenuOverlay.addEventListener('click', closeMobileMenuFunc);
+
+    // Mobile dropdown functionality
+    mobileDropdownToggles.forEach(toggle => {
+      toggle.addEventListener('click', (e) => {
+        e.preventDefault();
+        const content = toggle.nextElementSibling;
+        const isOpen = toggle.classList.contains('active');
+        
+        // Close all other dropdowns
+        mobileDropdownToggles.forEach(otherToggle => {
+          if (otherToggle !== toggle) {
+            otherToggle.classList.remove('active');
+            otherToggle.nextElementSibling.style.maxHeight = '0';
+          }
+        });
+        
+        // Toggle current dropdown
+        if (isOpen) {
+          toggle.classList.remove('active');
+          content.style.maxHeight = '0';
+        } else {
+          toggle.classList.add('active');
+          content.style.maxHeight = content.scrollHeight + 'px';
+        }
+      });
+    });
+
+    // Smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href');
+        if (targetId === '#') return;
+        
+        const target = document.querySelector(targetId);
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      });
+    });
+
+    // Add hover effect to hero CTA
+    const heroCta = document.querySelector('.hero-cta');
+    if (heroCta) {
+      heroCta.addEventListener('mouseenter', () => {
+        heroCta.querySelector('span:last-child').style.transform = 'translateX(100%)';
+      });
+      
+      heroCta.addEventListener('mouseleave', () => {
+        heroCta.querySelector('span:last-child').style.transform = 'translateX(-100%)';
+      });
+    }
+
+    // Section reveal animation on scroll
+    function revealSections() {
+        const reveals = document.querySelectorAll('.reveal');
+        const windowHeight = window.innerHeight;
+        
+        reveals.forEach(reveal => {
+            const revealTop = reveal.getBoundingClientRect().top;
+            const revealPoint = 150;
+            
+            if (revealTop < windowHeight - revealPoint) {
+                reveal.classList.add('active');
+            }
+        });
+    }
+    
+    // Initial check on load
+    window.addEventListener('load', revealSections);
+    // Check on scroll
+    window.addEventListener('scroll', revealSections);
+
+    // Initialize on page load
+    window.addEventListener('load', () => {
+      window.dispatchEvent(new Event('scroll'));
+    });
+
+  </script>
+ </body>
+</html>
