@@ -1,0 +1,2664 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HOME | CASS</title>
+    <!-- Font Awesome -->
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
+  <!-- Tailwind Configuration -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#667eea',
+            secondary: '#764ba2',
+            accent: '#ff6b35',
+            neutral: '#333333',
+            light: '#f8f9ff',
+            white: '#ffffff'
+          },
+          fontFamily: {
+            sans: ['Segoe UI', 'Tahoma', 'Geneva', 'Verdana', 'sans-serif'],
+          },
+          keyframes: {
+            gradientShift: {
+              '0%': { 'background-position': '0% 50%' },
+              '50%': { 'background-position': '100% 50%' },
+              '100%': { 'background-position': '0% 50%' }
+            },
+            fadeInUp: {
+              'from': { opacity: '0', transform: 'translateY(40px)' },
+              'to': { opacity: '1', transform: 'translateY(0)' }
+            },
+            float: {
+              '0%, 100%': { transform: 'translateY(0px)' },
+              '50%': { transform: 'translateY(-10px)' }
+            },
+            subtleShift: {
+              '0%, 100%': { transform: 'translateX(0) translateY(0)' },
+              '33%': { transform: 'translateX(-2%) translateY(-1%)' },
+              '66%': { transform: 'translateX(1%) translateY(2%)' }
+            }
+          },
+          animation: {
+            gradientShift: 'gradientShift 88s ease infinite',
+            fadeInUp: 'fadeInUp 1s ease',
+            fadeInUp02: 'fadeInUp 1s ease 0.2s both',
+            fadeInUp04: 'fadeInUp 1s ease 0.4s both',
+            fadeInUp06: 'fadeInUp 1s ease 0.6s both',
+            float: 'float 6s ease-in-out infinite',
+            subtleShift: 'subtleShift 20s ease-in-out infinite'
+          }
+        }
+      }
+    }
+  </script>
+    <style type="text/tailwindcss">
+    @layer utilities {
+      .content-auto {
+        content-visibility: auto;
+      }
+      .text-gradient {
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      .bg-blur {
+        backdrop-filter: blur(10px);
+      }
+      .bg-blur-md {
+        backdrop-filter: blur(15px);
+      }
+    }
+
+    body {
+      box-sizing: border-box;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      overflow-x: hidden;
+    }
+
+    body {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100%;
+    }
+
+    /* Top Banner Bar */
+    .top-banner {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      z-index: 1001;
+      padding-top: 10px;
+      font-size: 14px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+
+    .top-banner-content {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      padding: 0.4rem 5%;
+      gap: 2rem;
+      width: 100%;
+      padding-right: 3%;
+    }
+
+    .top-banner-link {
+      color: #114E87;
+      text-decoration: none;
+      padding: 0.3rem 0.5rem;
+      border-radius: 4px;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      white-space: nowrap;
+    }
+
+    .top-banner-link:hover {
+      color: #667eea;
+      background: rgba(102, 126, 234, 0.1);
+      transform: translateY(-1px);
+    }
+
+    .top-banner-link svg {
+      width: 14px;
+      height: 14px;
+      fill: darkred;
+    }
+
+    /* Make search input box wider and in one line */
+    .top-banner-search {
+      display: flex;
+      align-items: center;
+      background: rgba(102, 126, 234, 0.1);
+      border-radius: 20px;
+      padding: 0.3rem 0.6rem;
+      transition: all 0.3s ease;
+      min-width: 200px;
+      width: 180px;
+    }
+
+    .top-banner-search:hover {
+      background: rgba(102, 126, 234, 0.15);
+    }
+
+    .top-banner-search-input {
+      border: none;
+      background: transparent;
+      color: #666;
+      outline: none;
+      width: 150px;
+      font-size: 13px;
+      padding: 0.2rem;
+    }
+
+    .top-banner-search-input::placeholder {
+      color: rgba(102, 126, 234, 0.7);
+    }
+
+    .top-banner-search-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0.2rem;
+      display: inline-block;
+      align-items: center;
+      transition: transform 0.3s ease;
+    }
+
+    .top-banner-search-btn:hover {
+      transform: scale(1.1);
+    }
+
+    .top-banner-search-btn svg {
+      width: 14px;
+      height: 14px;
+      stroke: #667eea;
+    }
+
+    /* Main Header - Adjusted for top banner */
+    header {
+      position: fixed;
+      top: 110px; /* Height of top banner */
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      transition: all 0.3s ease;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      border-bottom: 5px solid #764ba2;
+    }
+
+    header.scrolled {
+      top: 40px; /* Maintain position above top banner */
+      background: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(15px);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+      border-bottom: 2px solid rgba(102, 126, 234, 0.5);
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 5%;
+      max-width: 1400px;
+      margin: 0 auto;
+
+    }
+
+    .logo-link {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      transition: transform 0.3s ease;
+    }
+
+    .logo-link:hover {
+      transform: scale(1.05);
+    }
+
+    .logo-img {
+      height: 60px;
+      width: auto;
+      transition: height 0.3s ease;
+    }
+
+    header.scrolled .logo-img {
+      height: 50px;
+    }
+
+    .phone-mobile {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 0.5rem;
+      margin-right: 1rem;
+      text-decoration: none;
+    }
+
+    .header-top-right {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .phone-desktop {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: #333;
+      text-decoration: none;
+      font-weight: 500;
+      transition: opacity 0.3s ease;
+    }
+
+    .phone-desktop:hover {
+      opacity: 0.8;
+    }
+
+    header.scrolled .phone-desktop {
+      color: #333;
+    }
+
+    .phone-desktop svg path {
+      fill: #ff6b35;
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 2.5rem;
+      align-items: center;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
+      font-size: 16px;
+      transition: all 0.3s ease;
+      position: relative;
+      padding: 0.5rem 0;
+    }
+    .nav-links a:hover {
+      text-decoration: none;
+      color: #667eea;
+    }
+
+    header.scrolled .nav-links a {
+      color: #333;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      transition: width 0.3s ease;
+    }
+
+    .nav-links a:hover::after,
+    .nav-links a.active::after {
+      width: 100%;
+    }
+
+    .nav-links a.active {
+      color: #667eea;
+    }
+
+    header:not(.scrolled) .nav-links a.active {
+      color: #114E87;
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    }
+
+    .dropdown {
+      position: relative;
+    }
+
+    .dropdown:hover .dropdown-content {
+      opacity: 1;
+      visibility: visible;
+      top: calc(100% + 25px);
+    }
+
+    .dropdown-content {
+      position: absolute;
+      top: calc(100% + 20px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(10px);
+      width: auto;
+      white-space: nowrap;
+      border-radius: 12px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+      padding: 0.5rem 0;
+      z-index: 1001;
+    }
+
+    .dropdown-content::before {
+      content: '';
+      position: absolute;
+      top: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 10px solid transparent;
+      border-right: 10px solid transparent;
+      border-bottom: 10px solid rgba(255, 255, 255, 0.98);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .dropdown:hover .dropdown-content::before {
+      opacity: 1;
+    }
+
+    .dropdown-content a {
+      display: block;
+      padding: 0.8rem 1.5rem;
+      color: #333;
+      transition: all 0.3s ease;
+      white-space: nowrap;
+    }
+
+    .dropdown-content a::after {
+      display: none;
+    }
+
+    .dropdown-content a:hover {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+    }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+      gap: 5px;
+      z-index: 1001;
+    }
+
+    .hamburger span {
+      width: 28px;
+      height: 3px;
+      background: #333;
+      transition: all 0.3s ease;
+      border-radius: 3px;
+    }
+
+    header.scrolled .hamburger span {
+      background: #333;
+    }
+
+    .hamburger.active span:nth-child(1) {
+      transform: rotate(45deg) translate(8px, 8px);
+    }
+
+    .hamburger.active span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .hamburger.active span:nth-child(3) {
+      transform: rotate(-45deg) translate(7px, -7px);
+    }
+
+    .hero-section {
+      position: relative;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: white;
+      overflow: hidden;
+      width: 100vw;
+      animation: gradientShift 88s ease infinite;
+      padding: 0 5%;
+      background-size: 200% 100%;
+      background-image: url(purple_bk.jpg);
+      background-repeat: no-repeat;
+      margin-top: 40px; /* Account for top banner */
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .hero-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      z-index: 2;
+      position: relative;
+      animation: fadeInUp 1s ease;
+    }
+
+    .hero-title {
+      font-size: clamp(2.8rem, 6vw, 4.5rem);
+      font-weight: 700;
+      margin-bottom: 1rem;
+      margin-top: 3rem;
+      text-shadow: 0 3px 15px rgba(0, 0, 0, 0.4);
+      line-height: 1.2;
+      animation: fadeInUp 1s ease 0.2s both;
+    }
+
+    .hero-description {
+      font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+      line-height: 1.7;
+      margin-bottom: 2rem;
+      opacity: 0.95;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+      animation: fadeInUp 1s ease 0.4s both;
+    }
+
+    .hero-cta {
+      display: inline-block;
+      background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+      color: white;
+      padding: 1.2rem 3rem;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.1rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 25px rgba(255, 107, 53, 0.4);
+      animation: fadeInUp 1s ease 0.6s both;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-cta::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.5s;
+    }
+
+    .hero-cta:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 35px rgba(255, 107, 53, 0.6);
+    }
+
+    .hero-cta:hover::before {
+      left: 100%;
+    }
+
+    .hero-cta:active {
+      transform: translateY(-2px);
+    }
+
+    .hero-pattern {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: 
+        radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(255, 255, 255, 0.08) 0%, transparent 50%);
+      pointer-events: none;
+      animation: subtleShift 20s ease-in-out infinite;
+    }
+
+    @keyframes subtleShift {
+      0%, 100% { transform: translateX(0) translateY(0); }
+      33% { transform: translateX(-2%) translateY(-1%); }
+      66% { transform: translateX(1%) translateY(2%); }
+    }
+
+    /* Services Section */
+    .services-section {
+      padding: 6rem 5%;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 2.5rem;
+      margin-bottom: 2rem;
+      color: #333;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .service-card {
+      background: white;
+      border-radius: 20px;
+      padding: 0;
+      text-align: center;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+      border-top: 4px solid transparent;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .service-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
+
+    .service-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+    }
+
+    .service-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .service-icon {
+      font-size: 3rem;
+      margin-bottom: 1.5rem;
+      display: block;
+    }
+
+    .service-card h3 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      color: #333;
+    }
+
+    .service-card p {
+      color: #666;
+      line-height: 1.6;
+    }
+
+    /* Image Slideshow Section */
+    .slideshow-section {
+      padding-top: 4rem;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      padding-bottom: 3rem;
+    }
+
+    .slideshow-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      position: relative;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+    }
+
+    .slideshow-title {
+      text-align: center;
+      font-size: 2.5rem;
+      margin-bottom: 2rem;
+      color: #333;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .slideshow-description {
+      text-align: center;
+      max-width: 1000px;
+      margin: 0 auto 3rem;
+      color: #666;
+      font-size: 1.1rem;
+      line-height: 1.6;
+    }
+
+    .slides {
+      display: flex;
+      transition: transform 0.8s ease-in-out;
+      height: 500px;
+    }
+
+    .slide {
+      min-width: 100%;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, rgba(102, 126, 234, 0.8) 0%, rgba(118, 75, 162, 0.8) 100%);
+    }
+
+    .slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 20px;
+    }
+
+    .slide-overlay {
+      position: absolute;
+      top: 70%;
+      left: 80%;
+      right: 0;
+      bottom: 0;
+      /*background: linear-gradient(135deg, rgba(102, 126, 234, 0.7) 0%, rgba(118, 75, 162, 0.7) 100%);*/
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      text-align: center;
+      color: #333;
+      border-radius: 20px;
+    }
+
+    .slide-title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+      animation: fadeInUp 0.8s ease 0.2s both;
+    }
+
+    .slide-description {
+      font-size: 1.2rem;
+      line-height: 1.6;
+      max-width: 600px;
+      text-shadow: 0 1px 5px rgba(0, 0, 0, 0.5);
+      animation: fadeInUp 0.8s ease 0.4s both;
+    }
+
+    .slideshow-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255, 255, 255, 0.2);
+      border: none;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+      z-index: 10;
+    }
+
+    .slideshow-nav:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: translateY(-50%) scale(1.1);
+    }
+
+    .slideshow-nav.prev {
+      left: 20px;
+    }
+
+    .slideshow-nav.next {
+      right: 20px;
+    }
+
+    .slideshow-nav svg {
+      width: 20px;
+      height: 20px;
+      fill: white;
+      stroke: white;
+      stroke-width: 2;
+    }
+
+    .slideshow-dots {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 10px;
+      z-index: 10;
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.5);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+    }
+
+    .dot.active {
+      background: white;
+      transform: scale(1.2);
+    }
+
+    .dot:hover {
+      background: rgba(255, 255, 255, 0.8);
+    }
+    /* course 2 background*/
+  .course2 {
+    background-color: rgba(255, 255, 255, 0);
+    background-image: url(img/bg-color.jpg);
+    background-position: right top;
+    background-repeat: no-repeat;
+    padding-right: 30px;
+    padding-left: 30px;
+    margin-bottom: 30px;
+  }
+    /* Languages Section */
+    .languages-section {
+      padding: 6rem 5%;
+      background: linear-gradient(135deg, #f8f9ff 0%, #e8f0ff 100%);
+    }
+
+    .languages-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 3rem auto 0;
+      text-align: center;
+    }
+
+    .language-card {
+      background: white;
+      padding: 2rem;
+      border-radius: 15px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    .language-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+    }
+
+    .language-flag {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .language-card h4 {
+      font-size: 1.3rem;
+      color: #333;
+      margin-bottom: 0.5rem;
+    }
+
+    .language-romanization {
+      color: #666;
+      font-size: 0.9rem;
+    }
+
+    /* Events Section */
+    .events-section {
+      padding: 6rem 5%;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+    }
+
+    .events-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 3rem auto 0;
+    }
+
+    .event-card {
+      background: white;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .event-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+    }
+
+    .event-badge {
+      position: absolute;
+      top: 10px;
+      right: 20px;
+      background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      z-index: 2;
+    }
+
+    .event-content {
+      padding: 2rem;
+      padding-top: 3rem;
+    }
+
+    .event-title {
+      font-size: 1.4rem;
+      margin-bottom: 1rem;
+      color: #333;
+    }
+
+    .event-description {
+      color: #666;
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+    }
+
+    .event-link {
+      display: inline-block;
+      color: #667eea;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    .event-link:hover {
+      color: #764ba2;
+    }
+
+    /* Contact Section */
+    .contact-section {
+      padding: 6rem 5%;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      text-align: center;
+    }
+
+    .contact-content {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .contact-title {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .contact-subtitle {
+      font-size: 1.2rem;
+      margin-bottom: 3rem;
+      opacity: 0.9;
+    }
+
+    .contact-info {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .contact-item {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 2rem;
+      border-radius: 15px;
+      backdrop-filter: blur(10px);
+      transition: all 0.3s ease;
+    }
+
+    .contact-item:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateY(-5px);
+    }
+
+    .contact-icon {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    .contact-item h4 {
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .contact-item a {
+      color: white;
+      text-decoration: none;
+      font-size: 1.1rem;
+    }
+
+    .contact-item a:hover {
+      text-decoration: underline;
+    }
+
+    .cta-button {
+      display: inline-block;
+      background: white;
+      color: #667eea;
+      padding: 1rem 2.5rem;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.1rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    }
+
+    .cta-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .float-animation {
+      animation: float 6s ease-in-out infinite;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .top-banner {
+        display: none; /* Hide top banner on mobile */
+      }
+
+      .header {
+        top: 0; /* Reset header position on mobile */
+      }
+
+      .header.scrolled {
+        top: 0;
+      }
+
+      .hero-section {
+        margin-top: 0; /* Reset hero margin on mobile */
+        height: 90vh;
+        padding: 2rem 0;
+      }
+
+      .hamburger {
+        display: flex;
+      }
+
+      .phone-mobile {
+        display: flex;
+      }
+
+      .header-top-right {
+        display: none;
+      }
+
+      .logo-img {
+        height: 50px;
+      }
+
+      /* Mobile menu overlay */
+      .mobile-menu-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 9998;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+      }
+
+      .mobile-menu-overlay.active {
+        opacity: 1;
+        visibility: visible;
+      }
+      
+      /* Updated mobile menu styles */
+      .nav-links {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        height: 100vh;
+        width: 70%;
+        max-width: 300px;
+        background: white;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 100px 2rem 2rem;
+        gap: 0;
+        transition: right 0.3s ease;
+        box-shadow: -5px 0 20px rgba(0, 0, 0, 0.3);
+        z-index: 9999;
+        overflow-y: auto;
+      }
+
+      .nav-links.active {
+        right: 0;
+      }
+
+      .nav-links li {
+        width: 100%;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      }
+
+      .nav-links a {
+        display: block;
+        padding: 1rem 0;
+        color: #333;
+        width: 100%;
+        font-size: 1.1rem;
+        font-weight: 600;
+        position: relative;
+        padding-right: 2rem;
+      }
+
+      .nav-links a:hover {
+        color: #667eea;
+      }
+
+      .dropdown-content {
+        position: static;
+        transform: none;
+        box-shadow: none;
+        background: rgba(245, 245, 245, 1);
+        margin-top: 0.5rem;
+        border-radius: 8px;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+        width: 100%;
+        white-space: normal;
+        padding-left: 1rem;
+      }
+
+      .dropdown.active .dropdown-content {
+        max-height: 1000px;
+        opacity: 1;
+        visibility: visible;
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
+      }
+
+      .dropdown-content::before {
+        display: none;
+      }
+
+      .dropdown > a::after {
+        content: '▼';
+        position: absolute;
+        right: 0;
+        font-size: 0.8rem;
+        transition: transform 0.3s ease;
+        color: #667eea;
+      }
+
+      .dropdown.active > a::after {
+        transform: rotate(180deg);
+      }
+
+      .dropdown-content a {
+        color: #555;
+        padding-left: 1rem;
+        font-weight: 500;
+      }
+
+      .dropdown-content a:hover {
+        background: rgba(102, 126, 234, 0.1);
+        color: #667eea;
+      }
+
+      .hero-title {
+        margin-bottom: 1rem;
+        font-size: 2.5rem;
+      }
+
+      .hero-description {
+        margin-bottom: 2rem;
+        font-size: 1.1rem;
+        padding: 0 1rem;
+      }
+
+      .hero-cta {
+        padding: 1rem 2rem;
+        font-size: 1rem;
+      }
+
+      .services-section,
+      .slideshow-section,
+      .languages-section,
+      .events-section,
+      .contact-section {
+        padding: 3rem 5%;
+      }
+
+      .services-grid,
+      .events-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .contact-info {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+
+      .slideshow-container {
+        height: 300px;
+      }
+
+      .slides {
+        height: 300px;
+      }
+
+      .slide-title {
+        font-size: 1.8rem;
+      }
+
+      .slide-description {
+        font-size: 1rem;
+        padding: 0 1rem;
+      }
+
+      .slideshow-nav {
+        width: 40px;
+        height: 40px;
+      }
+
+      .slideshow-nav svg {
+        width: 16px;
+        height: 16px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero-cta,
+      .cta-button {
+        padding: 0.9rem 2rem;
+        font-size: 0.95rem;
+      }
+
+      .service-card,
+      .event-content,
+      .contact-item {
+        padding: 1.5rem;
+      }
+
+      .language-card {
+        padding: 1.5rem;
+      }
+
+      .hero-description {
+        font-size: 1rem;
+        padding: 0 0.5rem;
+      }
+
+      .slideshow-section,
+      .services-section {
+        padding: 2rem 5%;
+      }
+
+      .slideshow-title {
+        font-size: 2rem;
+      }
+
+      .slideshow-description {
+        font-size: 1rem;
+      }
+
+      .slide-title {
+        font-size: 1.5rem;
+      }
+
+      .slide-description {
+        font-size: 0.95rem;
+      }
+    }
+
+   body{margin:0;font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Ubuntu,Helvetica,Arial,sans-serif;background:#fff;color:#111}
+.slider{position:relative;background:#fff; padding-top:120px}
+.viewport{overflow:hidden;}
+/* Critical: Black background for gaps (permanent) + 30px gap */
+.track{
+  display:flex;
+  will-change:transform;
+  transition:transform 600ms ease;
+  gap:20px; /* Fixed 30px gap (black background shows through) */
+  background-color:#fff; /* Gap color = black (always) */
+  padding:0 15px; /* Symmetry padding (half gap) */
+  box-sizing:border-box;
+  width:100%; /* Full viewport width */
+}
+/* Card width (dynamic, accounts for gaps) */
+.card{
+  flex:0 0 calc( (100% - (30px * (4 - 1))) / 6 ); /* Desktop: 4 cards */
+  box-sizing:border-box;
+  flex-shrink:0; /* Prevent card shrinking */
+}
+.card img{
+  width:300px;
+  height:400px;
+  display:block;
+  object-fit:cover;
+}
+.controls{
+  position:absolute;
+  top:70%;
+  left:0;
+  right:0;
+  display:flex;
+  justify-content:space-between;
+  padding:0 12px;
+  transform:translateY(-50%);
+  z-index:10; /* Arrows above images */
+}
+.arrow{
+  width:40px;
+  height:40px;
+  border:none;
+  border-radius:50%;
+  background:rgba(255,255,255,0.8); /* Light arrow background for contrast against black gaps */
+  color:#000; /* Black text on light arrow */
+  font-size:22px;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:0;
+}
+.arrow:active{transform:scale(.98);}
+/* Mobile: 2 cards per view */
+@media (max-width:768px){
+  .arrow{width:34px;height:34px;font-size:18px;}
+  .card{flex:0 0 calc( (100% - (30px * (2 - 1))) / 2 );}
+}
+/* Extra small screens: 1 card per view */
+@media (max-width:480px){
+  .card{flex:0 0 100%;}
+  .track{padding:0; gap:0;} /* No gap for single card */
+} 
+
+/* AAA */
+.top-banner .size {
+    display: flex;
+    align-items: center;
+    margin-right: 18px;
+}
+.top-banner .size a {
+    display: inline-block;
+    color: inherit;
+}
+.top-banner .size .small {
+    font-weight: 500;
+    font-size: 13px;
+    cursor: pointer;
+
+}
+.top-banner .size .medium {
+    font-weight: 500;
+    font-size: 15px;
+    cursor: pointer;
+}
+.top-banner .size .large {
+    font-weight: 500;
+    font-size: 19px;
+    cursor: pointer;
+}
+.top-banner .size .seperator {
+    width: 1px;
+    height: 13px;
+    background-color: #000;
+    margin-left: 9px;
+    margin-right: 9px;
+}
+/* sub menu css*/
+ .dropdown {
+      position: relative;
+    }
+
+    /* Only open the direct child submenu on hover (prevents ancestor hover opening nested submenus) */
+    .dropdown:hover > .dropdown-content {
+      opacity: 1;
+      visibility: visible;
+      top: calc(100% + 25px);
+    }
+
+    /* Nested submenu: collapsed by default, opens on hover of its parent item (desktop) */
+    .dropdown > .dropdown {
+      position: relative;
+    }
+    .dropdown-content > .dropdown > .dropdown-content {
+      position: absolute;
+      top: 0;
+      left: 100%;
+      transform: translateX(8px);
+      background: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(10px);
+      min-width: 200px;
+      white-space: nowrap;
+      border-radius: 12px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.18s ease;
+      padding: 0.5rem 0;
+      z-index: 1010;
+
+    }
+    .dropdown-content > .dropdown:hover > .dropdown-content {
+      transform: translateX(0);
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* footer */
+    .footer-bg {
+        padding: 2rem 2%;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+    }
+    .bg-primary {
+        --tw-bg-opacity: 1;
+        background-color: rgb(22 93 255 / var(--tw-bg-opacity, 1));
+    }
+
+   /* social */
+    .social-icon {
+      background: white;
+      border-radius: 20px;
+      padding: 0;
+      text-align: center;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+      border-top: 4px solid transparent;
+      position: relative;
+      overflow: hidden;
+      max-width: 203px;
+    }
+  </style>
+<style>
+  /* ...existing code...*/
+/* Fix: ensure visible vertical scrollbar when top-banner/header are fixed;
+   apply safe padding-top and add small spacer if document height <= viewport */
+
+    html {
+      overflow-y: scroll !important;
+      -ms-overflow-style: scrollbar;
+      scrollbar-gutter: stable both-edges;
+    }
+
+    /* Force document to be slightly taller than viewport if it's too short so native scrollbar is created */
+    body::after{
+      content: "";
+      display: block;
+      width: 1px;
+      height: 6px; /* small extra height to guarantee a scrollbar is present on load */
+      pointer-events: none;
+    }
+
+    /* Visual fallback scrollbar (always visible even on macOS overlay setting).
+       Non-interactive: mirrors native scroll position so users always see a track. */
+    #visual-scrollbar {
+      position: fixed;
+      top: 8px;
+      right: 8px;
+      width: 10px;
+      height: calc(100% - 16px);
+      border-radius: 8px;
+      background: rgba(0,0,0,0.03);
+      pointer-events: none;
+      z-index: 99999;
+      display: block;
+    }
+    #visual-scrollbar .vs-thumb {
+      position: absolute;
+      right: 2px;
+      width: 6px;
+      background: linear-gradient(180deg,#667eea,#764ba2);
+      border-radius: 6px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.18);
+      transition: top 120ms linear, height 120ms linear;
+      pointer-events: none;
+    }
+
+
+
+    
+
+
+
+  </style>
+
+  <style>@view-transition { navigation: auto; }</style>
+
+  <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
+ </head>
+ <body>
+  <!-- Top Banner Bar -->
+  <div class="top-banner">
+    <div class="top-banner-content">
+    <a href="https://cass.org.au/home/" class="logo-link" target="_blank" rel="noopener noreferrer" style="margin-right:2rem;">
+      <img src="https://casscare.org.au/wp-content/uploads/2020/03/logo.png" alt="CASS Care Logo" style="height:auto;max-height:90px;width:auto;display:block;" id="logoImg" onerror="this.style.display='none';">
+    </a>
+
+      <a href="https://cass.org.au/get-involved/donate/" class="top-banner-link" target="_blank">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5
+           2 5.42 4.42 3 7.5 3c1.74 0 3.41 1.01 4.5 2.09
+           C13.09 4.01 14.76 3 16.5 3
+           19.58 3 22 5.42 22 8.5
+           c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+        </svg>
+        Donation
+      </a>
+      <!-- Join Us with dropdown in top banner -->
+      <div class="dropdown" style="position:relative;">
+        <a class="top-banner-link" href="https://cass.org.au/get-involved/" target="_blank" rel="noopener noreferrer" style="cursor:default;">
+          <svg viewBox="0 0 24 24" fill="currentColor" style="width:14px;height:14px;">
+            <path d="M20 6h-2.18c.11-.31.18-.65.18-1a2.996 2.996 0 0 0-5.5-1.65l-.5.67-.5-.68C10.96 2.54 10.05 2 9 2 7.34 2 5.94 3.34 6 5c0 .35.07.69.18 1H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-5-2c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zM12 14c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm0-6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
+          </svg>
+          Join Us
+        </a>
+        <div class="dropdown-content" style="right:auto; left:auto; transform:none; min-width:180px; top:calc(100% + 8px);">
+          <a class="nav-link" href="https://cass.org.au/get-involved/careers/" target="_blank" rel="noopener noreferrer">Careers</a>
+          <a class="nav-link" href="https://casscare.org.au/get-involved/volunteer/" target="_blank" rel="noopener noreferrer">Volunteering</a>
+        </div>
+      </div>
+      
+      <a href="https://casscare.org.au/services/home-ageing/" class="top-banner-link" target="_blank">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+        </svg>
+        Support at Home Scheme
+      </a>
+      
+      <div class="top-banner-search">
+        <form action="https://cass.org.au" method="GET">
+          <input type="text" placeholder="Search..." class="top-banner-search-input" name="s" value="">
+          <button type="submit" class="top-banner-search-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"></circle>
+              <path d="M21 21l-4.35-4.35"></path>
+            </svg>
+          </button>
+        </form>
+      </div>
+      
+      <a href="#newsletter" class="top-banner-link" onclick="openSubscriptionModal()">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+        </svg>
+        Subscription
+      </a>
+
+
+      <!-- Language in top banner -->
+      <div class="dropdown" style="position:relative;">
+        <a class="top-banner-link" href="https://cass.org.au/get-involved/" target="_blank" rel="noopener noreferrer" style="cursor:default;">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:16px;height:16px;">
+          <!-- globe -->
+          <circle cx="12" cy="12" r="8"/>
+          <path d="M4 12h16"/>                     <!-- equator -->
+          <path d="M5 9c2.5 1 6.5 1 11 0"/>       <!-- upper latitude -->
+          <path d="M5 15c2.5 -1 6.5 -1 11 0"/>    <!-- lower latitude -->
+          <path d="M12 4c-1 3.6-1 7.4 0 11"/>      <!-- left meridian -->
+          <path d="M12 4c1 3.6 1 7.4 0 11"/>       <!-- right meridian -->
+
+          <!-- small 'A' for language (bottom-right) -->
+          <path d="M15.6 17.6 L16.4 14.8 L17.2 17.6" /> <!-- A legs -->
+          <path d="M15.95 16.2h1.0" />                 <!-- A crossbar -->
+        </svg>
+                  ENG
+        </a>
+        <div class="dropdown-content" style="right:auto; left:auto; transform:none; min-width:180px; top:calc(100% + 8px);">
+
+          <a class="nav-link" href="https://chinese.cass.org.au" target="_blank" rel="noopener noreferrer">中文</a>
+          <a class="nav-link" href="https://casscare.org.au/languages/dich-vu-cua-cass-group-cho-nguoi-viet-nam/" target="_blank" rel="noopener noreferrer">Tiếng Việt</a>
+          <a class="nav-link" href="https://casscare.org.au/languages/%ed%95%9c%ec%9d%b8%eb%8c%80%ec%83%81-cass-%ea%b7%b8%eb%a3%b9-%ec%84%9c%eb%b9%84%ec%8a%a4/" target="_blank" rel="noopener noreferrer">한국어</a>
+          <a class="nav-link" href="https://casscare.org.au/languages/layanan-bahasa-indonesia/" target="_blank" rel="noopener noreferrer">Bahasa Indonesia</a>
+
+        </div>
+      </div> <!-- eng -->
+
+      <div class="size">
+                          <a href="javascript:changeFontSize('');"><div class="small" role="button" aria-label="default font size">A</div></a>
+                          <div class="seperator"></div>
+                          <a href="javascript:changeFontSize('l');"><div class="medium" role="button" aria-label="large font size">A</div></a>
+                          <div class="seperator"></div>
+                          <a href="javascript:changeFontSize('xl');"><div class="large" role="button" aria-label="extra large font size">A</div></a>
+                      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Subscription Modal -->
+  <div id="subscriptionModal" class="subscription-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1002;  align-items: center; justify-content: center;">
+    <div style="background: white; padding: 2rem; border-radius: 12px; max-width: 400px; width: 90%; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.3);">
+      <h3 style="margin-bottom: 1rem; color: #333;">Newsletter Subscription</h3>
+      <p style="color: #666; margin-bottom: 1.5rem;">Stay updated with our latest news and events</p>
+      <form style="display: flex; gap: 0.5rem; max-width: 300px; margin: 0 auto;">
+        <input type="email" placeholder="Enter your email" style="flex: 1; padding: 0.8rem; border: 1px solid #ddd; border-radius: 6px; outline: none;" required>
+        <button type="submit" style="padding: 0.8rem 1.5rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: 500;">Subscribe</button>
+      </form>
+      <button onclick="closeSubscriptionModal()" style="margin-top: 1rem; background: none; border: none; color: #667eea; cursor: pointer; font-size: 14px;">Close</button>
+    </div>
+  </div>
+
+
+
+  <header id="header">
+   <nav>
+    
+    <a href="tel:(02) 9789 4587" class="phone-mobile">
+      <svg width="24" height="24" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" fill="#ff6b35" />
+      </svg>
+    </a>
+
+    <!-- Mobile menu overlay -->
+    <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
+    
+    <ul class="nav-links" id="navLinks">
+      <li class="menu-item menu-item-type-post_type menu-item-object-page current-menu-item page_item page-item-103 current_page_item menu-item-164 nav-item">
+        <a class="nav-link active" href="https://cass.org.au/home/" target="_blank" rel="noopener noreferrer">Home</a>
+      </li>
+      
+      <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-163 nav-item dropdown">
+        <a class="nav-link" href="https://cass.org.au/about-us/our-organisation/">About Us</a>
+        <div class="dropdown-content">
+          <a class="nav-link" href="https://cass.org.au/about-us/our-organisation/" target="_blank" rel="noopener noreferrer">Our Organisation</a>
+          <a class="nav-link" href="https://cass.org.au/about-us/vision-mission/" target="_blank" rel="noopener noreferrer">Vision & Mission</a>
+          <a class="nav-link" href="https://cass.org.au/about-us/leadership/" target="_blank" rel="noopener noreferrer">Leadership</a>
+          <!--a class="nav-link" href="https://cass.org.au/about-us/agm/" target="_blank" rel="noopener noreferrer">Governance</a-->
+
+          <!-- Governance with submenu -->
+          <div class="dropdown" style="position:relative;">
+            <a class="nav-link" href="https://cass.org.au/about-us/agm/" target="_blank" rel="noopener noreferrer">Governance</a>
+            <div class="dropdown-content" style="right:auto; left:100%; transform:none; min-width:200px; top:0;">
+              <a class="nav-link" href="https://cass.org.au/about-us/annual-reports/" target="_blank" rel="noopener noreferrer">Annual Reports</a>
+              <a class="nav-link" href="https://cass.org.au/about-us/corporate-plan/" target="_blank" rel="noopener noreferrer">Corporate Plan</a>
+              <a class="nav-link" href="https://cass.org.au/about-us/organizsational-structure/" target="_blank" rel="noopener noreferrer">Organizsational Structure</a>
+            </div>
+          </div>
+
+          <a class="nav-link" href="https://cass.org.au/about-us/history/" target="_blank" rel="noopener noreferrer">History</a>
+          <!-- Policies with submenu -->
+          <div class="dropdown" style="position:relative;">
+            <a class="nav-link" href="#" rel="noopener noreferrer">Policies</a>
+            <div class="dropdown-content" style="right:auto; left:100%; transform:none; min-width:200px; top:0;">
+              <a class="nav-link" href="https://cass.org.au/about-us/privacy-policy/" target="_blank" rel="noopener noreferrer">Privacy</a>
+              <a class="nav-link" href="https://cass.org.au/about-us/code-of-conduct-aged-care/" target="_blank" rel="noopener noreferrer">Code of Conduct for Aged Care</a>
+            </div>
+          </div>
+          <a class="nav-link" href="" target="_blank" rel="noopener noreferrer">Submissions</a>
+
+        </div>
+      </li>
+      
+      <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-162 nav-item">
+        <a class="nav-link" href="https://cass.org.au/cass-charity-trust/" target="_blank" rel="noopener noreferrer">Charity Trust Fund</a>
+      </li>
+      <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-1134 nav-item dropdown">
+        <a class="nav-link" href="https://cass.org.au/cultural-services/cass-chinese-schools/">Cultural services</a>
+        <div class="dropdown-content">
+          <a class="nav-link" href="https://cass.org.au/cultural-services/cass-academy-of-arts/" target="_blank" rel="noopener noreferrer">CASS Academy of Arts</a>
+          <a class="nav-link" href="https://cass.org.au/cultural-services/cass-chinese-schools/" target="_blank" rel="noopener noreferrer">CASS Chinese School</a>
+        </div>
+      </li>
+
+      <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-161 nav-item dropdown">
+        <a class="nav-link" href="https://cass.org.au/services/">CASS Services</a>
+        <div class="dropdown-content">
+          <a class="nav-link" href="https://casscare.org.au/services/residential-aged-care/" target="_blank" rel="noopener noreferrer">Residential Aged Care</a>
+          <a class="nav-link" href="https://casscare.org.au/services/yagoona-elderly-hostel/" target="_blank" rel="noopener noreferrer">Yagoona Elderly Hostel</a>
+          <a class="nav-link" href="https://casscare.org.au/services/home-ageing/" target="_blank" rel="noopener noreferrer">Home Ageing</a>
+          <a class="nav-link" href="https://casscare.org.au/services/child-care/" target="_blank" rel="noopener noreferrer">Child Care</a>    
+
+          <a class="nav-link" href="https://casscare.org.au/services/disability-services/" target="_blank" rel="noopener noreferrer">Disability</a>
+          <a class="nav-link" href="https://casscare.org.au/wp-content/uploads/2023/11/CACCA-Agedcare-Connect-A5_ENG.pdf" target="_blank" rel="noopener noreferrer">CARE FINDER SERVICES (CACCA)</a>
+
+          <a class="nav-link" href="https://casscare.org.au/services/vocation-training/" target="_blank" rel="noopener noreferrer">EMPLOYMENT & Training</a>
+          <a class="nav-link" href="https://casscare.org.au/services/settlement-health/" target="_blank" rel="noopener noreferrer">Settlement & Health</a>
+          <a class="nav-link" href="https://casscare.org.au/services/settlement-health/" target="_blank" rel="noopener noreferrer">Mental Health</a>
+
+          <a class="nav-link" href="https://casscare.org.au/services/other-services/" target="_blank" rel="noopener noreferrer">Seniors Activity groups</a>
+        </div>
+      </li>
+      
+      
+      <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-158 nav-item dropdown">
+        <a class="nav-link" href="https://cass.org.au/publications/at-home-on-new-land/">CASS Column</a>
+        <div class="dropdown-content">
+          <a class="nav-link" href="https://cass.org.au/publications/kending/" target="_blank" rel="noopener noreferrer">Kending</a>
+          <a class="nav-link" href="https://cass.org.au/publications/maria/" target="_blank" rel="noopener noreferrer">Maria Cheng</a>
+          
+        </div>
+      </li>
+      <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-159 nav-item">
+        <a class="nav-link" href="https://cass.org.au/upcoming-events/" target="_blank" rel="noopener noreferrer">Chinese Culture</a>
+      </li>
+
+      <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-157 nav-item dropdown">
+        <a class="nav-link" href="https://cass.org.au/get-involved/">Testimonials</a>
+      </li>
+      <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-157 nav-item dropdown">
+        <a class="nav-link" href="https://cass.org.au/get-involved/">Contact Us</a>
+      </li>
+
+    </ul>
+
+    <div class="hamburger" id="hamburger">
+      <span></span> 
+      <span></span> 
+      <span></span>
+    </div>
+   </nav>
+  </header>
+
+  <main>
+   <!-- Multiple Images Slideshow Section -->
+<div class="slider" aria-roledescription="carousel" id="slider">
+  <div class="viewport">
+    <div class="track" id="track">
+      <!-- Original cards -->
+      <div class="card"><img src="img/4.jpg" alt="Nature 1"></div>
+      <div class="card"><img src="img/1.jpg" alt="Nature 2"></div>
+      <div class="card"><img src="img/2.jpg" alt="Nature 3"></div>
+      <div class="card"><img src="img/3.jpg"></div>
+      <!-- Add more cards to test multiple pages (e.g., 4 more below) -->
+      <div class="card"><img src="img/5.jpg" alt="Nature 5"></div>
+      <div class="card"><img src="img/6.jpg" alt="Nature 6"></div>
+      <div class="card"><img src="img/7.jpg" alt="Nature 7"></div>
+      <div class="card"><img src="https://picsum.photos/seed/nature8/300/400" alt="Nature 8"></div>
+      <div class="card"><img src="https://picsum.photos/seed/nature10/300/400" alt="Nature 9"></div>
+      <div class="card"><img src="https://picsum.photos/seed/nature11/300/400" alt="Nature 10"></div>
+      <div class="card"><img src="https://picsum.photos/seed/nature12/300/400" alt="Nature 11"></div>
+      <!-- Clones will be added here dynamically -->
+    </div>
+  </div>
+  <div class="controls">
+    <button class="arrow prev" aria-label="Previous">‹</button>
+    <button class="arrow next" aria-label="Next">›</button>
+  </div>
+</div>
+
+
+
+   <!-- Services Section -->
+   <section class="services-section">
+    <h2 class="section-title">Comprehensive Community Services</h2>
+    <p style="text-align: center; max-width: 800px; margin: 0 auto 3rem; color: #666; font-size: 1.1rem;">
+      CASS Care provides a wide range of community services and activities for people residing in Metropolitan Sydney and Wollongong.
+    </p>
+    <div class="services-grid">
+      <div class="service-card">
+        <span class="service-icon"><img src="img/aged.jpg"></span>
+        <h3>Residential Aged Care</h3>
+
+      </div>
+      <div class="service-card">
+        <span class="service-icon"><img src="img/aging.jpg"></span>
+        <h3>Home Ageing</h3>
+      </div>
+      <div class="service-card">
+        <span class="service-icon"><img src="img/Disability.png"></span>
+        <h3>Disability</h3>
+      </div>
+      <div class="service-card">
+        <span class="service-icon"><img src="img/Training.png"></span>
+        <h3>Vocation and Training</h3>
+
+      </div>
+      <div class="service-card">
+        <span class="service-icon"><img src="img/Health.jpg"></span>
+        <h3>Settlement and Health</h3>
+
+      </div>
+      <div class="service-card">
+        <span class="service-icon"><img src="img/child.jpg"></span>
+        <h3>Child Care</h3>
+
+      </div>
+      <div class="service-card">
+        <span class="service-icon"><img src="img/elderly.jpg"></span>
+        <h3>Elderly Hostel</h3>
+
+      </div>
+      <div class="service-card">
+        <span class="service-icon"><img src="img/other.jpg"></span>
+        <h3>Other Services</h3>
+
+      </div>
+    </div>
+   </section>
+
+   <!-- Languages Section -->
+   <section class="languages-section">
+    <h2 class="section-title" style="color: #333;">We Speak Your Language</h2>
+    <div class="languages-grid">
+      <div class="language-card">
+        <div class="language-flag">🇨🇳</div>
+        <h4>Chinese</h4>
+        <p class="language-romanization">中文</p>
+      </div>
+      <div class="language-card">
+        <div class="language-flag">🇰🇷</div>
+        <h4>Korean</h4>
+        <p class="language-romanization">한국어</p>
+      </div>
+      <div class="language-card">
+        <div class="language-flag">🇮🇩</div>
+        <h4>Indonesian</h4>
+        <p class="language-romanization">Bahasa Indonesia</p>
+      </div>
+      <div class="language-card">
+        <div class="language-flag">🇻🇳</div>
+        <h4>Vietnamese</h4>
+        <p class="language-romanization">Tiếng Việt</p>
+      </div>
+    </div>
+    <p style="text-align: center; max-width: 800px; margin: 2rem auto 0; color: #666; font-size: 1.1rem;">
+      Our multilingual team provides culturally appropriate care and support in your preferred language.
+    </p>
+   </section>
+
+   <!-- Image Slideshow Section seminar1 -->
+   <section class="slideshow-section">
+    <h2 class="slideshow-title">Chinese Group Activities</h2>
+    <<h2 class="slideshow-title">講座、展覽</h2>
+
+    
+    <div class="slideshow-container">
+      <div class="slides" id="slides">
+        <div class="slide">
+          <img src="img/seminar1.png" alt="Community gathering" onerror="this.src='https://via.placeholder.com/1200x500/667eea/ffffff?text=Community+Gathering';">
+          <div class="slide-overlay">
+   
+            <p class="slide-description">Date: 2025.11.12</p>
+          </div>
+        </div>
+        <div class="slide">
+          <img src="img/s2.png" alt="Senior care" onerror="this.src='https://via.placeholder.com/1200x500/764ba2/ffffff?text=Senior+Care';">
+          <div class="slide-overlay">
+     
+          </div>
+        </div>
+        <div class="slide">
+          <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1200&h=500&fit=crop" alt="Multicultural event" onerror="this.src='https://via.placeholder.com/1200x500/667eea/ffffff?text=Multicultural+Event';">
+          <div class="slide-overlay">
+            <h3 class="slide-title">Cultural Celebration</h3>
+
+          </div>
+        </div>
+        <div class="slide">
+          <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=1200&h=500&fit=crop" alt="Family support" onerror="this.src='https://via.placeholder.com/1200x500/764ba2/ffffff?text=Family+Support';">
+          <div class="slide-overlay">
+            <h3 class="slide-title">Family Support</h3>
+
+          </div>
+        </div>
+      </div>
+      <!-- Navigation arrows -->
+      <button class="slideshow-nav prev" id="prevSlide">
+        <svg viewBox="0 0 24 24">
+          <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+        </svg>
+      </button>
+      <button class="slideshow-nav next" id="nextSlide">
+        <svg viewBox="0 0 24 24">
+          <path d="M8.59 16.59L10 18l6-6-6-6-1.41 1.41L13.17 12z"/>
+        </svg>
+      </button>
+
+      <!-- Dots navigation -->
+      <div class="slideshow-dots" id="dots"></div>
+    </div>
+   </section>
+
+   <!-- Image Slideshow Section Course 2 -->
+   <section class="slideshow-section course2">
+    <h2 class="slideshow-title">課程、活動</h2>
+
+    <div class="slideshow-container">
+        <div class="slide">
+          <img src="img/course2.jpg">
+          </div>
+        </div>
+   </section>
+   <!-- Image Slideshow Section Course 2 -->
+   <section class="slideshow-section">
+    <h2 class="slideshow-title">新聞稿</h2>
+
+    <div class="slideshow-container">
+        <div class="slide">
+          <img src="img/news3.jpg">
+          </div>
+        </div>
+   </section>
+
+   <!-- Korean, Indon, Viet Section -->
+   <section class="services-section course2">
+    <h2 class="section-title">Korean, Indonesian, Vietnamese</h2>
+
+    <div class="services-grid">
+      <div class="service-card">
+        <span class="service-icon"><img src="img/aged.jpg"></span>
+        <h3>Korean Group Activities </h3>
+
+      </div>
+      <div class="service-card">
+        <span class="service-icon"><img src="img/aging.jpg"></span>
+        <h3>Indonesian Group Activities </h3>
+      </div>
+      <div class="service-card">
+        <span class="service-icon"><img src="img/Disability.png"></span>
+        <h3>Vietnamese Group Activities</h3>
+      </div>
+
+    </div>
+   </section>
+
+   <!-- Events Section -->
+    <!-- News & Events Section -->
+    <section id="news" class="py-20 bg-light">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 reveal">
+                <h2 class="text-[clamp(1.8rem,4vw,2.5rem)] font-bold text-dark mb-4">News & Events</h2>
+                <div class="w-20 h-1 bg-primary mx-auto mb-6"></div>
+                <p class="text-gray-600 max-w-3xl mx-auto">Stay updated with the latest from CASS and our community.</p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- News Item 1 -->
+                <div class="bg-white rounded-xl shadow-md overflow-hidden transition-custom hover:shadow-lg hover:-translate-y-1 reveal">
+                    <div class="h-48 overflow-hidden">
+                        <img src="https://picsum.photos/id/250/600/400" alt="Mid-Autumn Festival" class="w-full h-full object-cover transition-custom hover:scale-105">
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center text-sm text-gray-500 mb-3">
+                            <i class="fa fa-calendar-o mr-2"></i>
+                            <span>September 15, 2024</span>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-3">Mid-Autumn Festival Celebration</h3>
+                        <p class="text-gray-600 mb-4">Join us for mooncakes, lanterns, and cultural performances at our annual festival event.</p>
+                        <a href="#" class="text-primary font-medium flex items-center hover:underline">
+                            Event Details <i class="fa fa-angle-right ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- News Item 2 -->
+                <div class="bg-white rounded-xl shadow-md overflow-hidden transition-custom hover:shadow-lg hover:-translate-y-1 reveal" style="transition-delay: 0.2s">
+                    <div class="h-48 overflow-hidden">
+                        <img src="img/box-hill.jpg" alt="New Office Opening" class="w-full h-full object-cover transition-custom hover:scale-105">
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center text-sm text-gray-500 mb-3">
+                            <i class="fa fa-calendar-o mr-2"></i>
+                            <span>September 9, 2024</span>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-3">New CASS Office in Box Hill</h3>
+                        <p class="text-gray-600 mb-4">We're expanding! Our new location will offer extended hours and additional counseling services.</p>
+                        <a href="#" class="text-primary font-medium flex items-center hover:underline">
+                            Read More <i class="fa fa-angle-right ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- News Item 3 -->
+                <div class="bg-white rounded-xl shadow-md overflow-hidden transition-custom hover:shadow-lg hover:-translate-y-1 reveal" style="transition-delay: 0.4s">
+                    <div class="h-48 overflow-hidden">
+                        <img src="https://picsum.photos/id/452/600/400" alt="Volunteer Training" class="w-full h-full object-cover transition-custom hover:scale-105">
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center text-sm text-gray-500 mb-3">
+                            <i class="fa fa-calendar-o mr-2"></i>
+                            <span>September 5, 2024</span>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-3">Volunteer Training Workshop</h3>
+                        <p class="text-gray-600 mb-4">Learn how to support our community programs. No prior experience needed—just a passion to help.</p>
+                        <a href="#" class="text-primary font-medium flex items-center hover:underline">
+                            Register Now <i class="fa fa-angle-right ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-12 reveal">
+            <a href="#" class="hero-cta inline-block from-accent bg-primary text-white px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-1 animate-fadeInUp06 relative overflow-hidden">
+            <span class="relative z-10">View All News & Events</span>
+          </a>
+            </div>
+
+
+        </div>
+    </section>
+
+
+
+    <!-- Footer -->
+    <footer class="footer-bg text-white pt-16 pb-8">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+                <div>
+                    <div class="flex items-center space-x-3 mb-6">
+                        <!--div class="w-12 h-12 rounded-lg bg-white flex items-center justify-center">
+                            <span class="text-primary font-bold text-xl">CASS</span>
+                        </div-->
+                        <a href="https://casscare.org.au/" class="logo-link flex items-center transition-transform duration-300 hover:scale-125" target="_blank" rel="noopener noreferrer"> 
+        <img src="https://casscare.org.au/wp-content/uploads/2020/03/logo.png" alt="CASS Care Logo" class="logo-img w-auto transition-height duration-300 h-12" id="logoImg" onerror="this.style.display='none';"> 
+      </a>
+
+                            <p class="text-xs text-white -mt-1">Est. 1981</p>
+                   
+                    </div>
+                    <p class="text-white mb-6">Supporting Chinese Australians through culturally appropriate services for over 40 years.</p>
+                    <div class="flex social-icon">
+                        <a href="#" class="text-gray-400 hover:text-white transition-custom">
+                            <img src="img/social-icon2.png">
+                        </a>
+
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg text-orange-500 font-semibold mb-6">Quick Links</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#about" class="text-white hover:text-red-500 transition-custom">About Us</a></li>
+                        <li><a href="#services" class="text-white hover:text-red-500 transition-custom">Our Services</a></li>
+                        <li><a href="#testimonials" class="text-white hover:text-red-500 transition-custom">Community Stories</a></li>
+                        <li><a href="#news" class="text-white hover:text-red-500 transition-custom">News & Events</a></li>
+                        <li><a href="#donate" class="text-white hover:text-red-500 transition-custom">Donations</a></li>
+                        <li><a href="#" class="text-white hover:text-red-500 transition-custom">Careers</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg text-orange-500 font-semibold mb-6">Services</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-white hover:text-white transition-custom">Aged Care</a></li>
+                        <li><a href="#" class="text-white hover:text-white transition-custom">Elderly Hostel</a></li>
+                        <li><a href="#" class="text-white hover:text-white transition-custom">Child Care</a></li>
+                        <li><a href="#" class="text-white hover:text-white transition-custom">Counseling</a></li>
+                        <li><a href="#" class="text-white hover:text-white transition-custom">Disability Services</a></li>
+                        <li><a href="#" class="text-white hover:text-white transition-custom">Cultural Events</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg text-orange-500 font-semibold mb-6">Contact</h4>
+                    <ul class="space-y-3">
+                        <li class="flex items-start">
+                            <i class="fa fa-map-marker text-orange-600 mt-1 mr-3"></i>
+                            <span class="text-white">44-50 Sixth Avenue, Campsie, NSW 2194</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fa fa-phone text-orange-600 mt-1 mr-3"></i>
+                            <span class="text-white">(02) 9789 44587</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fa fa-envelope text-orange-600 mt-1 mr-3"></i>
+                            <span class="text-white">info@cass.org.au</span>
+                        </li>
+                    </ul>
+                    
+                    <div class="mt-6">
+                        <h4 class="text-lg font-semibold mb-3">Newsletter</h4>
+                        <form class="flex">
+                            <input type="email" placeholder="Your email" class="w-full px-4 py-2 rounded-l-lg focus:outline-none text-dark">
+                            <button type="submit" class="bg-primary hover:bg-primary/90 px-4 py-2 rounded-r-lg transition-custom">
+                                <i class="fa fa-paper-plane"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 pt-8">
+                <div class="flex flex-col md:flex-row justify-between items-center">
+                    <p class="text-white text-sm mb-4 md:mb-0">© 2025 CASS. All rights reserved. </p>
+                    <div class="flex flex-wrap justify-center gap-x-6 gap-y-2">
+                        <a href="#" class="text-white hover:text-white text-sm transition-custom">Privacy Policy</a>
+                        <a href="#" class="text-white hover:text-white text-sm transition-custom">Terms of Service</a>
+                        <a href="#" class="text-white hover:text-white text-sm transition-custom">Sitemap</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+<!-- visual scrollbar element -->
+  <div id="visual-scrollbar" aria-hidden="true"><div class="vs-thumb" style="top:0;height:40px"></div></div>
+
+
+
+
+  </main>
+
+  <script>
+    const defaultConfig = {
+      site_name: 'CASS Care',
+      home_text: 'HOME',
+      about_text: 'ABOUT US',
+      services_text: 'SERVICES',
+      events_text: 'UPCOMING EVENTS',
+      publications_text: 'PUBLICATIONS',
+      cultural_services_text: 'CULTURAL SERVICES',
+      charity_trust_text: 'CHARITY TRUST FUND',
+      get_involved_text: 'GET INVOLVED',
+      primary_color: '#667eea',
+      secondary_color: '#764ba2',
+      background_color: '#667eea',
+      text_color: '#333333',
+      accent_color: '#ffffff'
+    };
+
+    let config = { ...defaultConfig };
+
+    const header = document.getElementById('header');
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('navLinks');
+    const navLinkElements = document.querySelectorAll('.nav-link');
+    const dropdowns = document.querySelectorAll('.dropdown');
+    const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
+
+    // Slideshow functionality
+    let currentSlide = 0;
+    const slides = document.getElementById('slides');
+    const totalSlides = 4;
+    const prevBtn = document.getElementById('prevSlide');
+    const nextBtn = document.getElementById('nextSlide');
+    const dotsContainer = document.getElementById('dots');
+
+    // Create dots
+    for (let i = 0; i < totalSlides; i++) {
+      const dot = document.createElement('div');
+      dot.classList.add('dot');
+      if (i === 0) dot.classList.add('active');
+      dot.addEventListener('click', () => goToSlide(i));
+      dotsContainer.appendChild(dot);
+    }
+
+    const dots = document.querySelectorAll('.dot');
+
+    function showSlide(index) {
+      currentSlide = index;
+      const translateX = -index * 100;
+      slides.style.transform = `translateX(${translateX}%)`;
+      
+      // Update dots
+      dots.forEach((dot, i) => {
+        dot.classList.toggle('active', i === index);
+      });
+    }
+
+    function nextSlide() {
+      currentSlide = (currentSlide + 1) % totalSlides;
+      showSlide(currentSlide);
+    }
+
+    function prevSlide() {
+      currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+      showSlide(currentSlide);
+    }
+
+    function goToSlide(index) {
+      showSlide(index);
+    }
+
+    // Event listeners for navigation
+    nextBtn.addEventListener('click', nextSlide);
+    prevBtn.addEventListener('click', prevSlide);
+
+    // Auto slideshow
+    let autoSlideInterval = setInterval(nextSlide, 5000);
+
+    // Pause on hover
+    const slideshowContainer = document.querySelector('.slideshow-container');
+    slideshowContainer.addEventListener('mouseenter', () => {
+      clearInterval(autoSlideInterval);
+    });
+
+    slideshowContainer.addEventListener('mouseleave', () => {
+      autoSlideInterval = setInterval(nextSlide, 5000);
+    });
+
+    // Touch/swipe support for mobile
+    let startX = 0;
+    let endX = 0;
+
+    slides.addEventListener('touchstart', (e) => {
+      startX = e.touches[0].clientX;
+    });
+
+    slides.addEventListener('touchend', (e) => {
+      endX = e.changedTouches[0].clientX;
+      handleSwipe();
+    });
+
+    function handleSwipe() {
+      const threshold = 50;
+      const diff = startX - endX;
+
+      if (Math.abs(diff) > threshold) {
+        if (diff > 0) {
+          nextSlide();
+        } else {
+          prevSlide();
+        }
+      }
+    }
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') {
+        prevSlide();
+      } else if (e.key === 'ArrowRight') {
+        nextSlide();
+      }
+    });
+
+    // Header scroll effect
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 50) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+    });
+
+    // Mobile hamburger menu with overlay
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('active');
+      navLinks.classList.toggle('active');
+      mobileMenuOverlay.classList.toggle('active');
+      // Prevent body scrolling when menu is open
+      document.body.style.overflow = navLinks.classList.contains('active') ? 'hidden' : 'auto';
+    });
+
+    // Close menu when clicking overlay
+    mobileMenuOverlay.addEventListener('click', () => {
+      hamburger.classList.remove('active');
+      navLinks.classList.remove('active');
+      mobileMenuOverlay.classList.remove('active');
+      dropdowns.forEach(dropdown => dropdown.classList.remove('active'));
+      document.body.style.overflow = 'auto';
+    });
+
+    // Mobile dropdown functionality
+    dropdowns.forEach(dropdown => {
+      dropdown.addEventListener('click', (e) => {
+        if (window.innerWidth <= 768) {
+          e.preventDefault();
+          dropdown.classList.toggle('active');
+          
+          // Close other dropdowns
+          dropdowns.forEach(otherDropdown => {
+            if (otherDropdown !== dropdown) {
+              otherDropdown.classList.remove('active');
+            }
+          });
+        }
+      });
+    });
+
+    // Close mobile menu when clicking on links
+    navLinkElements.forEach(link => {
+      link.addEventListener('click', () => {
+        if (window.innerWidth <= 768) {
+          hamburger.classList.remove('active');
+          navLinks.classList.remove('active');
+          mobileMenuOverlay.classList.remove('active');
+          dropdowns.forEach(dropdown => dropdown.classList.remove('active'));
+          document.body.style.overflow = 'auto';
+        }
+      });
+    });
+
+    // Smooth scrolling for anchor links (if needed)
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      });
+    });
+
+    // Add floating animation to hero CTA
+    const heroCta = document.querySelector('.hero-cta');
+    if (heroCta) {
+      heroCta.classList.add('float-animation');
+    }
+
+    // Subscription Modal Functions
+    function openSubscriptionModal() {
+      document.getElementById('subscriptionModal').style.display = 'flex';
+    }
+
+    function closeSubscriptionModal() {
+      document.getElementById('subscriptionModal').style.display = 'none';
+    }
+
+    // Handle subscription form
+    const subscriptionForm = document.querySelector('#subscriptionModal form');
+    if (subscriptionForm) {
+      subscriptionForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        // Handle form submission here
+        alert('Thank you for subscribing to our newsletter!');
+        closeSubscriptionModal();
+        this.reset();
+      });
+    }
+
+    async function onConfigChange(newConfig) {
+      config = { ...config, ...newConfig };
+      
+      const primaryColor = config.primary_color || defaultConfig.primary_color;
+      const secondaryColor = config.secondary_color || defaultConfig.secondary_color;
+      const backgroundColor = config.background_color || defaultConfig.background_color;
+      const textColor = config.text_color || defaultConfig.text_color;
+      const accentColor = config.accent_color || defaultConfig.accent_color;
+      
+      // Update dynamic styles
+      const style = document.createElement('style');
+      style.textContent = `
+        body {
+          background: linear-gradient(135deg, ${backgroundColor} 0%, ${secondaryColor} 100%);
+        }
+        .hero-section {
+          background: linear-gradient(135deg, ${primaryColor}90 0%, ${secondaryColor}90 100%);
+        }
+        .nav-links a::after {
+          background: linear-gradient(135deg, ${primaryColor} 0%, ${secondaryColor} 100%);
+        }
+        .nav-links a.active {
+          color: ${primaryColor};
+        }
+        .section-title, .slideshow-title {
+          background: linear-gradient(135deg, ${primaryColor} 0%, ${secondaryColor} 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+        }
+        .service-card::before {
+          background: linear-gradient(135deg, ${primaryColor} 0%, ${secondaryColor} 100%);
+        }
+        .hero-cta {
+          background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+          color: ${accentColor};
+        }
+        .hero-cta:hover {
+          box-shadow: 0 15px 35px rgba(255, 107, 53, 0.6);
+        }
+        .cta-button {
+          background: ${accentColor};
+          color: ${primaryColor};
+        }
+        .event-badge {
+          background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+        }
+        .contact-section {
+          background: linear-gradient(135deg, ${primaryColor} 0%, ${secondaryColor} 100%);
+        }
+        .phone-desktop svg path {
+          fill: #ff6b35;
+        }
+        .search-btn svg circle,
+        .search-btn svg path {
+          stroke: #ff6b35;
+        }
+        .slide-overlay {
+          background: linear-gradient(135deg, ${primaryColor}88 0%, ${secondaryColor}88 100%);
+        }
+        .slideshow-nav {
+          background: rgba(255, 255, 255, 0.2);
+        }
+        .slideshow-nav:hover {
+          background: rgba(255, 255, 255, 0.3);
+        }
+        .dot {
+          background: rgba(255, 255, 255, 0.5);
+        }
+        .dot.active {
+          background: ${accentColor};
+        }
+        .dot:hover {
+          background: rgba(255, 255, 255, 0.8);
+        }
+        .top-banner-link:hover {
+          color: ${primaryColor};
+          background: rgba(102, 126, 234, 0.1);
+        }
+        .top-banner-search {
+          background: rgba(102, 126, 234, 0.1);
+        }
+        .top-banner-search:hover {
+          background: rgba(102, 126, 234, 0.15);
+        }
+        .top-banner-search-btn svg {
+          stroke: ${primaryColor};
+        }
+      `;
+      const oldStyle = document.querySelector('style[data-dynamic]');
+      if (oldStyle) {
+        oldStyle.remove();
+      }
+      style.setAttribute('data-dynamic', 'true');
+      document.head.appendChild(style);
+    }
+
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities: (config) => ({
+          recolorables: [
+            {
+              get: () => config.background_color || defaultConfig.background_color,
+              set: (value) => {
+                config.background_color = value;
+                window.elementSdk.setConfig({ background_color: value });
+              }
+            },
+            {
+              get: () => config.primary_color || defaultConfig.primary_color,
+              set: (value) => {
+                config.primary_color = value;
+                window.elementSdk.setConfig({ primary_color: value });
+              }
+            },
+            {
+              get: () => config.text_color || defaultConfig.text_color,
+              set: (value) => {
+                config.text_color = value;
+                window.elementSdk.setConfig({ text_color: value });
+              }
+            },
+            {
+              get: () => config.secondary_color || defaultConfig.secondary_color,
+              set: (value) => {
+                config.secondary_color = value;
+                window.elementSdk.setConfig({ secondary_color: value });
+              }
+            },
+            {
+              get: () => config.accent_color || defaultConfig.accent_color,
+              set: (value) => {
+                config.accent_color = value;
+                window.elementSdk.setConfig({ accent_color: value });
+              }
+            }
+          ],
+          borderables: [],
+          fontEditable: undefined,
+          fontSizeable: undefined
+        }),
+        mapToEditPanelValues: (config) => new Map([
+          ['site_name', config.site_name || defaultConfig.site_name],
+          ['home_text', config.home_text || defaultConfig.home_text],
+          ['about_text', config.about_text || defaultConfig.about_text],
+          ['services_text', config.services_text || defaultConfig.services_text],
+          ['events_text', config.events_text || defaultConfig.events_text],
+          ['publications_text', config.publications_text || defaultConfig.publications_text],
+          ['cultural_services_text', config.cultural_services_text || 'CULTURAL SERVICES'],
+          ['charity_trust_text', config.charity_trust_text || 'CHARITY TRUST FUND'],
+          ['get_involved_text', config.get_involved_text || defaultConfig.get_involved_text]
+        ])
+      });
+    }
+
+    // Initialize page load animations
+    window.addEventListener('load', () => {
+      document.body.classList.add('loaded');
+    });
+
+
+     //<!-- Multiple Images Slideshow script -->
+
+const slider = document.getElementById('slider');
+const track = document.getElementById('track');
+const originalCards = [...document.querySelectorAll('.card:not(.clone)')]; // Exclude clones from original set
+const totalOriginalCards = originalCards.length;
+let index = 0;
+let timer = null;
+const autoplayMs = 60000; // 3-second autoplay (adjustable)
+
+// Dynamic items per view (matches CSS)
+function getItemsPerView() {
+  if (window.innerWidth <= 480) return 1;
+  if (window.innerWidth <= 768) return 2;
+  return 4;
+}
+let itemsPerView = getItemsPerView();
+
+// Add clones (1 full set of original cards) for seamless looping
+function addClones() {
+  // Remove existing clones first
+  const clones = track.querySelectorAll('.card.clone');
+  clones.forEach(clone => clone.remove());
+  
+  // Add clones (exact copies of original cards)
+  originalCards.forEach(card => {
+    const clone = card.cloneNode(true);
+    clone.classList.add('clone');
+    track.appendChild(clone);
+  });
+}
+
+// Calculate step percentage
+function getStepPercent() {
+  return 100 / itemsPerView;
+}
+
+// Update slider position
+function updateSlider() {
+  const stepPercent = getStepPercent();
+  track.style.transform = `translateX(${-index * stepPercent}%)`;
+}
+
+// Next slide (seamless loop with black gaps)
+function nextSlide() {
+  index++;
+  track.style.transition = 'transform 600ms ease';
+  updateSlider();
+
+  // When we reach the end of original cards (start of clones), jump back to 0 instantly
+  if (index >= totalOriginalCards) {
+    setTimeout(() => {
+      track.style.transition = 'none';
+      index = 0;
+      updateSlider();
+    }, 650); // Match transition duration to avoid flicker
+  }
+}
+
+// Previous slide (seamless loop with black gaps)
+function prevSlide() {
+  if (index === 0) {
+    // Jump to start of clones (end of original cards) instantly
+    track.style.transition = 'none';
+    index = totalOriginalCards;
+    updateSlider();
+    
+    // Animate to last original page
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        track.style.transition = 'transform 600ms ease';
+        index--;
+        updateSlider();
+      });
+    });
+  } else {
+    index--;
+    track.style.transition = 'transform 600ms ease';
+    updateSlider();
+  }
+}
+
+// Autoplay (infinite - no stop)
+function startAutoplay() {
+  stopAutoplay();
+  timer = setInterval(nextSlide, autoplayMs);
+}
+
+function stopAutoplay() {
+  if (timer) clearInterval(timer);
+  timer = null;
+}
+
+// Event listeners
+document.querySelector('.next').addEventListener('click', () => {
+  nextSlide();
+  startAutoplay(); // Reset autoplay on manual click
+});
+
+document.querySelector('.prev').addEventListener('click', () => {
+  prevSlide();
+  startAutoplay(); // Reset autoplay on manual click
+});
+
+// Resize handling (preserve black gaps and loop)
+window.addEventListener('resize', () => {
+  const newItemsPerView = getItemsPerView();
+  if (newItemsPerView !== itemsPerView) {
+    itemsPerView = newItemsPerView;
+    index = 0;
+    addClones();
+    updateSlider();
+  }
+});
+
+// Initialize: Add clones + start autoplay
+addClones();
+updateSlider();
+startAutoplay();
+
+
+// scroll bar
+
+
+// Visual scrollbar sync (fallback for overlay/hide system scrollbars)
+    (function syncVisualScrollbar(){
+      const bar = document.getElementById('visual-scrollbar');
+      if (!bar) return;
+      const thumb = bar.querySelector('.vs-thumb');
+
+      function update() {
+        const docH = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight);
+        const winH = window.innerHeight;
+        // Protect against zero division
+        if (!isFinite(docH) || !isFinite(winH) || docH <= 0 || winH <= 0) return;
+
+        const ratio = Math.min(1, winH / docH);
+        const thumbH = Math.max(18, Math.floor(ratio * bar.clientHeight));
+        const maxTop = Math.max(0, bar.clientHeight - thumbH);
+        const scrollTop = window.scrollY || document.documentElement.scrollTop || 0;
+        const top = docH > winH ? (scrollTop / (docH - winH)) * maxTop : 0;
+
+        thumb.style.height = thumbH + 'px';
+        thumb.style.top = top + 'px';
+
+        // keep the visual bar visible when page height <= viewport (it still shows tiny thumb)
+        bar.style.display = 'block';
+      }
+
+      // Debounced update to avoid layout thrashing
+      let rafId = null;
+      function scheduleUpdate(){ if (rafId) cancelAnimationFrame(rafId); rafId = requestAnimationFrame(() => { update(); rafId = null; }); }
+
+      // Initial run after load (allow images/fonts to settle)
+      window.addEventListener('load', () => { setTimeout(scheduleUpdate, 50); });
+      // Run on scroll/resize/mutations
+      window.addEventListener('scroll', scheduleUpdate, { passive: true });
+      window.addEventListener('resize', scheduleUpdate);
+      window.addEventListener('orientationchange', scheduleUpdate);
+
+      // Observe DOM changes that could change height (images or async content)
+      const mo = new MutationObserver(scheduleUpdate);
+      mo.observe(document.body, { subtree: true, childList: true, attributes: false });
+
+      // Run immediately
+      scheduleUpdate();
+    })();
+
+    // Ensure html/body overflow settings as last-resort inline style to override other CSS/JS
+    (function forceOverflowStyles(){
+      try {
+        document.documentElement.style.overflowY = 'scroll';
+        document.documentElement.style.scrollbarGutter = 'stable';
+        // keep body overflow auto unless mobile menu opens
+        if (!document.body.style.overflow) document.body.style.overflow = 'auto';
+      } catch(e){}
+    })();
+
+
+
+ 
+
+
+
+
+
+
+</script>
+ </body>
+</html>
