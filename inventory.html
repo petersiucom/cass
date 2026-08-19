@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Equipment Inventory Tracking System</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- QR Code Generator -->
+  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
+  <!-- Flatpickr Date Picker -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#165DFF',
+            success: '#00B42A',
+            warning: '#FF7D00',
+            danger: '#F53F3F',
+            neutral: '#6B7280'
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    .page { display: none; }
+    .page.active { display: block; }
+    .qrcode-box canvas { max-width: 140px; margin: 0 auto; }
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-800 min-h-screen">
+
+<!-- Global State & Static Data -->
+<script>
+  // User Accounts (Role + Center Permission)
+  const users = [
+    { username: 'admin', password: 'admin123', role: 'Administrator', center: 'all' },
+    { username: 'user1', password: 'user123', role: 'Staff', center: 'Center 1' },
+    { username: 'user2', password: 'user123', role: 'Staff', center: 'Center 2' }
+  ];
+
+  let currentUser = null;
+
+  // Sample Equipment (2 per center)
+  let equipmentList = [
+    {
+      assetId: 'AST-C1-001',
+      qrData: window.location.origin + window.location.pathname + '?asset=AST-C1-001',
+      itemName: 'Sara Stedy Standing Aid',
+      category: 'Clinical equipment',
+      brandModel: 'Arjo Sara Stedy Compact',
+      serialNumber: 'ARJ-2024-C1001',
+      description: 'Patient transfer aid, max load 180kg, blue frame',
+      photo: '',
+      purchaseDate: '2024-01-15',
+      purchasePrice: '3200.00',
+      supplier: 'MedEquip Australia',
+      invoicePO: 'PO-C1-2024-001',
+      warrantyStart: '2024-01-15',
+      warrantyExpiry: '2027-01-14',
+      currentLocation: 'Center 1 - Ground Floor - Physio Room',
+      assignedTo: 'Lisa Wong (Physiotherapist)',
+      status: 'In use',
+      movementHistory: '2024-01-16: Delivered to Physio Room; 2024-06-10: Temporary loan to Gym',
+      maintenanceHistory: '2024-07-01: Routine safety check - Passed',
+      nextServiceDue: '2025-07-01',
+      safetyInspection: '2024-07-01 - Passed | Next: 2025-07-01',
+      condition: 'Good',
+      disposalDate: '',
+      disposalReason: '',
+      disposalApproval: '',
+      notes: 'User manual stored in center cabinet',
+      center: 'Center 1'
+    },
+    {
+      assetId: 'AST-C1-002',
+      qrData: window.location.origin + window.location.pathname + '?asset=AST-C1-002',
+      itemName: 'Manual Wheelchair',
+      category: 'Clinical equipment',
+      brandModel: 'Invacare Ben NG',
+      serialNumber: 'INV-2024-C1002',
+      description: 'Standard adult wheelchair, 18-inch seat',
+      photo: '',
+      purchaseDate: '2024-02-20',
+      purchasePrice: '850.00',
+      supplier: 'Rehab Supplies',
+      invoicePO: 'PO-C1-2024-005',
+      warrantyStart: '2024-02-20',
+      warrantyExpiry: '2026-02-19',
+      currentLocation: 'Center 1 - Level 1 - Waiting Area',
+      assignedTo: 'General Use',
+      status: 'Available',
+      movementHistory: '2024-02-21: Placed in waiting area',
+      maintenanceHistory: '2024-08-05: Wheel clean & check',
+      nextServiceDue: '2025-08-05',
+      safetyInspection: '2024-08-05 - Passed | Next: 2025-08-05',
+      condition: 'New',
+      disposalDate: '',
+      disposalReason: '',
+      disposalApproval: '',
+      notes: 'Shared equipment',
+      center: 'Center 1'
+    },
+    {
+      assetId: 'AST-C2-001',
+      qrData: window.location.origin + window.location.pathname + '?asset=AST-C2-001',
+      itemName: '10-inch Android Tablet',
+      category: 'IT',
+      brandModel: 'Samsung Galaxy Tab A9+',
+      serialNumber: 'SAM-TAB-2024-C2001',
+      description: 'For client assessment & staff admin',
+      photo: '',
+      purchaseDate: '2024-03-10',
+      purchasePrice: '499.00',
+      supplier: 'JB Hi-Fi Business',
+      invoicePO: 'PO-C2-2024-002',
+      warrantyStart: '2024-03-10',
+      warrantyExpiry: '2026-03-09',
+      currentLocation: 'Center 2 - Admin Office',
+      assignedTo: 'Admin Team',
+      status: 'In use',
+      movementHistory: '2024-03-11: Issued to admin office',
+      maintenanceHistory: '2024-09-02: Software update & security check',
+      nextServiceDue: '2025-09-02',
+      safetyInspection: '2024-09-02 - Passed | Next: 2025-09-02',
+      condition: 'Good',
+      disposalDate: '',
+      disposalReason: '',
+      disposalApproval: '',
+      notes: 'MDM enrolled',
+      center: 'Center 2'
+    },
+    {
+      assetId: 'AST-C2-002',
+      qrData: window.location.origin + window.location.pathname + '?asset=AST-C2-002',
+      itemName: 'Stainless Steel Dining Table',
+      category: 'Furniture',
+      brandModel: 'Comfort Furniture CF-DT100',
+      serialNumber: 'CF-2024-C2002',
+      description: '6-seater dining table for common room',
+      photo: '',
+      purchaseDate: '2024-04-05',
+      purchasePrice: '1200.00',
+      supplier: 'Office & Care Furnishings',
+      invoicePO: 'PO-C2-2024-008',
+      warrantyStart: '2024-04-05',
+      warrantyExpiry: '2029-04-04',
+      currentLocation: 'Center 2 - Common Room',
+      assignedTo: 'Common Area',
+      status: 'Available',
+      movementHistory: '2024-04-06: Installed in common room',
+      maintenanceHistory: '2024-10-11: Clean & check',
+      nextServiceDue: '2025-10-11',
+      safetyInspection: '2024-10-11 - Passed | Next: 2025-10-11',
+      condition: 'Good',
+      disposalDate: '',
+      disposalReason: '',
+      disposalApproval: '',
+      notes: 'Stable structure',
+      center: 'Center 2'
+    }
+  ];
+
+  // Page Switcher
+  function showPage(id) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+  }
+
+  // Get Permission Filtered Equipment
+  function getPermittedEquipment() {
+    if (!currentUser) return [];
+    if (currentUser.center === 'all') return equipmentList;
+    return equipmentList.filter(e => e.center === currentUser.center);
+  }
+
+  // Auto load asset from QR scan URL param
+  document.addEventListener('DOMContentLoaded', () => {
+    flatpickr('.date-picker', { dateFormat: 'Y-m-d' });
+    const urlParams = new URLSearchParams(window.location.search);
+    const assetId = urlParams.get('asset');
+    if (assetId) {
+      localStorage.setItem('scanAsset', assetId);
+      showPage('page-login');
+    }
+  });
+</script>
+
+<!-- ====================== 1. LOGIN PAGE ====================== -->
+<div id="page-login" class="page active flex items-center justify-center min-h-screen px-4">
+  <div class="w-full max-w-md bg-white rounded-2xl shadow-lg p-8">
+    <h2 class="text-2xl font-bold text-center mb-6 text-primary">CASS Equipment Inventory Login</h2>
+    <div class="space-y-4">
+      <div>
+        <label class="block text-sm font-medium mb-1">Username</label>
+        <input id="login-user" class="w-full border border-gray-300 rounded-lg px-3 py-2" placeholder="Enter username">
+      </div>
+      <div>
+        <label class="block text-sm font-medium mb-1">Password</label>
+        <input id="login-pass" type="password" class="w-full border border-gray-300 rounded-lg px-3 py-2" placeholder="Enter password">
+      </div>
+      <p id="login-error" class="text-danger text-sm hidden">Invalid username or password</p>
+      <button onclick="login()" class="w-full bg-primary text-white py-2 rounded-lg hover:bg-primary/90">Login</button>
+    </div>
+    <div class="mt-6 text-sm text-gray-500">
+      <strong>Demo Accounts:</strong><br>
+      admin / admin123 (All Centers)<br>
+      user1 / user123 (Center 1 Only)<br>
+      user2 / user123 (Center 2 Only)
+    </div>
+  </div>
+</div>
+
+<!-- ====================== 2. DASHBOARD (EQUIPMENT LIST) ====================== -->
+<div id="page-dashboard" class="page py-8 px-4 max-w-7xl mx-auto">
+  <div class="flex flex-col md:flex-row md:items-center justify-between mb-6 gap-4">
+    <div>
+      <h1 class="text-2xl font-bold">Equipment Inventory</h1>
+      <p class="text-gray-500">Welcome: <span id="user-info"></span></p>
+    </div>
+    <div class="flex flex-wrap gap-3">
+      <button onclick="exportCSV()" class="bg-success text-white px-4 py-2 rounded-lg">Export to CSV</button>
+      <button onclick="openAddForm()" class="bg-primary text-white px-4 py-2 rounded-lg">+ Add Equipment</button>
+      <button onclick="logout()" class="bg-gray-500 text-white px-4 py-2 rounded-lg">Logout</button>
+    </div>
+  </div>
+
+  <!-- Search & Filter -->
+  <div class="bg-white rounded-xl shadow p-4 mb-6 grid grid-cols-1 md:grid-cols-4 gap-4">
+    <div>
+      <label class="text-xs font-medium">Search (Name/ID)</label>
+      <input id="search" oninput="renderList()" class="w-full border rounded px-3 py-2" placeholder="Search...">
+    </div>
+    <div>
+      <label class="text-xs font-medium">Category</label>
+      <select id="filter-category" onchange="renderList()" class="w-full border rounded px-3 py-2">
+        <option value="">All Categories</option>
+        <option>Clinical equipment</option>
+        <option>IT</option>
+        <option>Furniture</option>
+        <option>Maintenance</option>
+        <option>Kitchen</option>
+      </select>
+    </div>
+    <div>
+      <label class="text-xs font-medium">Status</label>
+      <select id="filter-status" onchange="renderList()" class="w-full border rounded px-3 py-2">
+        <option value="">All Status</option>
+        <option>Available</option>
+        <option>In use</option>
+        <option>On loan</option>
+        <option>Under repair</option>
+        <option>Missing</option>
+        <option>Damaged</option>
+        <option>Disposed</option>
+      </select>
+    </div>
+    <div>
+      <label class="text-xs font-medium">Center</label>
+      <select id="filter-center" onchange="renderList()" class="w-full border rounded px-3 py-2">
+        <option value="">All Centers</option>
+        <option>Center 1</option>
+        <option>Center 2</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Equipment Table -->
+  <div class="bg-white rounded-xl shadow overflow-x-auto">
+    <table class="w-full text-sm">
+      <thead class="bg-gray-100">
+        <tr>
+          <th class="px-4 py-3 text-left">Asset ID</th>
+          <th class="px-4 py-3 text-left">Item Name</th>
+          <th class="px-4 py-3 text-left">Category</th>
+          <th class="px-4 py-3 text-left">Center</th>
+          <th class="px-4 py-3 text-left">Status</th>
+          <th class="px-4 py-3 text-center">QR Code</th>
+          <th class="px-4 py-3 text-center">Action</th>
+        </tr>
+      </thead>
+      <tbody id="list-body"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ====================== 3. ADD / EDIT EQUIPMENT FORM ====================== -->
+<div id="page-form" class="page py-8 px-4 max-w-6xl mx-auto">
+  <div class="flex justify-between items-center mb-6">
+    <h2 id="form-title" class="text-xl font-bold">Add New Equipment</h2>
+    <button onclick="showPage('page-dashboard')" class="bg-gray-400 text-white px-4 py-2 rounded-lg">Back</button>
+  </div>
+
+  <div class="bg-white rounded-xl shadow p-6 grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <!-- QR Code Preview -->
+    <div class="qrcode-box border rounded-lg p-4 text-center">
+      <h3 class="font-medium mb-3">QR Code (Scan to Edit)</h3>
+      <canvas id="qrcode"></canvas>
+      <p class="text-xs text-gray-500 mt-2">Unique for this asset</p>
+      <input type="hidden" id="edit-asset-id">
+    </div>
+
+    <!-- Full Equipment Form -->
+    <div class="lg:col-span-2 space-y-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div><label class="text-xs">Asset ID (Auto)</label><input id="assetId" readonly class="w-full border bg-gray-100 rounded px-3 py-2"></div>
+        <div><label class="text-xs">Center</label><select id="center" class="w-full border rounded px-3 py-2"><option>Center 1</option><option>Center 2</option></select></div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div><label class="text-xs">Item Name *</label><input id="itemName" class="w-full border rounded px-3 py-2"></div>
+        <div><label class="text-xs">Category</label><select id="category" class="w-full border rounded px-3 py-2"><option>Clinical equipment</option><option>IT</option><option>Furniture</option><option>Maintenance</option><option>Kitchen</option></select></div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div><label class="text-xs">Brand / Model</label><input id="brandModel" class="w-full border rounded px-3 py-2"></div>
+        <div><label class="text-xs">Serial Number</label><input id="serialNumber" class="w-full border rounded px-3 py-2"></div>
+      </div>
+
+      <div><label class="text-xs">Description</label><textarea id="description" rows="2" class="w-full border rounded px-3 py-2"></textarea></div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div><label class="text-xs">Purchase Date</label><input id="purchaseDate" class="date-picker w-full border rounded px-3 py-2"></div>
+        <div><label class="text-xs">Purchase Price ($)</label><input id="purchasePrice" class="w-full border rounded px-3 py-2"></div>
+        <div><label class="text-xs">Supplier</label><input id="supplier" class="w-full border rounded px-3 py-2"></div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div><label class="text-xs">Invoice / PO</label><input id="invoicePO" class="w-full border rounded px-3 py-2"></div>
+        <div><label class="text-xs">Current Location</label><input id="currentLocation" class="w-full border rounded px-3 py-2"></div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div><label class="text-xs">Assigned To</label><input id="assignedTo" class="w-full border rounded px-3 py-2"></div>
+        <div><label class="text-xs">Status</label><select id="status" class="w-full border rounded px-3 py-2"><option>Available</option><option>In use</option><option>On loan</option><option>Under repair</option><option>Missing</option><option>Damaged</option><option>Disposed</option></select></div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div><label class="text-xs">Warranty Start</label><input id="warrantyStart" class="date-picker w-full border rounded px-3 py-2"></div>
+        <div><label class="text-xs">Warranty Expiry</label><input id="warrantyExpiry" class="date-picker w-full border rounded px-3 py-2"></div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div><label class="text-xs">Next Service Due</label><input id="nextServiceDue" class="date-picker w-full border rounded px-3 py-2"></div>
+        <div><label class="text-xs">Condition</label><select id="condition" class="w-full border rounded px-3 py-2"><option>New</option><option>Good</option><option>Fair</option><option>Damaged</option><option>Unsafe</option></select></div>
+      </div>
+
+      <div><label class="text-xs">Safety Inspection (Date - Result | Next Due)</label><input id="safetyInspection" class="w-full border rounded px-3 py-2"></div>
+      <div><label class="text-xs">Movement History</label><textarea id="movementHistory" rows="2" class="w-full border rounded px-3 py-2"></textarea></div>
+      <div><label class="text-xs">Maintenance History</label><textarea id="maintenanceHistory" rows="2" class="w-full border rounded px-3 py-2"></textarea></div>
+      <div><label class="text-xs">Notes / Documents</label><textarea id="notes" rows="2" class="w-full border rounded px-3 py-2"></textarea></div>
+
+      <div class="flex gap-3 pt-2">
+        <button onclick="saveEquipment()" class="bg-primary text-white px-6 py-2 rounded-lg">Save</button>
+        <button onclick="showPage('page-dashboard')" class="bg-gray-300 px-6 py-2 rounded-lg">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====================== CORE JS FUNCTIONS ====================== -->
+<script>
+  // Login
+  function login() {
+    const user = document.getElementById('login-user').value.trim();
+    const pass = document.getElementById('login-pass').value.trim();
+    const found = users.find(u => u.username === user && u.password === pass);
+    
+    if (!found) {
+      document.getElementById('login-error').classList.remove('hidden');
+      return;
+    }
+
+    currentUser = found;
+    document.getElementById('user-info').textContent = `${found.username} (${found.role} - ${found.center})`;
+    showPage('page-dashboard');
+    renderList();
+
+    // Auto open asset after scan login
+    const scanId = localStorage.getItem('scanAsset');
+    if (scanId) {
+      localStorage.removeItem('scanAsset');
+      openEditForm(scanId);
+    }
+  }
+
+  // Logout
+  function logout() {
+    currentUser = null;
+    showPage('page-login');
+  }
+
+  // Render Equipment List with Filter
+  function renderList() {
+    const list = getPermittedEquipment();
+    const search = document.getElementById('search').value.toLowerCase();
+    const cat = document.getElementById('filter-category').value;
+    const stat = document.getElementById('filter-status').value;
+    const center = document.getElementById('filter-center').value;
+
+    const filtered = list.filter(item => {
+      return (
+        (item.assetId.toLowerCase().includes(search) || item.itemName.toLowerCase().includes(search)) &&
+        (cat === '' || item.category === cat) &&
+        (stat === '' || item.status === stat) &&
+        (center === '' || item.center === center)
+      );
+    });
+
+    const body = document.getElementById('list-body');
+    body.innerHTML = '';
+
+    filtered.forEach(item => {
+      const tr = document.createElement('tr');
+      tr.className = 'border-t hover:bg-gray-50';
+      tr.innerHTML = `
+        <td class="px-4 py-3">${item.assetId}</td>
+        <td class="px-4 py-3">${item.itemName}</td>
+        <td class="px-4 py-3">${item.category}</td>
+        <td class="px-4 py-3">${item.center}</td>
+        <td class="px-4 py-3"><span class="px-2 py-1 rounded text-xs ${item.status === 'Available' ? 'bg-green-100 text-green-700' : 'bg-blue-100 text-blue-700'}">${item.status}</span></td>
+        <td class="px-4 py-3 text-center"><button onclick="openEditForm('${item.assetId}')" class="text-primary underline">View QR</button></td>
+        <td class="px-4 py-3 text-center"><button onclick="openEditForm('${item.assetId}')" class="bg-primary/10 text-primary px-3 py-1 rounded text-xs">Edit</button></td>
+      `;
+      body.appendChild(tr);
+    });
+
+    if (!filtered.length) body.innerHTML = '<tr><td colspan="7" class="px-4 py-8 text-center text-gray-500">No equipment found</td></tr>';
+  }
+
+  // Open Add Form
+  function openAddForm() {
+    document.getElementById('form-title').textContent = 'Add New Equipment';
+    document.getElementById('edit-asset-id').value = '';
+    document.querySelectorAll('#page-form input, #page-form textarea, #page-form select').forEach(el => el.value = '');
+    
+    const newId = 'AST-' + Date.now().toString().slice(-6);
+    document.getElementById('assetId').value = newId;
+    QRCode.toCanvas(document.getElementById('qrcode'), window.location.origin + window.location.pathname + '?asset=' + newId, { width: 140 });
+    showPage('page-form');
+  }
+
+  // Open Edit Form (From QR Scan or List)
+  function openEditForm(assetId) {
+    const item = equipmentList.find(e => e.assetId === assetId);
+    if (!item) return alert('Asset not found');
+
+    document.getElementById('form-title').textContent = 'Edit Equipment';
+    document.getElementById('edit-asset-id').value = assetId;
+
+    // Populate all fields
+    document.getElementById('assetId').value = item.assetId;
+    document.getElementById('center').value = item.center;
+    document.getElementById('itemName').value = item.itemName;
+    document.getElementById('category').value = item.category;
+    document.getElementById('brandModel').value = item.brandModel;
+    document.getElementById('serialNumber').value = item.serialNumber;
+    document.getElementById('description').value = item.description;
+    document.getElementById('purchaseDate').value = item.purchaseDate;
+    document.getElementById('purchasePrice').value = item.purchasePrice;
+    document.getElementById('supplier').value = item.supplier;
+    document.getElementById('invoicePO').value = item.invoicePO;
+    document.getElementById('currentLocation').value = item.currentLocation;
+    document.getElementById('assignedTo').value = item.assignedTo;
+    document.getElementById('status').value = item.status;
+    document.getElementById('warrantyStart').value = item.warrantyStart;
+    document.getElementById('warrantyExpiry').value = item.warrantyExpiry;
+    document.getElementById('nextServiceDue').value = item.nextServiceDue;
+    document.getElementById('condition').value = item.condition;
+    document.getElementById('safetyInspection').value = item.safetyInspection;
+    document.getElementById('movementHistory').value = item.movementHistory;
+    document.getElementById('maintenanceHistory').value = item.maintenanceHistory;
+    document.getElementById('notes').value = item.notes;
+
+    // Generate QR Code
+    QRCode.toCanvas(document.getElementById('qrcode'), item.qrData, { width: 140 });
+    showPage('page-form');
+  }
+
+  // Save Equipment (Add/Update)
+  function saveEquipment() {
+    const editId = document.getElementById('edit-asset-id').value;
+    const asset = {
+      assetId: document.getElementById('assetId').value,
+      qrData: window.location.origin + window.location.pathname + '?asset=' + document.getElementById('assetId').value,
+      center: document.getElementById('center').value,
+      itemName: document.getElementById('itemName').value,
+      category: document.getElementById('category').value,
+      brandModel: document.getElementById('brandModel').value,
+      serialNumber: document.getElementById('serialNumber').value,
+      description: document.getElementById('description').value,
+      purchaseDate: document.getElementById('purchaseDate').value,
+      purchasePrice: document.getElementById('purchasePrice').value,
+      supplier: document.getElementById('supplier').value,
+      invoicePO: document.getElementById('invoicePO').value,
+      currentLocation: document.getElementById('currentLocation').value,
+      assignedTo: document.getElementById('assignedTo').value,
+      status: document.getElementById('status').value,
+      warrantyStart: document.getElementById('warrantyStart').value,
+      warrantyExpiry: document.getElementById('warrantyExpiry').value,
+      nextServiceDue: document.getElementById('nextServiceDue').value,
+      condition: document.getElementById('condition').value,
+      safetyInspection: document.getElementById('safetyInspection').value,
+      movementHistory: document.getElementById('movementHistory').value,
+      maintenanceHistory: document.getElementById('maintenanceHistory').value,
+      notes: document.getElementById('notes').value,
+      photo: ''
+    };
+
+    if (editId) {
+      const i = equipmentList.findIndex(e => e.assetId === editId);
+      equipmentList[i] = asset;
+    } else {
+      equipmentList.push(asset);
+    }
+
+    alert('Equipment saved successfully!');
+    renderList();
+    showPage('page-dashboard');
+  }
+
+  // Export Filtered List to CSV
+  function exportCSV() {
+    const data = getPermittedEquipment();
+    if (!data.length) return alert('No data to export');
+
+    const headers = [
+      'Asset ID', 'Center', 'Item Name', 'Category', 'Brand/Model', 'Serial Number', 'Description',
+      'Purchase Date', 'Purchase Price', 'Supplier', 'Invoice/PO', 'Current Location', 'Assigned To',
+      'Status', 'Warranty Start', 'Warranty Expiry', 'Next Service Due', 'Condition',
+      'Safety Inspection', 'Movement History', 'Maintenance History', 'Notes'
+    ];
+
+    const rows = data.map(item => [
+      item.assetId, item.center, item.itemName, item.category, item.brandModel, item.serialNumber, item.description,
+      item.purchaseDate, item.purchasePrice, item.supplier, item.invoicePO, item.currentLocation, item.assignedTo,
+      item.status, item.warrantyStart, item.warrantyExpiry, item.nextServiceDue, item.condition,
+      item.safetyInspection, item.movementHistory, item.maintenanceHistory, item.notes
+    ]);
+
+    const csv = [headers, ...rows].map(e => e.join(',')).join('\n');
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'Equipment_Inventory_' + new Date().toISOString().slice(0,10) + '.csv';
+    a.click();
+  }
+</script>
+</body>
+</html>
