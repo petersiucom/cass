@@ -41,8 +41,8 @@
   // User Accounts (Role + Center Permission)
   const users = [
     { username: 'admin', password: 'admin123', role: 'Administrator', center: 'all' },
-    { username: 'user1', password: 'user123', role: 'Staff', center: 'Center 1' },
-    { username: 'user2', password: 'user123', role: 'Staff', center: 'Center 2' }
+    { username: 'user1', password: 'user123', role: 'Staff', center: 'Campsie RACF' },
+    { username: 'user2', password: 'user123', role: 'Staff', center: 'Asquith RACF' }
   ];
 
   let currentUser = null;
@@ -64,7 +64,7 @@
       invoicePO: 'PO-C1-2024-001',
       warrantyStart: '2024-01-15',
       warrantyExpiry: '2027-01-14',
-      currentLocation: 'Center 1 - Ground Floor - Physio Room',
+      currentLocation: 'Campsie RACF - Ground Floor - Physio Room',
       assignedTo: 'Lisa Wong (Physiotherapist)',
       status: 'In use',
       movementHistory: '2024-01-16: Delivered to Physio Room; 2024-06-10: Temporary loan to Gym',
@@ -76,7 +76,7 @@
       disposalReason: '',
       disposalApproval: '',
       notes: 'User manual stored in center cabinet',
-      center: 'Center 1'
+      center: 'Campsie RACF'
     },
     {
       assetId: 'AST-C1-002',
@@ -93,7 +93,7 @@
       invoicePO: 'PO-C1-2024-005',
       warrantyStart: '2024-02-20',
       warrantyExpiry: '2026-02-19',
-      currentLocation: 'Center 1 - Level 1 - Waiting Area',
+      currentLocation: 'Campsie RACF - Level 1 - Waiting Area',
       assignedTo: 'General Use',
       status: 'Available',
       movementHistory: '2024-02-21: Placed in waiting area',
@@ -105,7 +105,7 @@
       disposalReason: '',
       disposalApproval: '',
       notes: 'Shared equipment',
-      center: 'Center 1'
+      center: 'Campsie RACF'
     },
     {
       assetId: 'AST-C2-001',
@@ -122,7 +122,7 @@
       invoicePO: 'PO-C2-2024-002',
       warrantyStart: '2024-03-10',
       warrantyExpiry: '2026-03-09',
-      currentLocation: 'Center 2 - Admin Office',
+      currentLocation: 'Asquith RACF - Admin Office',
       assignedTo: 'Admin Team',
       status: 'In use',
       movementHistory: '2024-03-11: Issued to admin office',
@@ -134,7 +134,7 @@
       disposalReason: '',
       disposalApproval: '',
       notes: 'MDM enrolled',
-      center: 'Center 2'
+      center: 'Asquith RACF'
     },
     {
       assetId: 'AST-C2-002',
@@ -151,7 +151,7 @@
       invoicePO: 'PO-C2-2024-008',
       warrantyStart: '2024-04-05',
       warrantyExpiry: '2029-04-04',
-      currentLocation: 'Center 2 - Common Room',
+      currentLocation: 'Asquith RACF - Common Room',
       assignedTo: 'Common Area',
       status: 'Available',
       movementHistory: '2024-04-06: Installed in common room',
@@ -163,7 +163,7 @@
       disposalReason: '',
       disposalApproval: '',
       notes: 'Stable structure',
-      center: 'Center 2'
+      center: 'Asquith RACF'
     }
   ];
 
@@ -190,6 +190,24 @@
       showPage('page-login');
     }
   });
+
+  // Photo Preview Function
+  function previewPhoto() {
+    const fileInput = document.getElementById('photo');
+    const preview = document.getElementById('photoPreview');
+    
+    if (fileInput.files && fileInput.files[0]) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        preview.src = e.target.result;
+        preview.classList.remove('hidden');
+      };
+      reader.readAsDataURL(fileInput.files[0]);
+    } else {
+      preview.classList.add('hidden');
+      preview.src = '';
+    }
+  }
 </script>
 
 <!-- ====================== 1. LOGIN PAGE ====================== -->
@@ -211,8 +229,8 @@
     <div class="mt-6 text-sm text-gray-500">
       <strong>Demo Accounts:</strong><br>
       admin / admin123 (All Centers)<br>
-      user1 / user123 (Center 1 Only)<br>
-      user2 / user123 (Center 2 Only)
+      user1 / user123 (Campsie RACF Only)<br>
+      user2 / user123 (Asquith RACF Only)
     </div>
   </div>
 </div>
@@ -265,8 +283,8 @@
       <label class="text-xs font-medium">Center</label>
       <select id="filter-center" onchange="renderList()" class="w-full border rounded px-3 py-2">
         <option value="">All Centers</option>
-        <option>Center 1</option>
-        <option>Center 2</option>
+        <option>Campsie RACF</option>
+        <option>Asquith RACF</option>
       </select>
     </div>
   </div>
@@ -310,7 +328,7 @@
     <div class="lg:col-span-2 space-y-4">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div><label class="text-xs">Asset ID (Auto)</label><input id="assetId" readonly class="w-full border bg-gray-100 rounded px-3 py-2"></div>
-        <div><label class="text-xs">Center</label><select id="center" class="w-full border rounded px-3 py-2"><option>Center 1</option><option>Center 2</option></select></div>
+        <div><label class="text-xs">Center</label><select id="center" class="w-full border rounded px-3 py-2"><option>Campsie RACF</option><option>Asquith RACF</option></select></div>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -323,7 +341,14 @@
         <div><label class="text-xs">Serial Number</label><input id="serialNumber" class="w-full border rounded px-3 py-2"></div>
       </div>
 
-      <div><label class="text-xs">Description / Photos</label><textarea id="description" rows="2" class="w-full border rounded px-3 py-2"></textarea></div>
+      <div><label class="text-xs">Description</label><textarea id="description" rows="2" class="w-full border rounded px-3 py-2"></textarea></div>
+
+      <!-- New Photos Upload Field -->
+      <div>
+        <label class="text-xs">Photos</label>
+        <input type="file" id="photo" accept="image/*" onchange="previewPhoto()" class="w-full border rounded px-3 py-2">
+        <img id="photoPreview" class="mt-2 max-h-32 rounded border hidden" alt="Equipment Photo Preview">
+      </div>
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div><label class="text-xs">Purchase Date</label><input id="purchaseDate" class="date-picker w-full border rounded px-3 py-2"></div>
@@ -440,6 +465,10 @@
     document.getElementById('edit-asset-id').value = '';
     document.querySelectorAll('#page-form input, #page-form textarea, #page-form select').forEach(el => el.value = '');
     
+    // Clear photo preview
+    document.getElementById('photoPreview').classList.add('hidden');
+    document.getElementById('photoPreview').src = '';
+    
     const newId = 'AST-' + Date.now().toString().slice(-6);
     document.getElementById('assetId').value = newId;
     QRCode.toCanvas(document.getElementById('qrcode'), window.location.origin + window.location.pathname + '?asset=' + newId, { width: 140 });
@@ -478,6 +507,14 @@
     document.getElementById('maintenanceHistory').value = item.maintenanceHistory;
     document.getElementById('notes').value = item.notes;
 
+    // Load photo preview
+    if (item.photo) {
+      document.getElementById('photoPreview').src = item.photo;
+      document.getElementById('photoPreview').classList.remove('hidden');
+    } else {
+      document.getElementById('photoPreview').classList.add('hidden');
+    }
+
     // Generate QR Code
     QRCode.toCanvas(document.getElementById('qrcode'), item.qrData, { width: 140 });
     showPage('page-form');
@@ -485,6 +522,28 @@
 
   // Save Equipment (Add/Update)
   function saveEquipment() {
+    const editId = document.getElementById('edit-asset-id').value;
+    
+    // Get photo base64
+    const photoFile = document.getElementById('photo').files[0];
+    let photoBase64 = '';
+    
+    if (photoFile) {
+      const reader = new FileReader();
+      reader.onloadend = function() {
+        photoBase64 = reader.result;
+        saveEquipmentWithPhoto(photoBase64);
+      };
+      reader.readAsDataURL(photoFile);
+    } else {
+      // Use existing photo if not updating
+      const existingPhoto = document.getElementById('photoPreview').src;
+      saveEquipmentWithPhoto(existingPhoto);
+    }
+  }
+
+  // Helper function to save equipment with photo
+  function saveEquipmentWithPhoto(photo) {
     const editId = document.getElementById('edit-asset-id').value;
     const asset = {
       assetId: document.getElementById('assetId').value,
@@ -495,6 +554,7 @@
       brandModel: document.getElementById('brandModel').value,
       serialNumber: document.getElementById('serialNumber').value,
       description: document.getElementById('description').value,
+      photo: photo,
       purchaseDate: document.getElementById('purchaseDate').value,
       purchasePrice: document.getElementById('purchasePrice').value,
       supplier: document.getElementById('supplier').value,
@@ -509,8 +569,7 @@
       safetyInspection: document.getElementById('safetyInspection').value,
       movementHistory: document.getElementById('movementHistory').value,
       maintenanceHistory: document.getElementById('maintenanceHistory').value,
-      notes: document.getElementById('notes').value,
-      photo: ''
+      notes: document.getElementById('notes').value
     };
 
     if (editId) {
@@ -531,14 +590,14 @@
     if (!data.length) return alert('No data to export');
 
     const headers = [
-      'Asset ID', 'Center', 'Item Name', 'Category', 'Brand/Model', 'Serial Number', 'Description',
+      'Asset ID', 'Center', 'Item Name', 'Category', 'Brand/Model', 'Serial Number', 'Description', 'Photos',
       'Purchase Date', 'Purchase Price', 'Supplier', 'Invoice/PO', 'Current Location', 'Assigned To',
       'Status', 'Warranty Start', 'Warranty Expiry', 'Next Service Due', 'Condition',
       'Safety Inspection', 'Movement History', 'Maintenance History', 'Notes'
     ];
 
     const rows = data.map(item => [
-      item.assetId, item.center, item.itemName, item.category, item.brandModel, item.serialNumber, item.description,
+      item.assetId, item.center, item.itemName, item.category, item.brandModel, item.serialNumber, item.description, item.photo ? 'Yes' : 'No',
       item.purchaseDate, item.purchasePrice, item.supplier, item.invoicePO, item.currentLocation, item.assignedTo,
       item.status, item.warrantyStart, item.warrantyExpiry, item.nextServiceDue, item.condition,
       item.safetyInspection, item.movementHistory, item.maintenanceHistory, item.notes
