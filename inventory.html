@@ -11,7 +11,7 @@
   <!-- Flatpickr Date Picker -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-  <!-- Font Awesome Icons (新增图标库) -->
+  <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <script>
@@ -31,8 +31,13 @@
   </script>
 
   <style>
-    .page { display: none; }
-    .page.active { display: block; }
+    /* Critical fix: Ensure pages are properly hidden by default */
+    .page { 
+      display: none !important; 
+    }
+    .page.active { 
+      display: block !important; 
+    }
     .qrcode-box canvas { max-width: 140px; margin: 0 auto; }
     .tab-content{display:none;}
     .tab-content.active{display:block;}
@@ -43,7 +48,6 @@
 
 <!-- Global State & Static Data -->
 <script>
-  // User Accounts (Role + Center Permission)
   const users = [
     { username: 'admin', password: 'admin123', role: 'Administrator', center: 'all' },
     { username: 'user1', password: 'user123', role: 'Staff', center: 'Campsie RACF' },
@@ -53,7 +57,6 @@
   let currentUser = null;
   let editUserId = null;
 
-  // Sample Equipment (2 per center)
   let equipmentList = [
     {
       assetId: 'AST-C1-001',
@@ -173,24 +176,28 @@
     }
   ];
 
-  // Page Switcher (登录后彻底隐藏登录页)
+  // FIXED: Robust page switching function
   function showPage(id) {
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    document.getElementById(id).classList.add('active');
+    // Force hide ALL pages first
+    document.querySelectorAll('.page').forEach(page => {
+      page.classList.remove('active');
+      page.style.display = 'none'; // Double ensure hidden
+    });
+    // Show only the target page
+    const targetPage = document.getElementById(id);
+    targetPage.classList.add('active');
+    targetPage.style.display = ''; // Restore display
   }
 
-  // Tab switch dashboard (带标签高亮)
+  // Tab switch dashboard
   function switchTab(tabId){
-    // 切换内容显示
     document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
     document.getElementById(tabId).classList.add('active');
     
-    // 切换标签按钮高亮效果
     document.querySelectorAll('.tab-btn').forEach(btn => {
       btn.classList.remove('border-b-2', 'border-primary', 'font-medium');
     });
     
-    // 给当前点击的标签添加高亮
     if(tabId === 'tab-inventory'){
       document.querySelector('.tab-btn:nth-child(1)').classList.add('border-b-2', 'border-primary', 'font-medium');
     }else if(tabId === 'tab-usermanagement'){
@@ -198,14 +205,12 @@
     }
   }
 
-  // Get Permission Filtered Equipment
   function getPermittedEquipment() {
     if (!currentUser) return [];
     if (currentUser.center === 'all') return equipmentList;
     return equipmentList.filter(e => e.center === currentUser.center);
   }
 
-  // Photo Preview Function
   function previewPhoto() {
     const fileInput = document.getElementById('photo');
     const preview = document.getElementById('photoPreview');
@@ -222,7 +227,6 @@
     }
   }
 
-  // Render user management table
   function renderUserTable(){
     const tbody = document.getElementById('user-table-body');
     if (!tbody) return;
@@ -243,7 +247,6 @@
     });
   }
 
-  // Open add user modal
   function openAddUser(){
     editUserId = null;
     document.getElementById('user-modal-title').innerText = "Add New User";
@@ -254,7 +257,6 @@
     document.getElementById('user-modal').classList.remove('hidden');
   }
 
-  // Open edit user modal
   function openEditUser(index){
     editUserId = index;
     const u = users[index];
@@ -271,7 +273,6 @@
     editUserId = null;
   }
 
-  // Save user
   function saveUser(){
     const username = document.getElementById('modal-username').value.trim();
     const password = document.getElementById('modal-password').value.trim();
@@ -310,7 +311,7 @@
   });
 </script>
 
-<!-- ====================== 1. LOGIN PAGE (登录后完全隐藏) ====================== -->
+<!-- ====================== 1. LOGIN PAGE ====================== -->
 <div id="page-login" class="page active flex items-center justify-center min-h-screen px-4">
   <div class="w-full max-w-md bg-white rounded-2xl shadow-lg p-8">
     <h2 class="text-2xl font-bold text-center mb-6 text-primary">CASS Equipment Inventory Login</h2>
@@ -349,14 +350,12 @@
     </div>
   </div>
 
-  <!-- Tab Navigation (新增图标 + 对齐优化) -->
+  <!-- Tab Navigation with Icons -->
   <div class="mb-4 border-b border-gray-200">
     <div class="flex gap-2">
-      <!-- 库存清单标签 + 图标 -->
       <button onclick="switchTab('tab-inventory')" class="tab-btn px-4 py-2 border-b-2 border-primary font-medium flex items-center gap-2">
         <i class="fa-solid fa-list-check"></i> Inventory List
       </button>
-      <!-- 用户管理标签 + 图标 -->
       <button id="tab-btn-usermgmt" onclick="switchTab('tab-usermanagement')" class="tab-btn px-4 py-2 flex items-center gap-2">
         <i class="fa-solid fa-users-cog"></i> User Management (Admin Only)
       </button>
@@ -567,7 +566,7 @@
 
 <!-- ====================== CORE JS FUNCTIONS ====================== -->
 <script>
-  // Login (登录后彻底隐藏登录页)
+  // FIXED: Login function with guaranteed login page hide
   function login() {
     const user = document.getElementById('login-user').value.trim();
     const pass = document.getElementById('login-pass').value.trim();
@@ -580,20 +579,18 @@
 
     currentUser = found;
     document.getElementById('user-info').textContent = `${found.username} (${found.role} - ${found.center})`;
-    // 关键：切换到仪表板，登录页自动隐藏
+    
+    // CRITICAL FIX: Force show dashboard, completely hide login page
     showPage('page-dashboard');
+    
     renderList();
     
-    // 仅管理员加载用户表格
+    // Admin only functions
     if (currentUser.role === 'Administrator') {
       renderUserTable();
-    }
-
-    // 仅管理员显示用户管理标签
-    if (currentUser.role !== 'Administrator') {
-      document.getElementById('tab-btn-usermgmt').style.display = 'none';
-    } else {
       document.getElementById('tab-btn-usermgmt').style.display = 'flex';
+    } else {
+      document.getElementById('tab-btn-usermgmt').style.display = 'none';
     }
 
     // Auto open asset after scan login
@@ -604,10 +601,14 @@
     }
   }
 
-  // Logout (登出回到登录页)
+  // Logout function
   function logout() {
     currentUser = null;
     showPage('page-login');
+    // Clear login form
+    document.getElementById('login-user').value = '';
+    document.getElementById('login-pass').value = '';
+    document.getElementById('login-error').classList.add('hidden');
   }
 
   // Render Equipment List with Filter
@@ -654,7 +655,6 @@
     document.getElementById('edit-asset-id').value = '';
     document.querySelectorAll('#page-form input, #page-form textarea, #page-form select').forEach(el => el.value = '');
 
-    // Clear photo preview
     document.getElementById('photoPreview').classList.add('hidden');
     document.getElementById('photoPreview').src = '';
 
@@ -664,7 +664,7 @@
     showPage('page-form');
   }
 
-  // Open Edit Form (From QR Scan or List)
+  // Open Edit Form
   function openEditForm(assetId) {
     const item = equipmentList.find(e => e.assetId === assetId);
     if (!item) return alert('Asset not found');
@@ -672,7 +672,6 @@
     document.getElementById('form-title').textContent = 'Edit Equipment';
     document.getElementById('edit-asset-id').value = assetId;
 
-    // Populate all fields
     document.getElementById('assetId').value = item.assetId;
     document.getElementById('center').value = item.center;
     document.getElementById('itemName').value = item.itemName;
@@ -696,7 +695,6 @@
     document.getElementById('maintenanceHistory').value = item.maintenanceHistory;
     document.getElementById('notes').value = item.notes;
 
-    // Load photo preview
     if (item.photo) {
       document.getElementById('photoPreview').src = item.photo;
       document.getElementById('photoPreview').classList.remove('hidden');
@@ -704,16 +702,13 @@
       document.getElementById('photoPreview').classList.add('hidden');
     }
 
-    // Generate QR Code
     QRCode.toCanvas(document.getElementById('qrcode'), item.qrData, { width: 140 });
     showPage('page-form');
   }
 
-  // Save Equipment (Add/Update)
+  // Save Equipment
   function saveEquipment() {
     const editId = document.getElementById('edit-asset-id').value;
-
-    // Get photo base64
     const photoFile = document.getElementById('photo').files[0];
     let photoBase64 = '';
 
@@ -730,7 +725,6 @@
     }
   }
 
-  // Helper function to save equipment with photo
   function saveEquipmentWithPhoto(photo) {
     const editId = document.getElementById('edit-asset-id').value;
     const asset = {
@@ -772,7 +766,7 @@
     showPage('page-dashboard');
   }
 
-  // Export Filtered List to CSV
+  // Export CSV
   function exportCSV() {
     const data = getPermittedEquipment();
     if (!data.length) return alert('No data to export');
@@ -801,4 +795,4 @@
   }
 </script>
 </body>
-</html></html>
+</html>
