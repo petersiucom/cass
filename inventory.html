@@ -32,11 +32,11 @@
 
   <style>
     /* Critical fix: Ensure pages are properly hidden by default */
-    .page { 
-      display: none !important; 
+    .page {
+      display: none !important;
     }
-    .page.active { 
-      display: block !important; 
+    .page.active {
+      display: block !important;
     }
     .qrcode-box canvas { max-width: 140px; margin: 0 auto; }
     .tab-content{display:none;}
@@ -71,6 +71,7 @@
       purchasePrice: '3200.00',
       supplier: 'MedEquip Australia',
       invoicePO: 'PO-C1-2024-001',
+      invoicePhotos: '',
       warrantyStart: '2024-01-15',
       warrantyExpiry: '2027-01-14',
       currentLocation: 'Campsie RACF - Ground Floor - Physio Room',
@@ -101,6 +102,7 @@
       purchasePrice: '850.00',
       supplier: 'Rehab Supplies',
       invoicePO: 'PO-C1-2024-005',
+      invoicePhotos: '',
       warrantyStart: '2024-02-20',
       warrantyExpiry: '2026-02-19',
       currentLocation: 'Campsie RACF - Level 1 - Waiting Area',
@@ -131,6 +133,7 @@
       purchasePrice: '499.00',
       supplier: 'JB Hi-Fi Business',
       invoicePO: 'PO-C2-2024-002',
+      invoicePhotos: '',
       warrantyStart: '2024-03-10',
       warrantyExpiry: '2026-03-09',
       currentLocation: 'Asquith RACF - Admin Office',
@@ -161,6 +164,7 @@
       purchasePrice: '1200.00',
       supplier: 'Office & Care Furnishings',
       invoicePO: 'PO-C2-2024-008',
+      invoicePhotos: '',
       warrantyStart: '2024-04-05',
       warrantyExpiry: '2029-04-04',
       currentLocation: 'Asquith RACF - Common Room',
@@ -197,11 +201,11 @@
   function switchTab(tabId){
     document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
     document.getElementById(tabId).classList.add('active');
-    
+
     document.querySelectorAll('.tab-btn').forEach(btn => {
       btn.classList.remove('border-b-2', 'border-primary', 'font-medium');
     });
-    
+
     if(tabId === 'tab-inventory'){
       document.querySelector('.tab-btn:nth-child(1)').classList.add('border-b-2', 'border-primary', 'font-medium');
     }else if(tabId === 'tab-usermanagement'){
@@ -232,7 +236,24 @@
     }
   }
 
-  // 新增：文档照片预览
+  // Invoice Photos preview NEW
+  function previewInvoicePhotos() {
+    const fileInput = document.getElementById('invoicePhotos');
+    const preview = document.getElementById('invoicePhotosPreview');
+    if (fileInput.files && fileInput.files[0]) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        preview.src = e.target.result;
+        preview.classList.remove('hidden');
+      };
+      reader.readAsDataURL(fileInput.files[0]);
+    } else {
+      preview.classList.add('hidden');
+      preview.src = '';
+    }
+  }
+
+  // 文档照片预览
   function previewDocPhotos() {
     const fileInput = document.getElementById('docPhotos');
     const preview = document.getElementById('docPhotosPreview');
@@ -252,7 +273,7 @@
   function renderUserTable(){
     const tbody = document.getElementById('user-table-body');
     if (!tbody) return;
-    
+
     tbody.innerHTML = '';
     users.forEach((u, idx) => {
       const tr = document.createElement('tr');
@@ -300,12 +321,12 @@
     const password = document.getElementById('modal-password').value.trim();
     const role = document.getElementById('modal-role').value;
     const center = document.getElementById('modal-center').value;
-    
+
     if (!username || !password) {
       alert('Username and password cannot be empty');
       return;
     }
-    
+
     if (editUserId !== null) {
       users[editUserId] = { username, password, role, center };
     } else {
@@ -316,7 +337,7 @@
       }
       users.push({ username, password, role, center });
     }
-    
+
     closeUserModal();
     renderUserTable();
     alert('User account saved');
@@ -542,7 +563,7 @@
 
       <!-- Photos Upload Field -->
       <div>
-        <label class="text-xs">Photos</label>
+        <label class="text-xs">Item Photos</label>
         <input type="file" id="photo" accept="image/*" onchange="previewPhoto()" class="w-full border rounded px-3 py-2">
         <img id="photoPreview" class="mt-2 max-h-32 rounded border hidden" alt="Equipment Photo Preview">
       </div>
@@ -555,29 +576,39 @@
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div><label class="text-xs">Invoice / PO</label><input id="invoicePO" class="w-full border rounded px-3 py-2"></div>
+      </div>
+
+      <!-- NEW: Invoice Photos after Invoice / PO -->
+      <div>
+        <label class="text-xs">Invoice Photos</label>
+        <input type="file" id="invoicePhotos" accept="image/*" onchange="previewInvoicePhotos()" class="w-full border rounded px-3 py-2">
+        <img id="invoicePhotosPreview" class="mt-2 max-h-32 rounded border hidden" alt="Invoice Photos Preview">
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div><label class="text-xs">Current Location</label><input id="currentLocation" class="w-full border rounded px-3 py-2"></div>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div><label class="text-xs">Assigned To</label><input id="assignedTo" class="w-full border rounded px-3 py-2"></div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div><label class="text-xs">Status</label><select id="status" class="w-full border rounded px-3 py-2"><option>Available</option><option>In use</option><option>On loan</option><option>Under repair</option><option>Missing</option><option>Damaged</option><option>Disposed</option></select></div>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div><label class="text-xs">Warranty Start</label><input id="warrantyStart" class="date-picker w-full border rounded px-3 py-2"></div>
-        <div><label class="text-xs">Warranty Expiry</label><input id="warrantyExpiry" class="date-picker w-full border rounded px-3 py-2"></div>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div><label class="text-xs">Warranty Expiry</label><input id="warrantyExpiry" class="date-picker w-full border rounded px-3 py-2"></div>
         <div><label class="text-xs">Next Service Due</label><input id="nextServiceDue" class="date-picker w-full border rounded px-3 py-2"></div>
-        <div><label class="text-xs">Condition</label><select id="condition" class="w-full border rounded px-3 py-2"><option>New</option><option>Good</option><option>Fair</option><option>Damaged</option><option>Unsafe</option></select></div>
       </div>
 
-      <div><label class="text-xs">Safety Inspection (Date - Result | Next Due)</label><input id="safetyInspection" class="w-full border rounded px-3 py-2"></div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div><label class="text-xs">Condition</label><select id="condition" class="w-full border rounded px-3 py-2"><option>New</option><option>Good</option><option>Fair</option><option>Damaged</option><option>Unsafe</option></select></div>
+        <div><label class="text-xs">Safety Inspection (Date - Result | Next Due)</label><input id="safetyInspection" class="w-full border rounded px-3 py-2"></div>
+      </div>
+
       <div><label class="text-xs">Movement History</label><textarea id="movementHistory" rows="2" class="w-full border rounded px-3 py-2"></textarea></div>
       <div><label class="text-xs">Maintenance History</label><textarea id="maintenanceHistory" rows="2" class="w-full border rounded px-3 py-2"></textarea></div>
 
-      <!-- 新增：Disposal 报废信息模块 -->
+      <!-- Disposal section -->
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div><label class="text-xs">Disposal Date</label><input id="disposalDate" class="date-picker w-full border rounded px-3 py-2"></div>
         <div><label class="text-xs">Disposal Reason</label><input id="disposalReason" class="w-full border rounded px-3 py-2"></div>
@@ -586,7 +617,7 @@
 
       <div><label class="text-xs">Notes / Documents</label><textarea id="notes" rows="2" class="w-full border rounded px-3 py-2"></textarea></div>
 
-      <!-- 新增：Notes / Documents - Photos 文档照片上传 -->
+      <!-- Notes / Documents - Photos -->
       <div>
         <label class="text-xs">Notes / Documents - Photos</label>
         <input type="file" id="docPhotos" accept="image/*" onchange="previewDocPhotos()" class="w-full border rounded px-3 py-2">
@@ -616,12 +647,12 @@
 
     currentUser = found;
     document.getElementById('user-info').textContent = `${found.username} (${found.role} - ${found.center})`;
-    
+
     // CRITICAL FIX: Force show dashboard, completely hide login page
     showPage('page-dashboard');
-    
+
     renderList();
-    
+
     // Admin only functions
     if (currentUser.role === 'Administrator') {
       renderUserTable();
@@ -692,9 +723,11 @@
     document.getElementById('edit-asset-id').value = '';
     document.querySelectorAll('#page-form input, #page-form textarea, #page-form select').forEach(el => el.value = '');
 
-    // 清空所有照片预览
+    // clear all photo previews
     document.getElementById('photoPreview').classList.add('hidden');
     document.getElementById('photoPreview').src = '';
+    document.getElementById('invoicePhotosPreview').classList.add('hidden');
+    document.getElementById('invoicePhotosPreview').src = '';
     document.getElementById('docPhotosPreview').classList.add('hidden');
     document.getElementById('docPhotosPreview').src = '';
 
@@ -712,7 +745,6 @@
     document.getElementById('form-title').textContent = 'Edit Equipment';
     document.getElementById('edit-asset-id').value = assetId;
 
-    // 基础字段赋值
     document.getElementById('assetId').value = item.assetId;
     document.getElementById('center').value = item.center;
     document.getElementById('itemName').value = item.itemName;
@@ -724,6 +756,15 @@
     document.getElementById('purchasePrice').value = item.purchasePrice;
     document.getElementById('supplier').value = item.supplier;
     document.getElementById('invoicePO').value = item.invoicePO;
+
+    // load invoice photos preview
+    if(item.invoicePhotos){
+      document.getElementById('invoicePhotosPreview').src = item.invoicePhotos;
+      document.getElementById('invoicePhotosPreview').classList.remove('hidden');
+    }else{
+      document.getElementById('invoicePhotosPreview').classList.add('hidden');
+    }
+
     document.getElementById('currentLocation').value = item.currentLocation;
     document.getElementById('assignedTo').value = item.assignedTo;
     document.getElementById('status').value = item.status;
@@ -734,16 +775,13 @@
     document.getElementById('safetyInspection').value = item.safetyInspection;
     document.getElementById('movementHistory').value = item.movementHistory;
     document.getElementById('maintenanceHistory').value = item.maintenanceHistory;
-    
-    // 新增：报废字段赋值
+
     document.getElementById('disposalDate').value = item.disposalDate;
     document.getElementById('disposalReason').value = item.disposalReason;
     document.getElementById('disposalApproval').value = item.disposalApproval;
-    
-    // 备注字段赋值
+
     document.getElementById('notes').value = item.notes;
 
-    // 加载设备照片预览
     if (item.photo) {
       document.getElementById('photoPreview').src = item.photo;
       document.getElementById('photoPreview').classList.remove('hidden');
@@ -751,7 +789,6 @@
       document.getElementById('photoPreview').classList.add('hidden');
     }
 
-    // 新增：加载文档照片预览
     if (item.docPhotos) {
       document.getElementById('docPhotosPreview').src = item.docPhotos;
       document.getElementById('docPhotosPreview').classList.remove('hidden');
@@ -767,49 +804,92 @@
   function saveEquipment() {
     const editId = document.getElementById('edit-asset-id').value;
     const photoFile = document.getElementById('photo').files[0];
+    const invoicePhotoFile = document.getElementById('invoicePhotos').files[0];
     const docPhotoFile = document.getElementById('docPhotos').files[0];
-    
+
     let photoBase64 = '';
+    let invoicePhotoBase64 = '';
     let docPhotoBase64 = '';
 
-    // 处理设备照片
-    if (photoFile) {
-      const reader = new FileReader();
-      reader.onloadend = function() {
-        photoBase64 = reader.result;
-        // 处理文档照片
-        if (docPhotoFile) {
-          const docReader = new FileReader();
-          docReader.onloadend = function() {
-            docPhotoBase64 = docReader.result;
-            saveEquipmentWithPhoto(photoBase64, docPhotoBase64);
+    const readerChain = function(pPhoto, pInvoice, pDoc){
+      saveEquipmentWithPhoto(pPhoto, pInvoice, pDoc);
+    };
+
+    // Process all three image files sequentially
+    if(photoFile){
+      const r1 = new FileReader();
+      r1.onloadend = function(){
+        photoBase64 = r1.result;
+        if(invoicePhotoFile){
+          const r2 = new FileReader();
+          r2.onloadend = function(){
+            invoicePhotoBase64 = r2.result;
+            if(docPhotoFile){
+              const r3 = new FileReader();
+              r3.onloadend = function(){
+                docPhotoBase64 = r3.result;
+                readerChain(photoBase64,invoicePhotoBase64,docPhotoBase64);
+              };
+              r3.readAsDataURL(docPhotoFile);
+            }else{
+              const existingDoc = document.getElementById('docPhotosPreview').src;
+              readerChain(photoBase64,invoicePhotoBase64,existingDoc);
+            }
           };
-          docReader.readAsDataURL(docPhotoFile);
-        } else {
-          const existingDocPhoto = document.getElementById('docPhotosPreview').src;
-          saveEquipmentWithPhoto(photoBase64, existingDocPhoto);
+          r2.readAsDataURL(invoicePhotoFile);
+        }else{
+          const existingInvoice = document.getElementById('invoicePhotosPreview').src;
+          if(docPhotoFile){
+            const r3 = new FileReader();
+            r3.onloadend = function(){
+              docPhotoBase64 = r3.result;
+              readerChain(photoBase64,existingInvoice,docPhotoBase64);
+            };
+            r3.readAsDataURL(docPhotoFile);
+          }else{
+            const existingDoc = document.getElementById('docPhotosPreview').src;
+            readerChain(photoBase64,existingInvoice,existingDoc);
+          }
         }
       };
-      reader.readAsDataURL(photoFile);
-    } else {
+      r1.readAsDataURL(photoFile);
+    }else{
       const existingPhoto = document.getElementById('photoPreview').src;
-      // 处理文档照片
-      if (docPhotoFile) {
-        const docReader = new FileReader();
-        docReader.onloadend = function() {
-          docPhotoBase64 = docReader.result;
-          saveEquipmentWithPhoto(existingPhoto, docPhotoBase64);
+      if(invoicePhotoFile){
+        const r2 = new FileReader();
+        r2.onloadend = function(){
+          invoicePhotoBase64 = r2.result;
+          if(docPhotoFile){
+            const r3 = new FileReader();
+            r3.onloadend = function(){
+              docPhotoBase64 = r3.result;
+              readerChain(existingPhoto,invoicePhotoBase64,docPhotoBase64);
+            };
+            r3.readAsDataURL(docPhotoFile);
+          }else{
+            const existingDoc = document.getElementById('docPhotosPreview').src;
+            readerChain(existingPhoto,invoicePhotoBase64,existingDoc);
+          }
         };
-        docReader.readAsDataURL(docPhotoFile);
-      } else {
-        const existingDocPhoto = document.getElementById('docPhotosPreview').src;
-        saveEquipmentWithPhoto(existingPhoto, existingDocPhoto);
+        r2.readAsDataURL(invoicePhotoFile);
+      }else{
+        const existingInvoice = document.getElementById('invoicePhotosPreview').src;
+        if(docPhotoFile){
+          const r3 = new FileReader();
+          r3.onloadend = function(){
+            docPhotoBase64 = r3.result;
+            readerChain(existingPhoto,existingInvoice,docPhotoBase64);
+          };
+          r3.readAsDataURL(docPhotoFile);
+        }else{
+          const existingDoc = document.getElementById('docPhotosPreview').src;
+          readerChain(existingPhoto,existingInvoice,existingDoc);
+        }
       }
     }
   }
 
-  // 保存设备数据（包含新字段）
-  function saveEquipmentWithPhoto(photo, docPhotos) {
+  function saveEquipmentWithPhoto(photo, invoicePhotos, docPhotos) {
     const editId = document.getElementById('edit-asset-id').value;
     const asset = {
       assetId: document.getElementById('assetId').value,
@@ -825,22 +905,21 @@
       purchasePrice: document.getElementById('purchasePrice').value,
       supplier: document.getElementById('supplier').value,
       invoicePO: document.getElementById('invoicePO').value,
+      invoicePhotos: invoicePhotos,
+      warrantyStart: document.getElementById('warrantyStart').value,
+      warrantyExpiry: document.getElementById('warrantyExpiry').value,
       currentLocation: document.getElementById('currentLocation').value,
       assignedTo: document.getElementById('assignedTo').value,
       status: document.getElementById('status').value,
-      warrantyStart: document.getElementById('warrantyStart').value,
-      warrantyExpiry: document.getElementById('warrantyExpiry').value,
       nextServiceDue: document.getElementById('nextServiceDue').value,
       condition: document.getElementById('condition').value,
       safetyInspection: document.getElementById('safetyInspection').value,
       movementHistory: document.getElementById('movementHistory').value,
       maintenanceHistory: document.getElementById('maintenanceHistory').value,
-      // 新增报废字段
       disposalDate: document.getElementById('disposalDate').value,
       disposalReason: document.getElementById('disposalReason').value,
       disposalApproval: document.getElementById('disposalApproval').value,
       notes: document.getElementById('notes').value,
-      // 新增文档照片
       docPhotos: docPhotos
     };
 
@@ -856,14 +935,14 @@
     showPage('page-dashboard');
   }
 
-  // Export CSV （包含新字段）
+  // Export CSV
   function exportCSV() {
     const data = getPermittedEquipment();
     if (!data.length) return alert('No data to export');
 
     const headers = [
       'Asset ID', 'Center', 'Item Name', 'Category', 'Brand/Model', 'Serial Number', 'Description', 'Photos',
-      'Purchase Date', 'Purchase Price', 'Supplier', 'Invoice/PO', 'Current Location', 'Assigned To',
+      'Purchase Date', 'Purchase Price', 'Supplier', 'Invoice/PO','Invoice Photos', 'Current Location', 'Assigned To',
       'Status', 'Warranty Start', 'Warranty Expiry', 'Next Service Due', 'Condition',
       'Safety Inspection', 'Movement History', 'Maintenance History',
       'Disposal Date', 'Disposal Reason', 'Disposal Approval', 'Notes', 'Notes/Documents Photos'
@@ -871,7 +950,7 @@
 
     const rows = data.map(item => [
       item.assetId, item.center, item.itemName, item.category, item.brandModel, item.serialNumber, item.description, item.photo ? 'Yes' : 'No',
-      item.purchaseDate, item.purchasePrice, item.supplier, item.invoicePO, item.currentLocation, item.assignedTo,
+      item.purchaseDate, item.purchasePrice, item.supplier, item.invoicePO, item.invoicePhotos ? 'Yes' : 'No', item.currentLocation, item.assignedTo,
       item.status, item.warrantyStart, item.warrantyExpiry, item.nextServiceDue, item.condition,
       item.safetyInspection, item.movementHistory, item.maintenanceHistory,
       item.disposalDate, item.disposalReason, item.disposalApproval, item.notes, item.docPhotos ? 'Yes' : 'No'
