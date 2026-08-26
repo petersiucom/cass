@@ -85,6 +85,7 @@
       disposalReason: '',
       disposalApproval: '',
       notes: 'User manual stored in center cabinet',
+      docPhotos: '',
       center: 'Campsie RACF'
     },
     {
@@ -114,6 +115,7 @@
       disposalReason: '',
       disposalApproval: '',
       notes: 'Shared equipment',
+      docPhotos: '',
       center: 'Campsie RACF'
     },
     {
@@ -143,6 +145,7 @@
       disposalReason: '',
       disposalApproval: '',
       notes: 'MDM enrolled',
+      docPhotos: '',
       center: 'Asquith RACF'
     },
     {
@@ -172,6 +175,7 @@
       disposalReason: '',
       disposalApproval: '',
       notes: 'Stable structure',
+      docPhotos: '',
       center: 'Asquith RACF'
     }
   ];
@@ -211,9 +215,27 @@
     return equipmentList.filter(e => e.center === currentUser.center);
   }
 
+  // 设备照片预览
   function previewPhoto() {
     const fileInput = document.getElementById('photo');
     const preview = document.getElementById('photoPreview');
+    if (fileInput.files && fileInput.files[0]) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        preview.src = e.target.result;
+        preview.classList.remove('hidden');
+      };
+      reader.readAsDataURL(fileInput.files[0]);
+    } else {
+      preview.classList.add('hidden');
+      preview.src = '';
+    }
+  }
+
+  // 新增：文档照片预览
+  function previewDocPhotos() {
+    const fileInput = document.getElementById('docPhotos');
+    const preview = document.getElementById('docPhotosPreview');
     if (fileInput.files && fileInput.files[0]) {
       const reader = new FileReader();
       reader.onload = function(e) {
@@ -554,7 +576,22 @@
       <div><label class="text-xs">Safety Inspection (Date - Result | Next Due)</label><input id="safetyInspection" class="w-full border rounded px-3 py-2"></div>
       <div><label class="text-xs">Movement History</label><textarea id="movementHistory" rows="2" class="w-full border rounded px-3 py-2"></textarea></div>
       <div><label class="text-xs">Maintenance History</label><textarea id="maintenanceHistory" rows="2" class="w-full border rounded px-3 py-2"></textarea></div>
+
+      <!-- 新增：Disposal 报废信息模块 -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div><label class="text-xs">Disposal Date</label><input id="disposalDate" class="date-picker w-full border rounded px-3 py-2"></div>
+        <div><label class="text-xs">Disposal Reason</label><input id="disposalReason" class="w-full border rounded px-3 py-2"></div>
+        <div><label class="text-xs">Disposal Approval</label><input id="disposalApproval" class="w-full border rounded px-3 py-2"></div>
+      </div>
+
       <div><label class="text-xs">Notes / Documents</label><textarea id="notes" rows="2" class="w-full border rounded px-3 py-2"></textarea></div>
+
+      <!-- 新增：Notes / Documents - Photos 文档照片上传 -->
+      <div>
+        <label class="text-xs">Notes / Documents - Photos</label>
+        <input type="file" id="docPhotos" accept="image/*" onchange="previewDocPhotos()" class="w-full border rounded px-3 py-2">
+        <img id="docPhotosPreview" class="mt-2 max-h-32 rounded border hidden" alt="Document Photos Preview">
+      </div>
 
       <div class="flex gap-3 pt-2">
         <button onclick="saveEquipment()" class="bg-primary text-white px-6 py-2 rounded-lg">Save</button>
@@ -655,8 +692,11 @@
     document.getElementById('edit-asset-id').value = '';
     document.querySelectorAll('#page-form input, #page-form textarea, #page-form select').forEach(el => el.value = '');
 
+    // 清空所有照片预览
     document.getElementById('photoPreview').classList.add('hidden');
     document.getElementById('photoPreview').src = '';
+    document.getElementById('docPhotosPreview').classList.add('hidden');
+    document.getElementById('docPhotosPreview').src = '';
 
     const newId = 'AST-' + Date.now().toString().slice(-6);
     document.getElementById('assetId').value = newId;
@@ -672,6 +712,7 @@
     document.getElementById('form-title').textContent = 'Edit Equipment';
     document.getElementById('edit-asset-id').value = assetId;
 
+    // 基础字段赋值
     document.getElementById('assetId').value = item.assetId;
     document.getElementById('center').value = item.center;
     document.getElementById('itemName').value = item.itemName;
@@ -693,13 +734,29 @@
     document.getElementById('safetyInspection').value = item.safetyInspection;
     document.getElementById('movementHistory').value = item.movementHistory;
     document.getElementById('maintenanceHistory').value = item.maintenanceHistory;
+    
+    // 新增：报废字段赋值
+    document.getElementById('disposalDate').value = item.disposalDate;
+    document.getElementById('disposalReason').value = item.disposalReason;
+    document.getElementById('disposalApproval').value = item.disposalApproval;
+    
+    // 备注字段赋值
     document.getElementById('notes').value = item.notes;
 
+    // 加载设备照片预览
     if (item.photo) {
       document.getElementById('photoPreview').src = item.photo;
       document.getElementById('photoPreview').classList.remove('hidden');
     } else {
       document.getElementById('photoPreview').classList.add('hidden');
+    }
+
+    // 新增：加载文档照片预览
+    if (item.docPhotos) {
+      document.getElementById('docPhotosPreview').src = item.docPhotos;
+      document.getElementById('docPhotosPreview').classList.remove('hidden');
+    } else {
+      document.getElementById('docPhotosPreview').classList.add('hidden');
     }
 
     QRCode.toCanvas(document.getElementById('qrcode'), item.qrData, { width: 140 });
@@ -710,22 +767,49 @@
   function saveEquipment() {
     const editId = document.getElementById('edit-asset-id').value;
     const photoFile = document.getElementById('photo').files[0];
+    const docPhotoFile = document.getElementById('docPhotos').files[0];
+    
     let photoBase64 = '';
+    let docPhotoBase64 = '';
 
+    // 处理设备照片
     if (photoFile) {
       const reader = new FileReader();
       reader.onloadend = function() {
         photoBase64 = reader.result;
-        saveEquipmentWithPhoto(photoBase64);
+        // 处理文档照片
+        if (docPhotoFile) {
+          const docReader = new FileReader();
+          docReader.onloadend = function() {
+            docPhotoBase64 = docReader.result;
+            saveEquipmentWithPhoto(photoBase64, docPhotoBase64);
+          };
+          docReader.readAsDataURL(docPhotoFile);
+        } else {
+          const existingDocPhoto = document.getElementById('docPhotosPreview').src;
+          saveEquipmentWithPhoto(photoBase64, existingDocPhoto);
+        }
       };
       reader.readAsDataURL(photoFile);
     } else {
       const existingPhoto = document.getElementById('photoPreview').src;
-      saveEquipmentWithPhoto(existingPhoto);
+      // 处理文档照片
+      if (docPhotoFile) {
+        const docReader = new FileReader();
+        docReader.onloadend = function() {
+          docPhotoBase64 = docReader.result;
+          saveEquipmentWithPhoto(existingPhoto, docPhotoBase64);
+        };
+        docReader.readAsDataURL(docPhotoFile);
+      } else {
+        const existingDocPhoto = document.getElementById('docPhotosPreview').src;
+        saveEquipmentWithPhoto(existingPhoto, existingDocPhoto);
+      }
     }
   }
 
-  function saveEquipmentWithPhoto(photo) {
+  // 保存设备数据（包含新字段）
+  function saveEquipmentWithPhoto(photo, docPhotos) {
     const editId = document.getElementById('edit-asset-id').value;
     const asset = {
       assetId: document.getElementById('assetId').value,
@@ -751,7 +835,13 @@
       safetyInspection: document.getElementById('safetyInspection').value,
       movementHistory: document.getElementById('movementHistory').value,
       maintenanceHistory: document.getElementById('maintenanceHistory').value,
-      notes: document.getElementById('notes').value
+      // 新增报废字段
+      disposalDate: document.getElementById('disposalDate').value,
+      disposalReason: document.getElementById('disposalReason').value,
+      disposalApproval: document.getElementById('disposalApproval').value,
+      notes: document.getElementById('notes').value,
+      // 新增文档照片
+      docPhotos: docPhotos
     };
 
     if (editId) {
@@ -766,7 +856,7 @@
     showPage('page-dashboard');
   }
 
-  // Export CSV
+  // Export CSV （包含新字段）
   function exportCSV() {
     const data = getPermittedEquipment();
     if (!data.length) return alert('No data to export');
@@ -775,14 +865,16 @@
       'Asset ID', 'Center', 'Item Name', 'Category', 'Brand/Model', 'Serial Number', 'Description', 'Photos',
       'Purchase Date', 'Purchase Price', 'Supplier', 'Invoice/PO', 'Current Location', 'Assigned To',
       'Status', 'Warranty Start', 'Warranty Expiry', 'Next Service Due', 'Condition',
-      'Safety Inspection', 'Movement History', 'Maintenance History', 'Notes'
+      'Safety Inspection', 'Movement History', 'Maintenance History',
+      'Disposal Date', 'Disposal Reason', 'Disposal Approval', 'Notes', 'Notes/Documents Photos'
     ];
 
     const rows = data.map(item => [
       item.assetId, item.center, item.itemName, item.category, item.brandModel, item.serialNumber, item.description, item.photo ? 'Yes' : 'No',
       item.purchaseDate, item.purchasePrice, item.supplier, item.invoicePO, item.currentLocation, item.assignedTo,
       item.status, item.warrantyStart, item.warrantyExpiry, item.nextServiceDue, item.condition,
-      item.safetyInspection, item.movementHistory, item.maintenanceHistory, item.notes
+      item.safetyInspection, item.movementHistory, item.maintenanceHistory,
+      item.disposalDate, item.disposalReason, item.disposalApproval, item.notes, item.docPhotos ? 'Yes' : 'No'
     ]);
 
     const csv = [headers, ...rows].map(e => e.join(',')).join('\n');
